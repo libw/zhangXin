@@ -1,15 +1,8 @@
 import React from 'react';
 import style from "./index.css"
+import {Drawer} from 'antd-mobile';
 import {hashHistory, Link} from 'react-router';
 import {connect} from 'react-redux'
-import SideBar from './components/sideBar'
-import {bindActionCreators} from 'redux'
-import {showLogin, showRegister, hideAuth} from '../../actions/auth'
-import {logout} from '../../actions/user'
-import LoginBox from './components/loginBox'
-import RegisterBox from './components/registerBox'
-import ResetPwdBox from './components/resetPwdBox'
-
 
 class Header extends React.Component {
     constructor(props) {
@@ -79,23 +72,35 @@ class Header extends React.Component {
 
     }
 
-    openSlider = () => {
-        this.setState({open: true});
+    onOpenChange = (...args) => {
+        console.log(args);
+        this.setState({open: !this.state.open});
     }
-    closeSlider = () => {
-        this.setState({open: false});
-    }
-    logout = ()=>{
-        this.props.logout({
 
-        }, (errorText) => {
-            if (errorText) {
-            } else {
-                hashHistory.push('/')
-            }
-        })
-    }
     render() {
+        const Array = [{
+            label: this.props.user.userName ? this.props.user.userName : '登录与注册',
+            link:  this.props.user.userName ? '/baseUserMsg' : '/auth'
+        }, {label: '首页', link: '/'}, {label: '产品交易', link: '/forexPresentation'}, {
+            label: '交易平台',
+            link: '/tradingPlatform'
+        }, {label: '关于海豚汇', link: '/aboutUs'}, {label: '海豚学院', link: '/school'}, {
+            label: '账户出金',
+            link: '/outgold'
+        }, {label: '账户入金', link: '/ingold'}, {label: '用户资料', link: '/detailUserMsg'}, {
+            label: '更改密码',
+            link: '/modifyPwd'
+        }, {label: '历史记录', link: '/history'}]
+        const sidebar = (<ul style={{paddingTop: 20}}>
+            {Array.map((i, index) => {
+                return (<li className={style.navlist} key={index}>
+                    <Link to={i.link}>
+                        {i.label}
+                    </Link>
+                </li>);
+            })}
+        </ul>);
+
 
         return (
             <div>
@@ -109,70 +114,25 @@ class Header extends React.Component {
                                 </Link>
                         }
                     </div>
-                    {
-                        this.state.otherStyle ?
-                            <div className={style.headnav}>
-                                <div>
-                                    <div className={style.linet}>
-
-                                    </div>
-                                    <span  >
-                                        <Link to="/userCenter">个人中心</Link>
-                                    </span>
-                                    <span  >
-                                        <Link to="/MT4Download">MT4下载</Link>
-                                    </span>
-                                    <span >
-                                        <Link to="/DolphinSchool">海豚学院</Link>
-                                    </span>
-                                </div>
-                            </div>:
-                            <div className={style.headnavt}>
-                                <div>
-                                    <div className={style.linet}>
-                                    </div>
-                                    <span >
-                                        <Link to="/userCenter">个人中心</Link>
-                                    </span>
-                                    <span >
-                                        <Link to="/MT4Download">MT4下载</Link>
-                                    </span>
-                                    <span >
-                                        <Link to="/DolphinSchool">海豚学院</Link>
-                                    </span>
-                                </div>
-
-                            </div>
-                    }
-                    <div onMouseOver={this.openSlider} onMouseLeave={this.closeSlider} className={style.sider}>
-                        全部导航
-                        <SideBar show={this.state.open}/>
+                    <div onClick={this.onOpenChange} className={style.sider}>
                     </div>
-                    {
-                        this.state.otherStyle ?
-                    <div className={style.auth}>
-                        {
-                            this.props.user.userName ?
-                                <div><span >{this.props.user.userName}</span>      <span onClick={this.logout} >退出</span></div>
-                                :
-                                <div><span onClick={()=>{this.props.showLogin()}}  >登录</span>      <span onClick={this.props.showRegister} >注册</span></div>
-                        }
-                    </div>:
-                            <div className={style.autht}>
-                                {
-                                    this.props.user.userName ?
-                                        <div><span >{this.props.user.userName}</span>      <span onClick={this.logout} >退出</span></div>
-                                        :
-                                        <div><span onClick={()=>{this.props.showLogin()}} >登录</span>      <span onClick={this.props.showRegister}  >注册</span></div>
-                                }
-                            </div>
-                    }
-
-
                 </div>
-                {this.props.auth.showLoginBox ? <LoginBox/> : ''}
-                {this.props.auth.showRegisterBox ? <RegisterBox/> : ''}
-                {this.props.auth.showResetPwdBox ? <ResetPwdBox/> : ''}
+                <Drawer
+                    className="my-drawer"
+                    style={{
+                        minHeight: document.documentElement.clientHeight - 200,
+                        position: 'fixed',
+                        zIndex: this.state.open ? 100 : -1
+                    }}
+                    sidebar={sidebar}
+                    open={this.state.open}
+                    position="right"
+                    // contentStyle={{zIndex:this.state.open?98:-1}}
+                    // overlayStyle={{zIndex:this.state.open?99:-1}}
+                    onOpenChange={this.onOpenChange}
+                    sidebarStyle={{background: '#656b6f'}}
+                >
+                </Drawer>
             </div>
         )
     }
@@ -180,17 +140,12 @@ class Header extends React.Component {
 
 function mapStateToProps(state, props) {
     return {
-        user: state.user,
-        auth: state.auth
+        user: state.user
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        showLogin: bindActionCreators(showLogin, dispatch),
-        logout: bindActionCreators(logout, dispatch),
-        showRegister: bindActionCreators(showRegister, dispatch)
-    }
+    return {}
 }
 
 Header = connect(mapStateToProps, mapDispatchToProps)(Header)

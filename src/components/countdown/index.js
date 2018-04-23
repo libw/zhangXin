@@ -1,22 +1,20 @@
 import React from 'react'
 import style from "./index.css"
+import {InputItem,Toast} from 'antd-mobile';
 import {connect} from 'react-redux'
 import axios from '../../common/axiosConf'
-import {Input, Button, Row, Col} from 'antd';
-import Toast from 'antd-mobile/lib/toast';
-import 'antd-mobile/lib/toast/style/css';
+
 
 class Countdown extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             extraText: '获取验证码',
-            counting: false,
-            type:1
+            counting: false
         }
     }
 
-    handle = () => {
+    handle() {
         if (this.props.beforeClick()) {
             if (this.state.counting) {
                 return false
@@ -43,9 +41,8 @@ class Countdown extends React.Component {
                         })
 
                     }, 1000)
-                } else {
-                    // Toast.fail(response.data.msg, 3, null, false)
-                    Toast.info(response.data.msg, 3, null, false)
+                }else{
+                    Toast.fail(response.data.msg, 3, null, false)
                     _this.props.failCallback()
                 }
             })
@@ -57,20 +54,14 @@ class Countdown extends React.Component {
     }
 
     render() {
-        const bigrow='18';
-
         return (
-            <Row >
-                <Col span={this.props.type=='big'?18:15}>
+            <InputItem placeholder="请输入验证码"
+                       onChange={this.props.onChange}
+                       type="text"
+                       onExtraClick={this.handle.bind(this)}
+                       extra={this.state.extraText}>
 
-                    <Input onChange={this.props.onChange} className={style.inputyz} placeholder="短信验证码"/>
-
-                </Col>
-                <Col span={this.props.type=='big'?6:9}>
-                    <Button onClick={this.handle} className={this.props.className}
-                            style={{height: 40, width:this.props.type=='big'? 110:100, marginLeft: 20}}>{this.state.extraText}</Button>
-                </Col>
-            </Row>
+            </InputItem>
         )
 
     }

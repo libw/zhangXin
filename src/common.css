@@ -16,7 +16,7 @@ a{
 }
 body,html{
     height: 100%;
-    padding: 0!important;
+
 }
 
 .clearfloat:after {
@@ -28,15 +28,4 @@ body,html{
 }
 .clearfloat {
     zoom: 1
-}
-.ant-btn-primary{
-    background-color: #5262ff!important;
-    border-color: #5262ff!important;
-}
-.ant-btn-primary:hover{
-    background-color: #3ca3fd!important;
-    border-color: #3ca3fd!important;
-}
-.ant-btn-background-ghost{
-    background: transparent!important;
 }

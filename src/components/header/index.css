@@ -1,89 +1,27 @@
 :local(.wrap) {
-    height: 68px;
+    height: 44px;
     z-index: 2;
-    padding-left: 36px;
-    border-bottom: 1px solid rgba(59,61,64,.5);
-    width: 100%;
-    font-size: 18px;
-}
-:local(.auth){
-    float: right;
-}
-:local(.autht){
-    float: right;
-}
-:local(.auth) span{
-    padding: 0 30px;
-    color: #656b6f;
-    line-height: 68px;
-    cursor: pointer;
-}
-:local(.autht) span{
-    padding: 0 30px;
-    color: #fff;
-    line-height: 68px;
-    cursor: pointer;
-}
-:local(.headnav){
-    float: left;
-}
-:local(.headnavt){
-    float: left;
-}
-:local(.headnav) span{
-    padding: 0 25px;
-    color: #656b6f;
-    line-height: 68px;
-    cursor: pointer;
-}
-:local(.headnavt) span{
-    padding: 0 25px;
-    color: #fff;
-    line-height: 68px;
-    cursor: pointer;
-}
-:local(.headnav) a{
-
-    color: #656b6f;
-
-}
-:local(.headnavt) a{
-
-    color: #fff;
-
 }
 
-:local(.linet){
-    width: 1px;
-    height: 30px;
-    background-color: rgba(59,61,64,.5);
-    float: left;
-    margin-left: 50px;
-    margin-right: 25px;
-    margin-top: 19px;
-}
 :local(.logo) {
-    float: left;
-    margin-top: 12px;
+     float: left;
+    margin-left: 12px;
+    margin-top: 7px;
 }
 :local(.logo) img{
-    height: 44px;
+    height: 30px;
 }
 :local(.sider) {
-    margin-left: 30px;
-    color: #fff;
-    line-height: 68px;
-    text-align: center;
-    padding-left: 25px;
     float: right;
-    width: 175px;
-    height: 68px;
+    width: 70px;
+    height: 44px;
     background: #5262ff;
     background-image: url("./menu.png");
     background-size: 20px 20px;
     background-repeat: no-repeat;
-    background-position: 25px;
+    background-position: center;
 }
+
 :local(.navlist){
     width: 160px;
     height: 40px;
@@ -94,6 +32,7 @@
     display: block;
     color: #fff;
     background-color: #656b6f;
+    font-size: 16px;
     text-align: center;
 }
 :local(.wrap.absolute) {

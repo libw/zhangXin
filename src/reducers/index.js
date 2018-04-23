@@ -4,13 +4,13 @@ import merge from 'lodash/merge'
 
 import foreignExchange from './foreignExchange'
 import user from './user'
-import auth from './auth'
-
+import authFrom from './authFrom'
+import resultsPage from './resultsPage'
 let states = {
     foreignExchange,
     user,
-    auth
-
+    authFrom,
+    resultsPage
 }
 
 let _states = {}

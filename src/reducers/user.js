@@ -8,15 +8,11 @@ let initialState = {
     netWorth:'',
     realName:'',
     id:'',
-    email:localStorage.email,
-    address:localStorage.address,
+    email:'',
+    address:'',
     bankNo:'',
     bankName:'',
-    branch:'',
-    bankFrontImg:'',
-    frontImg:'',
-    reverseImg:'',
-    bankCode:''
+    branch:''
 
 
 
@@ -35,13 +31,11 @@ export default function sign(state = initialState, action = {}) {
             localStorage.setItem('token', true)
             localStorage.setItem('userName', phone)
             localStorage.setItem('MT4', mt4_live_id)
-            localStorage.setItem('status', (status===11?"2":status))
+            localStorage.setItem('status', status)
             localStorage.setItem('address', address)
             localStorage.setItem('email', email)
             state.token = true
-            state.email = email
-            state.address = address
-            state.status = (status===11?"2":status)
+            state.status = status
             // state.MT4 = mt4_live_id
             return Object.assign({}, state, {})
 
@@ -71,21 +65,13 @@ export default function sign(state = initialState, action = {}) {
 
         case 'GET_DETAILMSG':
             console.log("ttt",action.data)
-            const {branch_name,bank_card,real_name,id_card,bank_name,id_card_face,bank_card_face,id_card_back,bank_code} = action.data
+            const {branch_name,bank_card,real_name,id_card,bank_name} = action.data
             state.branch = branch_name
             state.bankNo = bank_card
             state.realName = real_name
             state.id = id_card
             state.bankName = bank_name
-            state.bankFrontImg = bank_card_face
-            state.frontImg = id_card_face
-            state.reverseImg = id_card_back
-            state.bankCode = bank_code
-            return Object.assign({}, state, {})
 
-        case 'SET_STATUS':
-            state.status = "2"
-            localStorage.setItem("status","2")
             return Object.assign({}, state, {})
 
 

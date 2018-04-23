@@ -1,0 +1,17 @@
+:local(.wrap){
+
+}
+:local(.part){
+    margin-bottom: 10px;
+}
+:local(.ensure){
+    display: block;
+    line-height: 44px;
+    width: 100%;
+    background-color: #fff;
+    text-align: center;
+    color: #ed7070;
+    border-top: 1px solid #dfdce4;
+    border-bottom: 1px solid #dfdce4;
+
+}
