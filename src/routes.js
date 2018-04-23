@@ -11,6 +11,8 @@ import AboutUs from './containers/aboutUs/'
 import School from './containers/school/'
 import History from './containers/history/'
 import ForgetPwd from './containers/forgetPwd/'
+import RegisterBox from './containers/registerBox/'
+import LoginBox from './containers/loginBox/'
 import TradingPlatform from './containers/tradingPlatform/'
 import Auth from './containers/auth/'
 import ForexPresentation from './containers/forexPresentation/'
@@ -18,8 +20,6 @@ import DetailUserMsg from './containers/detailUserMsg/'
 import BaseUserMsg from './containers/baseUserMsg/'
 
 export default () => {
-
-
     return (
         <Router history={hashHistory}>
             <Route path="/" component={Home}/>
@@ -33,6 +33,8 @@ export default () => {
             <Route path="/school" component={School}/>
             <Route path="/history" component={History}/>
             <Route path="/forgetPwd" component={ForgetPwd}/>
+            <Route path="/loginBox" component={LoginBox}/>
+            <Route path="/registerBox" component={RegisterBox}/>
             <Route path="/tradingPlatform" component={TradingPlatform}/>
             <Route path="/forexPresentation" component={ForexPresentation}/>
             <Route path="/auth" component={Auth}/>
