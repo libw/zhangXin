@@ -24,8 +24,12 @@
     margin-left: 10px;
 }
 :local(.state){
-    text-align: right;
+    float: right;
 }
-:local(.way){
+:local(.icontent) :local(.time){
+    line-height: 48px;
+    font-size: 24px;
+}
+:local(.way),:local(.number){
     text-align: right;
 }

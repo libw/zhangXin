@@ -138,7 +138,7 @@ class Auth extends React.Component {
                         </div>
                     </div>
                     <div className={style.selphone}>
-                        <Picker data={district} cols={1} {...getFieldProps('district3')} className="forss" onChange={v => this.setState({ pickerValue: v })}>
+                        <Picker data={district} cols={1} {...getFieldProps('district3')} className="forss" onChange={v => this.setState({ pickerValue: v })} onOk={v => this.setState({ pickerValue: v })} value={this.state.pickerValue}>
                             <List.Item arrow="horizontal">身份选择</List.Item>
                         </Picker>
                     </div>

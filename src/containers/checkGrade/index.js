@@ -10,92 +10,39 @@ import {bindActionCreators} from 'redux'
 
 const data = [
     {
-        title: '入金 +$1000',
-        time: 'Meet hotel',
-        number: '1860684651644',
+        title: '高等数学',
+        time: '98',
+        number: '100',
         state:'入金失败',
-        way:'网银支付'
+        way:'30'
     },
     {
-        title: '出金 -$100',
-        time: 'Meet hotel',
-        number: '1860684651644',
+        title: '大学物理',
+        time: '80',
+        number: '86',
         state:'出金失败',
-        way:'网银支付'
+        way:'25'
     },
     {
-        title: '出金 -$200',
-        time: 'Meet hotel',
-        number: '1860684651644',
+        title: '马克思思想',
+        time: '90',
+        number: '87',
         state:'正在进行',
-        way:'网银支付'
-    },{
-        title: '入金 +$1000',
-        time: 'Meet hotel',
-        number: '1860684651644',
-        state:'入金失败',
-        way:'网银支付'
+        way:'30'
     },
     {
-        title: '出金 -$200',
-        time: 'Meet hotel',
-        number: '1860684651644',
+        title: '邓小平理论',
+        time: '84',
+        number: '80',
         state:'正在进行',
-        way:'网银支付'
-    },
-    {
-        title: '出金 -$100',
-        time: 'Meet hotel',
-        number: '1860684651644',
-        state:'出金失败',
-        way:'网银支付'
-    },{
-        title: '入金 +$1000',
-        time: 'Meet hotel',
-        number: '1860684651644',
-        state:'入金失败',
-        way:'网银支付'
-    },
-    {
-        title: '出金 -$100',
-        time: 'Meet hotel',
-        number: '1860684651644',
-        state:'出金失败',
-        way:'网银支付'
-    },
-    {
-        title: '出金 -$200',
-        time: 'Meet hotel',
-        number: '1860684651644',
-        state:'正在进行',
-        way:'网银支付'
-    },{
-        title: '入金 +$1000',
-        time: 'Meet hotel',
-        number: '1860684651644',
-        state:'入金失败',
-        way:'网银支付'
-    },
-    {
-        title: '出金 -$200',
-        time: 'Meet hotel',
-        number: '1860684651644',
-        state:'正在进行',
-        way:'网银支付'
-    },
-    {
-        title: '出金 -$500',
-        time: 'Meet hotel',
-        number: '1860684651644',
-        state:'出金失败',
-        way:'网银支付'
-    },
+        way:'30'
+    }
 
 
 ];
 let index = data.length - 1;
 
-const NUM_ROWS = 10;
+const NUM_ROWS = data.length;
 let pageIndex = 0;
 
 function genData(pIndex = 0) {
@@ -124,9 +71,9 @@ class History extends React.Component {
     }
     componentWillMount(){
         if(!this.props.user.token){
-            this.props.setAuthFrom('/history',()=>{
-                hashHistory.push('/auth')
-            })
+            // this.props.setAuthFrom('/history',()=>{
+            //     hashHistory.push('/auth')
+            // })
         }
     }
     componentDidMount() {
@@ -196,7 +143,6 @@ class History extends React.Component {
         console.log('reach end', event);
         this.setState({ isLoading: true });
         setTimeout(() => {
-            this.rData = [...this.rData, ...genData(++pageIndex)];
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
                 isLoading: false,
@@ -247,21 +193,20 @@ class History extends React.Component {
                     </span>
                     <div className={style.icontent}>
                         <div className={style.time}>
-                            时间
+                            总成绩
                             <span>{obj.time}</span>
                         </div>
                         <div className={style.state}>
-                            状态
-                            <span>{obj.state}</span>
+                            <div className={style.number}>
+                                期末成绩
+                                <span>{obj.number}</span>
+                            </div>
+                            <div className={style.way}>
+                                平时成绩
+                                <span>{obj.way}</span>
+                            </div>
                         </div>
-                        <div className={style.number}>
-                            单号
-                            <span>{obj.number}</span>
-                        </div>
-                        <div className={style.way}>
-                            途径
-                            <span>{obj.way}</span>
-                        </div>
+
 
                     </div>
                 </div>

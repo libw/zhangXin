@@ -4,41 +4,62 @@ import { createForm } from 'rc-form';
 import {connect} from 'react-redux'
 import { List,InputItem,Button,WingBlank,Picker,RadioGroup} from 'antd-mobile';
 import Header from '../../components/header'
+import {Toast} from "antd-mobile/lib/index";
 
 class ForgetPwd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            areaCode: [86],
+
         }
     }
 
+    submitFn() {
 
+        if (!/^[a-zA-Z]$/.test(this.state.name)) {
+            Toast.fail('请输入正确的用户名', 3, null, false)
+            return false
+        }
+        if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/.test(this.state.pwd)) {
+            Toast.fail('密码格式错误', 3, null, false)
+            return false
+        }
+        if (!this.state.pickerValue) {
+            Toast.fail('请选择身份', 3, null, false)
+            return false
+        }
+        Toast.loading('修改成功', 3, null, false)
+            // this.props.login({
+            //     name: this.state.phone,
+            //     pwd: this.state.pwd,
+            //     pickerValue: this.state.pickerValue
+            // }, (errorText) => {
+            //     Toast.hide()
+            //     if (errorText) {
+            //         Toast.fail(errorText, 3, null, false)
+            //     } else {
+            //         if (this.props.authFrom.path) {
+            //             hashHistory.push(this.props.authFrom.path)
+            //         } else {
+            //             hashHistory.push('/')
+            //         }
+            //     }
+            // })
+
+    }
 
     render() {
         const { getFieldProps } = this.props.form;
-        const quhao=[
-            {
-                value:86,
-                label:"中国大陆  +86"
-            },{
-                value:87,
-                label:"中国台湾  +87"
-            },{
-                value:88,
-                label:"中国香港  +88"
-            },
 
-        ]
         const district=[
             {
-                value:86,
+                value:"student",
                 label:"学生"
             },{
-                value:87,
+                value:"teacher",
                 label:"老师"
             },{
-                value:88,
+                value:"admin",
                 label:"管理员"
             },
 
@@ -50,76 +71,36 @@ class ForgetPwd extends React.Component {
                 <Header/>
                     <section className={style.content}>
                         <span className={style.title}>
-                        登录
+                        忘记密码
                         </span>
                         <div className={style.selphone}>
-                            {/*<div className={style.qh}>*/}
-                                {/*<Picker onChange={(value) => {*/}
-                                    {/*this.setState({areaCode: value})*/}
-
-                                {/*}} format={(values) => {*/}
-                                    {/*console.log(values)*/}
-                                    {/*return values.join('').split(' ')[2]*/}
-                                {/*}} data={quhao} cols={1} value={this.state.areaCode} defaultValue="1">*/}
-                                    {/*<List.Item arrow="horizontal"></List.Item>*/}
-                                {/*</Picker>*/}
-                            {/*</div>*/}
-                            {/*<div className={style.line}></div>*/}
                             <div className={style.phone}>
                                 <List>
-                                    <InputItem onChange={(value) => {
-                                        this.setState({phone: value})
-                                    }} placeholder="用户名" type="number"></InputItem>
+                                    <InputItem onChange={(value) => {this.setState({name: value})}} placeholder="用户名" type="text"></InputItem>
                                 </List>
                             </div>
                         </div>
-                        {/*<div className={style.selphone}>*/}
-                            {/*<div className={style.tu}>*/}
-                                {/*<List>*/}
-                                    {/*<InputItem placeholder="请输入图形验证码" type="text"></InputItem>*/}
-                                {/*</List>*/}
-
-                            {/*</div>*/}
-                            {/*<img className={style.tuxing} src="http://reso2.yiihuu.com/1331436-z.jpg" alt=""/>*/}
-                        {/*</div>*/}
-                        {/*<div className={style.selphone}>*/}
-                            {/*<div className={style.tu}>*/}
-                                {/*<List>*/}
-                                    {/*<InputItem placeholder="请输入验证码" type="text" extra="获取验证码"></InputItem>*/}
-                                {/*</List>*/}
-
-                            {/*</div>*/}
-                            {/*<div className={style.lline}></div>*/}
-
-                        {/*</div>*/}
-                        {/*<div className={style.selphone}>*/}
-                            {/*<div className={style.tu}>*/}
-                                {/*<List>*/}
-                                    {/*<InputItem type="password" placeholder='请设置6-20位密码'></InputItem>*/}
-                                {/*</List>*/}
-
-                            {/*</div>*/}
-                        {/*</div>*/}
                         <div className={style.selphone}>
                             <div className={style.tu}>
                                 <List>
-                                    <InputItem type="password" placeholder='请输入密码'></InputItem>
+                                    <InputItem type="password" placeholder='请输入密码' onChange={(value) => {
+                                        this.setState({pwd: value})
+                                    }}></InputItem>
                                 </List>
 
                             </div>
                         </div>
                         <div className={style.selphone}>
-                            <Picker data={district} cols={1} {...getFieldProps('district3')} className="forss">
+                            <Picker data={district} cols={1} {...getFieldProps('district3')} className="forss" onChange={v => this.setState({ pickerValue: v })} onOk={v => this.setState({ pickerValue: v })} value={this.state.pickerValue}>
                                 <List.Item arrow="horizontal">身份选择</List.Item>
                             </Picker>
                         </div>
                         <div className={style.button}>
-                            <Button type="primary">
-                                登录
+                            <Button onClick={this.submitFn.bind(this)} type="primary">
+                                确定
                             </Button>
                         </div>
                     </section>
-
             </div>
         )
 
