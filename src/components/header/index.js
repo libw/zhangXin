@@ -81,7 +81,7 @@ class Header extends React.Component {
         const Array = [{
             label: this.props.user.userName ? this.props.user.userName : '登录与注册',
             link:  this.props.user.userName ? '/baseUserMsg' : '/auth'
-        },{label: '查看成绩', link: '/checkGrade'}, {label: '查看课表', link: '/history'},  {label: '选课', link: '/selectClass'}, {label: '评教', link: '/history'}, {label: '签到', link: '/history'}]
+        },{label: '查看成绩', link: '/checkGrade'}, {label: '查看课表', link: '/schedule'},  {label: '选课', link: '/selectClass'}, {label: '评教', link: '/appraise'}, {label: '签到', link: '/history'}]
 
         const Array1 = [{
             label: this.props.user.userName ? this.props.user.userName : '登录与注册',
@@ -124,18 +124,14 @@ class Header extends React.Component {
 
 
         return (
-            <div>
+            <div className={style.wlop}>
                 <div
-                    className={this.state.otherStyle ? ( style.wrap + ' ' + style[this.state.position] + ' ' + style.otherStyle) : ( style.wrap + ' ' + style[this.state.position])}>
+                    className={ style.wrap + ' ' + style[this.state.position] + ' ' + style.otherStyle}>
                     <div className={style.logo}>
                         {
-                            this.state.otherStyle ? <Link to="/"><img src={require("./logoO.png")}/></Link> :
-                                <Link to="/">
-                                    <img src={require("./logo.png")}/>
-                                </Link>
+                            <Link to="/"><img src={require("./logoO.png")}/></Link>
                         }
                     </div>
-
                     <div onClick={this.onOpenChange} className={style.sider}>
                     </div>
                 </div>
@@ -147,7 +143,7 @@ class Header extends React.Component {
                         position: 'fixed',
                         zIndex: this.state.open ? 100 : -1
                     }}
-                    sidebar={sidebar}
+                    sidebar={sidebar1}
                     open={this.state.open}
                     position="right"
                     // contentStyle={{zIndex:this.state.open?98:-1}}

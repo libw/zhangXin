@@ -2,7 +2,6 @@ import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
 import { ImagePicker,Button,WingBlank} from 'antd-mobile';
-import Fileupload from 'react-fileupload'
 import { Uploader,UploadField } from '@navjobs/upload'
 
 const data = [];

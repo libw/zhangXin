@@ -1,7 +1,7 @@
 import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
-import { RefreshControl, ListView,Accordion, List,Checkbox } from 'antd-mobile';
+import { Button,RefreshControl, ListView,Accordion, List,Checkbox,NoticeBar } from 'antd-mobile';
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
@@ -12,33 +12,31 @@ const CheckboxItem = Checkbox.CheckboxItem;
 
 const data = [
     {
-        title: '高等数学',
-        time: '98',
-        number: '100',
-        state:'入金失败',
-        way:'30'
+        subject: '高等数学',
+        teacher: '张鑫',
+        time: '周三 17：00',
+        credit:'1',
+        quality:'选修'
+    },{
+        subject: '大学物理',
+        teacher: '钱家瑞',
+        time: '周二 10：00',
+        credit:'2',
+        quality:'必修'
+    },{
+        subject: '体育',
+        teacher: '罗乙妍',
+        time: '周三 14：00',
+        credit:'1',
+        quality:'必修'
+    },{
+        subject: '大学物理',
+        teacher: '钱家瑞',
+        time: '周二 10：00',
+        credit:'2',
+        quality:'必修'
     },
-    {
-        title: '大学物理',
-        time: '80',
-        number: '86',
-        state:'出金失败',
-        way:'25'
-    },
-    {
-        title: '马克思思想',
-        time: '90',
-        number: '87',
-        state:'正在进行',
-        way:'30'
-    },
-    {
-        title: '邓小平理论',
-        time: '84',
-        number: '80',
-        state:'正在进行',
-        way:'30'
-    }
+
 
 
 ];
@@ -91,71 +89,39 @@ class History extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
-                <List renderHeader={() => 'CheckboxItem demo'}>
+                <NoticeBar mode="closable" icon={null}>学校倒闭了，大家散了吧</NoticeBar>
+                <List renderHeader={() => '选修课程列表'}>
                     {data.map(i => (
                         <CheckboxItem key={i.value} onChange={() => this.onChange(i.value)}>
-                            <Accordion accordion openAnimation={{}} className="my-accordion" onChange={this.onChange1}>
-                                <Accordion.Panel header="高等数学">
-                                    <div className={style.item} >
                             <span className={style.title} >
-                                学科：<b>高等数学</b>
-                            </span>
-                                        <div className={style.icontent}>
-                                            <div className={style.time}>
-                                                老师
-                                                <span>张鑫</span>
-                                            </div>
-                                            <div className={style.state}>
-                                                时间
-                                                <span>周三 17:00</span>
-                                            </div>
-                                            <div className={style.number}>
-                                                学分
-                                                <span>4</span>
-                                            </div>
-                                            <div className={style.way}>
-                                                课程性质
-                                                <span>选修</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </Accordion.Panel>
-
-                            </Accordion>
-                        </CheckboxItem>
-                    ))}
-
-                </List>
-                <Accordion accordion openAnimation={{}} className="my-accordion" onChange={this.onChange}>
-                    <Accordion.Panel header="高等数学">
-                        <div className={style.item} >
-                            <span className={style.title} >
-                                学科：<b>高等数学</b>
+                                学科：<b>{i.subject}</b>
                             </span>
                             <div className={style.icontent}>
                                 <div className={style.time}>
                                     老师
-                                    <span>张鑫</span>
+                                    <span>{i.teacher}</span>
                                 </div>
                                 <div className={style.state}>
                                     时间
-                                    <span>周三 17:00</span>
+                                    <span>{i.time}</span>
                                 </div>
                                 <div className={style.number}>
                                     学分
-                                    <span>4</span>
+                                    <span>{i.credit}</span>
                                 </div>
                                 <div className={style.way}>
                                     课程性质
-                                    <span>选修</span>
+                                    <span>{i.quality}</span>
                                 </div>
-
                             </div>
-                        </div>
-                    </Accordion.Panel>
+                        </CheckboxItem>
+                    ))}
 
-                </Accordion>
+                </List>
+                <div className={style.but}>
+                    <Button type="primary">提交</Button>
+                </div>
+
             </div>
 
         );

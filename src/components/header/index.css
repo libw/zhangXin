@@ -2,6 +2,11 @@
     height: 44px;
     z-index: 2;
 }
+:local(wlop):after{
+    clear: both;
+    content: '';
+    display: block;
+}
 
 :local(.logo) {
      float: left;

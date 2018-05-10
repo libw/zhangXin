@@ -70,7 +70,7 @@ export function modifyPwd(data, callback) {
 
 export function register(data, callback) {
     return dispatch => {
-        axios.post('http://47.91.236.245:4030/user/customer', {
+        axios.post(`http://39.105.97.216:8080/web-api/api/register?`, {
             phone: data.phone,
             password: data.pwd,
             sms_captcha: data.code

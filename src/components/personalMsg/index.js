@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import {List, InputItem, WingBlank, Button, ImagePicker, TextareaItem} from "antd-mobile"
 import {getAccountStep} from '../../actions/foreignExchange'
 import {bindActionCreators} from 'redux'
-import Fileupload from 'react-fileupload'
 import { Uploader,UploadField } from '@navjobs/upload'
 
 const data1 = [];
