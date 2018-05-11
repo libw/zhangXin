@@ -10,10 +10,10 @@ import {bindActionCreators} from 'redux'
 
 const data = [
     {
-        title: '高等数学',
-        time: '周一',
-        number: '10：00',
-        way:'A楼320'
+        title: '高等数学',//学科
+        time: '周一',//周几
+        number: '10：00',//几点
+        way:'A楼320'//哪个教室
     },
     {
         title: '邓小平理论',

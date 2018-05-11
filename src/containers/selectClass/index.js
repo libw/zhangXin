@@ -10,13 +10,14 @@ import {bindActionCreators} from 'redux'
 
 const CheckboxItem = Checkbox.CheckboxItem;
 
+
 const data = [
     {
-        subject: '高等数学',
-        teacher: '张鑫',
-        time: '周三 17：00',
-        credit:'1',
-        quality:'选修'
+        subject: '高等数学',//学科
+        teacher: '张鑫',//老师名
+        time: '周三 17：00',//时间
+        credit:'1',//所占学分
+        quality:'选修'//课程类型
     },{
         subject: '大学物理',
         teacher: '钱家瑞',

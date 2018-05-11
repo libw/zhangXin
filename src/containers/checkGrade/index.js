@@ -8,33 +8,30 @@ import {hashHistory} from 'react-router'
 import {setAuthFrom} from '../../actions/authFrom'
 import {bindActionCreators} from 'redux'
 
+//参数名我随便起的，你按你的起，回头我一改就行
 const data = [
     {
         title: '高等数学',
-        time: '98',
-        number: '100',
-        state:'入金失败',
-        way:'30'
+        time: '98',//总分
+        number: '100',//期末成绩
+        way:'30'//平时分
     },
     {
         title: '大学物理',
         time: '80',
         number: '86',
-        state:'出金失败',
         way:'25'
     },
     {
         title: '马克思思想',
         time: '90',
         number: '87',
-        state:'正在进行',
         way:'30'
     },
     {
         title: '邓小平理论',
         time: '84',
         number: '80',
-        state:'正在进行',
         way:'30'
     }
 
