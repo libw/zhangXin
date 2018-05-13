@@ -86,7 +86,7 @@ class Header extends React.Component {
         const Array1 = [{
             label: this.props.user.userName ? this.props.user.userName : '登录与注册',
             link:  this.props.user.userName ? '/baseUserMsg' : '/auth'
-        },{label: '打分', link: '/history'},{label: '学生出勤', link: '/history'},{label: '生成二维码', link: '/history'},{label: '校车日程表', link: '/history'}]
+        },{label: '打分', link: '/history'},{label: '学生出勤', link: '/history'},{label: '生成二维码', link: '/qcode'},]
 
         const Array2 = [{
             label: this.props.user.userName ? this.props.user.userName : '登录与注册',

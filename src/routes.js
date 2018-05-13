@@ -5,6 +5,7 @@ import Home from './containers/home/'
 
 import ModifyPwd from './containers/modifyPwd/'
 import ResultsPage from './containers/resultsPage/'
+import Qcode from './containers/qcode/'
 import SelectClass from './containers/selectClass/'
 
 import SpeedAccount from './containers/speedAccount/'
@@ -16,6 +17,7 @@ import ForgetPwd from './containers/forgetPwd/'
 import RegisterBox from './containers/registerBox/'
 import LoginBox from './containers/loginBox/'
 import Auth from './containers/auth/'
+import SingIn from './containers/singIn/'
 
 import BaseUserMsg from './containers/baseUserMsg/'
 
@@ -26,6 +28,7 @@ export default () => {
             <Route path="/" component={LoginBox}/>
             <Route path="/modifyPwd" component={ModifyPwd}/>
             <Route path="/resultsPage" component={ResultsPage}/>
+            <Route path="/qcode" component={Qcode}/>
 
             <Route path="/speedAccount" component={SpeedAccount}/>
 
@@ -39,6 +42,11 @@ export default () => {
             <Route path="/registerBox" component={RegisterBox}/>
 
             <Route path="/auth" component={Auth}/>
+            <Route path="/singin0" component={SingIn}/>
+            <Route path="/singin1" component={SingIn}/>
+            <Route path="/singin2" component={SingIn}/>
+            <Route path="/singin3" component={SingIn}/>
+            <Route path="/singin4" component={SingIn}/>
             <Route path="/baseUserMsg" component={BaseUserMsg}/>
         </Router>
     )

@@ -2,12 +2,7 @@ import axios from '../common/axiosConf'
 
 export function login(data, callback) {
     return dispatch => {
-        axios.post('http://47.91.236.245:4030/user/customer/sign-in', {
-            phone: data.phone,
-            password: data.pwd,
-            image_captcha: data.picCode
-
-        })
+        axios.get(`http://39.105.97.216:8080/web-api/api/login?userId=${data.name}&userPassword=${data.pwd}` )
             .then(function (response) {
                 if (response.data.code === 0) {
                     dispatch({type: 'LOGIN', data: response.data.data})
@@ -70,11 +65,7 @@ export function modifyPwd(data, callback) {
 
 export function register(data, callback) {
     return dispatch => {
-        axios.post(`http://39.105.97.216:8080/web-api/api/register?`, {
-            phone: data.phone,
-            password: data.pwd,
-            sms_captcha: data.code
-        })
+        axios.post(`http://39.105.97.216:8080/web-api/api/register?userId=6666&classNumber=testClass&userName=${data.name}qianlll&userPassword=${data.pwd}&userRole=${data.pickerValue}`)
             .then(function (response) {
                 if (response.data.code === 0) {
                     dispatch({type: 'REGISTER'})
@@ -83,11 +74,11 @@ export function register(data, callback) {
                     // localStorage.token = response.data.data.token
                     // localStorage.id = response.data.data.id
                 } else {
-                    callback(response.data.msg)
+                    callback(response)
                 }
             })
             .catch(function (error) {
-                alert(error);
+                // alert(error);
             });
     }
 }
