@@ -7,11 +7,13 @@ import ModifyPwd from './containers/modifyPwd/'
 import ResultsPage from './containers/resultsPage/'
 import Qcode from './containers/qcode/'
 import SelectClass from './containers/selectClass/'
+import GateCard from './containers/gateCard/'
+import Grade from './containers/grade/'
 
 import SpeedAccount from './containers/speedAccount/'
 import CheckGrade from './containers/checkGrade/'
 import Schedule from './containers/schedule/'
-import GateCard from './containers/schedule/'
+import TeacherSchedule from './containers/teacherSchedule/'
 import Appraise from './containers/appraise/'
 import ForgetPwd from './containers/forgetPwd/'
 import RegisterBox from './containers/registerBox/'
@@ -34,6 +36,7 @@ export default () => {
 
             <Route path="/checkGrade" component={CheckGrade}/>
             <Route path="/schedule" component={Schedule}/>
+            <Route path="/teacherSchedule" component={TeacherSchedule}/>
             <Route path="/gateCard" component={GateCard}/>
             <Route path="/appraise" component={Appraise}/>
             <Route path="/selectClass" component={SelectClass}/>
@@ -48,6 +51,8 @@ export default () => {
             <Route path="/singin3" component={SingIn}/>
             <Route path="/singin4" component={SingIn}/>
             <Route path="/baseUserMsg" component={BaseUserMsg}/>
+            <Route path="/gateCard" component={GateCard}/>
+            <Route path="/grade" component={Grade}/>
         </Router>
     )
 }

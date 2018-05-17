@@ -41,19 +41,26 @@
     display: block;
 }
 :local(.but){
-    width:150px;
     height:40px;
     margin: 0 auto;
     margin-top: 20px;
-}
-:local(.but)>div{
-    display: block;
-    color: #fff;
-    border-radius: 5px;
-    width:150px;
-    height:40px;
+    font-size: 24px;
     text-align: center;
-    line-height: 40px;
-    background-color: #5262ff;
+}
+:local(.but)>span{
+    color: #5262ff;
+    font-size: 36px;
+}
+:local(.button){
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 100px;
+    height: 36px;
+    line-height: 34px;
+    text-align: center;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid #3B3D40;
+
 }
 

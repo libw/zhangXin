@@ -6,27 +6,37 @@ import { Button } from 'antd-mobile';
 import { Link} from 'react-router';
 import Header from '../../components/header'
 
-
-
 class ResultsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            string:0
+            string:0,
+            num:20
         }
     }
 
-    cli(){
-        this.setState({
-            string:this.state.string+1
-        },()=>{
-            // console.log(111,this.state.string);
-            if(this.state.string>4){
-                this.setState({
-                    string:0
-                })
-            }
-        })
+
+
+    componentDidMount(){
+        let that=this;
+        setInterval(function () {
+            that.setState({
+                num:that.state.num-1
+            },()=>{
+                // console.log(111,this.state.string);
+                if(that.state.num<0){
+                    that.setState({
+                        num:20,
+                        string:that.state.string+1,
+                    })
+                }
+                if(that.state.string>4){
+                    that.setState({
+                        string:0
+                    })
+                }
+            })
+        },1000)
     }
 
     render() {
@@ -40,9 +50,11 @@ class ResultsPage extends React.Component {
                 <span className={style.rtitle}>
                     学生扫描签到
                 </span>
+
                 <div className={style.but}>
-                    <div onClick={this.cli.bind(this)}>刷新</div>
+                    有效时长 <span>{this.state.num}</span> s
                 </div>
+
             </div>
         )
 
