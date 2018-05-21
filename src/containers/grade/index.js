@@ -10,6 +10,7 @@ import {setAuthFrom} from '../../actions/authFrom'
 import {bindActionCreators} from 'redux'
 
 const RadioItem = Radio.RadioItem;
+const Item = List.Item;
 
 const data = [
     {
@@ -59,20 +60,15 @@ class History extends React.Component {
     }
 
     render() {
-
-
-
         const { getFieldProps } = this.props.form;
-
-
         return (
             <div className={style.wrap}>
                 <Header/>
-                <List renderHeader={() => '评教'}>
+                <List renderHeader={() => '老师打分'}>
                     <div className={style.item} >
                         <div className={style.icontent}>
                             <div className={style.number}>
-                                教师 &nbsp;<span>张鑫</span>
+                                学生 &nbsp;<span>贾谊</span>
                             </div>
                             <div className={style.way}>
                                 期末成绩 <span style={{color:'#989898'}}>70</span>
@@ -81,11 +77,11 @@ class History extends React.Component {
                         <InputItem
                             {...getFieldProps('autofocus')}
                             clear
-                            placeholder="请输入"
+                            type={'number'}
+                            placeholder="请输入平时成绩"
                             ref={el => this.autoFocusInst = el}
-                        >平时成绩</InputItem>
+                        ></InputItem>
                     </div>
-                    
                 </List>
             </div>
 
