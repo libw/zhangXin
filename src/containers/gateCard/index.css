@@ -41,3 +41,6 @@
     float: left;
     text-align: left;
 }
+:local(.title){
+    font-size: 16px;
+}

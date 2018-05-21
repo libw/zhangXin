@@ -9,6 +9,9 @@ import Qcode from './containers/qcode/'
 import SelectClass from './containers/selectClass/'
 import GateCard from './containers/gateCard/'
 import Grade from './containers/grade/'
+import PushMessage from './containers/pushMessage/'
+import CreateSchedule from './containers/createSchedule/'
+import CreateSelect from './containers/createSelection/'
 
 import SpeedAccount from './containers/speedAccount/'
 import CheckGrade from './containers/checkGrade/'
@@ -53,6 +56,9 @@ export default () => {
             <Route path="/baseUserMsg" component={BaseUserMsg}/>
             <Route path="/gateCard" component={GateCard}/>
             <Route path="/grade" component={Grade}/>
+            <Route path="/pushMessage" component={PushMessage}/>
+            <Route path="/createSchedule" component={CreateSchedule}/>
+            <Route path="/createSelect" component={CreateSelect}/>
         </Router>
     )
 }

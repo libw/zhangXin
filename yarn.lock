@@ -2120,6 +2120,12 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
 
+echarts@^4.1.0:
+  version "4.1.0"
+  resolved "http://registry.npm.taobao.org/echarts/download/echarts-4.1.0.tgz#d588c95f73c1a9928b9c73d5b769751c3185bcdc"
+  dependencies:
+    zrender "4.0.4"
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/ee-first/download/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
@@ -4015,6 +4021,10 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
+konva@^2.1.3:
+  version "2.1.3"
+  resolved "http://registry.npm.taobao.org/konva/download/konva-2.1.3.tgz#f5f91d128af6b93d52db03d648d0fc410680bdca"
+
 latest-version@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/latest-version/download/latest-version-2.0.0.tgz#56f8d6139620847b8017f8f1f4d78e211324168b"
@@ -5509,6 +5519,13 @@ react-fileupload@^2.4.0:
   dependencies:
     react "^15.0.2"
 
+react-konva@^1.7.3:
+  version "1.7.3"
+  resolved "http://registry.npm.taobao.org/react-konva/download/react-konva-1.7.3.tgz#526810b2546ca58c46125e3c0ed4969a1ddcb23f"
+  dependencies:
+    fbjs "^0.8.16"
+    react-reconciler "^0.10.0"
+
 react-native-camera-roll-picker@^1.2.1:
   version "1.2.2"
   resolved "http://registry.npm.taobao.org/react-native-camera-roll-picker/download/react-native-camera-roll-picker-1.2.2.tgz#a02f55a9e22faded04580b5589b1362305198d14"
@@ -5542,6 +5559,15 @@ react-native-swipeout@~2.1.1:
   resolved "http://registry.npm.taobao.org/react-native-swipeout/download/react-native-swipeout-2.1.5.tgz#eb3a7ac3cf9418441b84a3a6fa7aa64b701598a4"
   dependencies:
     react-tween-state "^0.1.5"
+
+react-reconciler@^0.10.0:
+  version "0.10.0"
+  resolved "http://registry.npm.taobao.org/react-reconciler/download/react-reconciler-0.10.0.tgz#5dc75e73348de97b992deaba75ec72019918f71b"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
 
 react-redux@^5.0.6:
   version "5.0.6"
@@ -7244,6 +7270,10 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
+
+zrender@4.0.4:
+  version "4.0.4"
+  resolved "http://registry.npm.taobao.org/zrender/download/zrender-4.0.4.tgz#910e60d888f00c9599073f23758dd23345fe48fd"
 
 zscroller@~0.3.0:
   version "0.3.1"

@@ -8,11 +8,14 @@
     font-size: 18px;
 }
 :local(.icontent){
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    color: #3b3d40;
+
+}
+:local(.icontent) .am-list-item{
+    padding-left: 0!important;
+
+}
+:local(.icontent) .am-list-line{
+    padding-right: 0!important;
 }
 :local(.number) span{
     color: #aaaaaa;
@@ -41,4 +44,8 @@
 }
 :local(.item) .am-list-item .am-input-label.am-input-label-5{
     width: 36px;
+}
+:local(.button){
+    margin: 0 16px;
+    margin-top: 20px;
 }

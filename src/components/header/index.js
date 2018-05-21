@@ -81,18 +81,10 @@ class Header extends React.Component {
         const Array = [{
             label: this.props.user.userName ? this.props.user.userName : '登录与注册',
             link:  this.props.user.userName ? '/baseUserMsg' : '/auth'
-        },{label: '查看成绩', link: '/checkGrade'}, {label: '查看课表', link: '/schedule'},  {label: '选课', link: '/selectClass'}, {label: '评教', link: '/appraise'}, {label: '签到', link: '/history'}]
+        },{label: '查看成绩', link: '/checkGrade'}, {label: '查看课表', link: '/schedule'},  {label: '选课', link: '/selectClass'}, {label: '评教', link: '/appraise'}, {label: '签到', link: '/history'},{label: '推送消息', link: '/pushMessage'},{label: '生成课表', link: '/createSchedule'},{label: '生成选课信息', link: '/createSelect'},{label: '录入成绩(暂无)', link: '/history'},{label: '打分', link: '/grade'},{label: '学生出勤', link: '/gateCard'},{label: '课表', link: '/teacherSchedule'},{label: '生成二维码', link: '/qcode'},]
 
 
-        const Array1 = [{
-            label: this.props.user.userName ? this.props.user.userName : '登录与注册',
-            link:  this.props.user.userName ? '/baseUserMsg' : '/auth'
-        },{label: '打分', link: '/grade'},{label: '学生出勤', link: '/gateCard'},{label: '课表', link: '/teacherSchedule'},{label: '生成二维码', link: '/qcode'},]
 
-        const Array2 = [{
-            label: this.props.user.userName ? this.props.user.userName : '登录与注册',
-            link:  this.props.user.userName ? '/baseUserMsg' : '/auth'
-        },{label: '推送消息', link: '/history'},{label: '生成课表', link: '/history'},{label: '生成选课信息', link: '/history'},{label: '录入成绩', link: '/history'}]
 
 
         const sidebar = (<ul style={{paddingTop: 20}}>
@@ -104,24 +96,7 @@ class Header extends React.Component {
                 </li>);
             })}
         </ul>);
-        const sidebar1 = (<ul style={{paddingTop: 20}}>
-            {Array1.map((i, index) => {
-                return (<li className={style.navlist} key={index}>
-                    <Link to={i.link}>
-                        {i.label}
-                    </Link>
-                </li>);
-            })}
-        </ul>);
-        const sidebar2 = (<ul style={{paddingTop: 20}}>
-            {Array2.map((i, index) => {
-                return (<li className={style.navlist} key={index}>
-                    <Link to={i.link}>
-                        {i.label}
-                    </Link>
-                </li>);
-            })}
-        </ul>);
+
 
 
         return (
@@ -144,7 +119,7 @@ class Header extends React.Component {
                         position: 'fixed',
                         zIndex: this.state.open ? 100 : -1
                     }}
-                    sidebar={sidebar1}
+                    sidebar={sidebar}
                     open={this.state.open}
                     position="right"
                     // contentStyle={{zIndex:this.state.open?98:-1}}
@@ -157,6 +132,7 @@ class Header extends React.Component {
         )
     }
 }
+
 
 function mapStateToProps(state, props) {
     return {
