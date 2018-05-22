@@ -1,8 +1,7 @@
 :local(.item){
     padding: 0 15px;
     background-color: #fff;
-    padding-top: 10px;
-    padding-bottom: 6px;
+
 }
 :local(.title){
     font-size: 18px;

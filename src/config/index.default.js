@@ -37,7 +37,7 @@ var config = {
 if (process.env.NODE_ENV == 'development') {
   config.debug = true
   config.port = 4000
-  config.api_url = 'http://localhost:3000'
+  config.api_url = 'http://localhost:6000'
   config.domain_name = 'http://localhost:4000'
   config.public_path = 'http://localhost:4000'
   config.GA = ''

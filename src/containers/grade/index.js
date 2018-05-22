@@ -12,33 +12,6 @@ import {bindActionCreators} from 'redux'
 const RadioItem = Radio.RadioItem;
 const Item = List.Item;
 
-const data = [
-    {
-        title: '64',
-
-        teacher: '张鑫',
-    },
-    // {
-    //     title: '邓小平理论',
-    //
-    //     teacher: '钱家瑞',
-    //
-    // },
-    // {
-    //     title: '大学物理',
-    //
-    //     teacher: '罗乙妍',
-    //
-    // },
-    // {
-    //     title: '高等数学',
-    //
-    //     teacher: '张三金',
-    //
-    // }
-];
-
-
 class History extends React.Component {
 
     constructor(props) {

@@ -7,41 +7,31 @@ import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
 import {setAuthFrom} from '../../actions/authFrom'
 import {bindActionCreators} from 'redux'
+import {Toast} from "antd-mobile/lib/index";
 
 const CheckboxItem = Checkbox.CheckboxItem;
 
 
 const data = [
     {
-        subject: '高等数学',//学科
-        teacher: '张鑫',//老师名
+        id:1,
+        subject: '土木206',//学科
+        teacher: '贾谊',//老师名
         time: '周三 17：00',//时间
-        credit:'1',//所占学分
-        quality:'选修'//课程类型
+        credit:'心情不太好，就是不想去',//所占学分
     },{
-        subject: '大学物理',
-        teacher: '钱家瑞',
+        id:2,
+        subject: '机械308',
+        teacher: '伊尔',
         time: '周二 10：00',
-        credit:'2',
-        quality:'必修'
-    },{
-        subject: '体育',
-        teacher: '罗乙妍',
-        time: '周三 14：00',
-        credit:'1',
-        quality:'必修'
-    },{
-        subject: '大学物理',
-        teacher: '钱家瑞',
-        time: '周二 10：00',
-        credit:'2',
-        quality:'必修'
+        credit:'去和小马谈合并腾讯的事情',
     },
 
 
 
 ];
 
+let arr=[]
 
 class History extends React.Component {
 
@@ -62,12 +52,57 @@ class History extends React.Component {
 
     }
 
-    componentWillUnmount() {
+
+    onChange = (val) => {
+        console.log(val);
+        arr.push(val)
+    }
+    dedupe(array){
+        return Array.from(new Set(array));
+    }
+    refuseFn() {
+        console.log(this.dedupe(arr));
+        if (this.dedupe(arr).length==0) {
+            Toast.fail('请选择', 3, null, false)
+            return false
+        }
+        // this.props.login({
+        //     message: this.state.message,
+        // }, (errorText) => {
+        //     Toast.hide()
+        //     if (errorText) {
+        //         Toast.fail(errorText, 3, null, false)
+        //     } else {
+        //         if (this.props.authFrom.path) {
+        //             hashHistory.push(this.props.authFrom.path)
+        //         } else {
+        //             hashHistory.push('/')
+        //         }
+        //     }
+        // })
 
     }
+    submitFn() {
+        console.log(this.dedupe(arr));
+        if (this.dedupe(arr).length==0) {
+            Toast.fail('请选择', 3, null, false)
+            return false
+        }
+        // this.props.login({
+        //     message: this.state.message,
+        // }, (errorText) => {
+        //     Toast.hide()
+        //     if (errorText) {
+        //         Toast.fail(errorText, 3, null, false)
+        //     } else {
+        //         if (this.props.authFrom.path) {
+        //             hashHistory.push(this.props.authFrom.path)
+        //         } else {
+        //             hashHistory.push('/')
+        //         }
+        //     }
+        // })
 
-    onChange (i) {
-        console.log(i);
     }
 
 
@@ -88,16 +123,15 @@ class History extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
-                <NoticeBar mode="closable" icon={null}>学校倒闭了，大家散了吧</NoticeBar>
-                <List renderHeader={() => '选修课程列表'}>
+                <List renderHeader={() => '请假列表'}>
                     {data.map(i => (
-                        <CheckboxItem key={i.value} onChange={() => this.onChange(i.subject)}>
+                        <CheckboxItem key={i.id} onChange={() => this.onChange(i.id)}>
                             <span className={style.title} >
-                                学科：<b>{i.subject}</b>
+                                班级：<b>{i.subject}</b>
                             </span>
                             <div className={style.icontent}>
                                 <div className={style.time}>
-                                    老师
+                                    学生
                                     <span>{i.teacher}</span>
                                 </div>
                                 <div className={style.state}>
@@ -105,12 +139,8 @@ class History extends React.Component {
                                     <span>{i.time}</span>
                                 </div>
                                 <div className={style.number}>
-                                    学分
+                                    理由
                                     <span>{i.credit}</span>
-                                </div>
-                                <div className={style.way}>
-                                    课程性质
-                                    <span>{i.quality}</span>
                                 </div>
                             </div>
                         </CheckboxItem>
@@ -118,7 +148,10 @@ class History extends React.Component {
 
                 </List>
                 <div className={style.but}>
-                    <Button type="primary">提交</Button>
+                    <Button onClick={this.submitFn.bind(this)} type="primary">批准</Button>
+                </div>
+                <div className={style.but}>
+                    <Button onClick={this.refuseFn.bind(this)} type="warning">不批准</Button>
                 </div>
 
             </div>

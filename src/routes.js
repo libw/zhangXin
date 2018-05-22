@@ -12,6 +12,8 @@ import Grade from './containers/grade/'
 import PushMessage from './containers/pushMessage/'
 import CreateSchedule from './containers/createSchedule/'
 import CreateSelect from './containers/createSelection/'
+import Leave from './containers/leave/'
+import LeaveList from './containers/leaveList/'
 
 import SpeedAccount from './containers/speedAccount/'
 import CheckGrade from './containers/checkGrade/'
@@ -59,6 +61,8 @@ export default () => {
             <Route path="/pushMessage" component={PushMessage}/>
             <Route path="/createSchedule" component={CreateSchedule}/>
             <Route path="/createSelect" component={CreateSelect}/>
+            <Route path="/leave" component={Leave}/>
+            <Route path="/leaveList" component={LeaveList}/>
         </Router>
     )
 }

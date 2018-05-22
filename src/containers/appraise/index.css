@@ -1,17 +1,14 @@
 :local(.item){
     padding: 0 15px;
     background-color: #fff;
-    padding-top: 10px;
-    padding-bottom: 6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 :local(.title){
     font-size: 18px;
 }
 :local(.icontent){
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+
     color: #3b3d40;
 }
 :local(.number) span{
@@ -25,14 +22,8 @@
     font-size: 20px;
     float: right;
 }
-:local(.way){
-    width: 50%;
-    float: right;
-    text-align: right;
-}
 :local(.number){
-    width: 50%;
-    float: left;
+
     text-align: left;
 }
 :local(.item) .am-list-item.am-input-item{
@@ -41,4 +32,14 @@
 }
 :local(.item) .am-list-item .am-input-label.am-input-label-5{
     width: 36px;
+}
+:local(.number) .am-list-item{
+    padding-left: 0!important;
+}
+:local(.number) .am-list-line{
+    padding-right: 0!important;
+}
+:local(.button){
+    margin: 0 16px;
+    margin-top: 20px;
 }

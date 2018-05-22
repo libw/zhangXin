@@ -2,7 +2,7 @@ import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
 import { createForm } from 'rc-form';
-import { RefreshControl, ListView,Picker,List,Radio,InputItem} from 'antd-mobile';
+import { RefreshControl, ListView,Picker,List,Radio,Button} from 'antd-mobile';
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
@@ -54,17 +54,78 @@ class History extends React.Component {
         // }
     }
 
-    handleClick = () => {
-        this.customFocusInst.focus();
+    submitFn() {
+        console.log(this.state.sValue);
+        console.log(this.state.date);
+        // if (!this.state.message) {
+        //     Toast.fail('请输入推送的消息', 3, null, false)
+        //     return false
+        // }
+        // this.props.login({
+        //     class: this.state.class,
+        //     name: this.state.name,
+        //     sValue: this.state.sValue,
+        //     date: this.state.date,
+        // }, (errorText) => {
+        //     Toast.hide()
+        //     if (errorText) {
+        //         Toast.fail(errorText, 3, null, false)
+        //     } else {
+        //         if (this.props.authFrom.path) {
+        //             hashHistory.push(this.props.authFrom.path)
+        //         } else {
+        //             hashHistory.push('/')
+        //         }
+        //     }
+        // })
+
     }
 
     render() {
-
-
-
         const { getFieldProps } = this.props.form;
 
+        const teacher = [
+            [
+                {
+                    label: '张鑫',
+                    value: '001',
+                },
+                {
+                    label: '钱家瑞',
+                    value: '002',
+                },
+                {
+                    label: '罗乙妍',
+                    value: '003',
+                },
+                {
+                    label: '张三金',
+                    value: '004',
+                },
+            ],
 
+        ];
+        const appraise = [
+            [
+                {
+                    label: '优秀',
+                    value: 'good',
+                },
+                {
+                    label: '良好',
+                    value: 'well',
+                },
+                {
+                    label: '合格',
+                    value: 'qualified',
+                },
+                {
+                    label: '差',
+                    value: 'bad',
+                },
+            ],
+
+        ];
         return (
             <div className={style.wrap}>
                 <Header/>
@@ -72,20 +133,39 @@ class History extends React.Component {
                     <div className={style.item} >
                         <div className={style.icontent}>
                             <div className={style.number}>
-                                教师 &nbsp;<span>张鑫</span>
+                                <Picker
+                                    data={teacher}
+                                    title="选择教师"
+                                    cascade={false}
+                                    extra="请选择" value={this.state.sValue}
+                                    onChange={v => this.setState({ sValue: v })}
+                                    onOk={v => this.setState({ sValue: v })}
+                                >
+                                    <List.Item arrow="horizontal">教师</List.Item>
+                                </Picker>
                             </div>
-                            <div className={style.way}>
-                                <span>高等数学</span>
+                            <div className={style.number}>
+                                <Picker
+                                    data={appraise}
+                                    title="选择评价"
+                                    cascade={false}
+                                    extra="请选择" value={this.state.sValue}
+                                    onChange={v => this.setState({ sValue: v })}
+                                    onOk={v => this.setState({ sValue: v })}
+                                >
+                                    <List.Item arrow="horizontal">评价</List.Item>
+                                </Picker>
                             </div>
                         </div>
-                        <InputItem
-                            {...getFieldProps('autofocus')}
-                            clear
-                            placeholder="请输入"
-                            ref={el => this.autoFocusInst = el}
-                        >评价</InputItem>
+
                     </div>
+
                 </List>
+                <div className={style.button}>
+                    <Button onClick={this.submitFn.bind(this)} type="primary">
+                        提交
+                    </Button>
+                </div>
             </div>
 
         );
