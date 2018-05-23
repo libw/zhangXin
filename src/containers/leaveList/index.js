@@ -5,7 +5,7 @@ import { Button,RefreshControl, ListView,Accordion, List,Checkbox,NoticeBar } fr
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
-import {setAuthFrom} from '../../actions/authFrom'
+import {checkLeave} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 import {Toast} from "antd-mobile/lib/index";
 
@@ -26,9 +26,6 @@ const data = [
         time: '周二 10：00',
         credit:'去和小马谈合并腾讯的事情',
     },
-
-
-
 ];
 
 let arr=[]
@@ -66,20 +63,21 @@ class History extends React.Component {
             Toast.fail('请选择', 3, null, false)
             return false
         }
-        // this.props.login({
-        //     message: this.state.message,
-        // }, (errorText) => {
-        //     Toast.hide()
-        //     if (errorText) {
-        //         Toast.fail(errorText, 3, null, false)
-        //     } else {
-        //         if (this.props.authFrom.path) {
-        //             hashHistory.push(this.props.authFrom.path)
-        //         } else {
-        //             hashHistory.push('/')
-        //         }
-        //     }
-        // })
+        this.props.checkLeave({
+            select: this.dedupe(arr),
+            pass:false
+        }, (errorText) => {
+            Toast.hide()
+            if (errorText) {
+                Toast.fail(errorText, 3, null, false)
+            } else {
+                if (this.props.authFrom.path) {
+                    hashHistory.push(this.props.authFrom.path)
+                } else {
+                    hashHistory.push('/')
+                }
+            }
+        })
 
     }
     submitFn() {
@@ -88,20 +86,21 @@ class History extends React.Component {
             Toast.fail('请选择', 3, null, false)
             return false
         }
-        // this.props.login({
-        //     message: this.state.message,
-        // }, (errorText) => {
-        //     Toast.hide()
-        //     if (errorText) {
-        //         Toast.fail(errorText, 3, null, false)
-        //     } else {
-        //         if (this.props.authFrom.path) {
-        //             hashHistory.push(this.props.authFrom.path)
-        //         } else {
-        //             hashHistory.push('/')
-        //         }
-        //     }
-        // })
+        this.props.checkLeave({
+            select: this.dedupe(arr),
+            pass:true
+        }, (errorText) => {
+            Toast.hide()
+            if (errorText) {
+                Toast.fail(errorText, 3, null, false)
+            } else {
+                if (this.props.authFrom.path) {
+                    hashHistory.push(this.props.authFrom.path)
+                } else {
+                    hashHistory.push('/')
+                }
+            }
+        })
 
     }
 
@@ -170,7 +169,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setAuthFrom:bindActionCreators(setAuthFrom, dispatch)
+        checkLeave:bindActionCreators(checkLeave, dispatch)
     }
 }
 

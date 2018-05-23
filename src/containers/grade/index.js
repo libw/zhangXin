@@ -2,11 +2,11 @@ import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
 import { createForm } from 'rc-form';
-import { RefreshControl, ListView,Picker,List,Radio,InputItem,Button} from 'antd-mobile';
+import { Toast, ListView,Picker,List,Radio,InputItem,Button} from 'antd-mobile';
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
-import {setAuthFrom} from '../../actions/authFrom'
+import {gradeTeacher} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 
 const RadioItem = Radio.RadioItem;
@@ -28,39 +28,34 @@ class History extends React.Component {
         // }
     }
 
-    handleClick = () => {
-        this.customFocusInst.focus();
-    }
     submitFn() {
-        console.log(this.state.sValue);
-        console.log(this.state.date);
-        // if (!this.state.message) {
-        //     Toast.fail('请输入推送的消息', 3, null, false)
-        //     return false
-        // }
-        // this.props.login({
-        //     class: this.state.class,
-        //     name: this.state.name,
-        //     sValue: this.state.sValue,
-        //     date: this.state.date,
-        // }, (errorText) => {
-        //     Toast.hide()
-        //     if (errorText) {
-        //         Toast.fail(errorText, 3, null, false)
-        //     } else {
-        //         if (this.props.authFrom.path) {
-        //             hashHistory.push(this.props.authFrom.path)
-        //         } else {
-        //             hashHistory.push('/')
-        //         }
-        //     }
-        // })
+        if (!this.state.student||!this.state.pacGrade||!this.state.endGrade) {
+            Toast.fail('请输入推送的消息', 3, null, false)
+            return false
+        }
+        this.props.gradeTeacher({
+            student: this.state.student[0],
+            pacGrade: this.state.pacGrade,
+            endGrade: this.state.endGrade,
+            grade:0.3*this.state.pacGrade+0.7*this.state.endGrade,
+            subject:this.state.subject
+        }, (errorText) => {
+            Toast.hide()
+            if (errorText) {
+                Toast.fail(errorText, 3, null, false)
+            } else {
+                if (this.props.authFrom.path) {
+                    hashHistory.push(this.props.authFrom.path)
+                } else {
+                    hashHistory.push('/')
+                }
+            }
+        })
 
     }
 
 
     render() {
-        const { getFieldProps } = this.props.form;
         const seasons = [
             [
                 {
@@ -92,9 +87,9 @@ class History extends React.Component {
                                 data={seasons}
                                 title="选择学生"
                                 cascade={false}
-                                extra="请选择" value={this.state.sValue}
-                                onChange={v => this.setState({ sValue: v })}
-                                onOk={v => this.setState({ sValue: v })}
+                                extra="请选择" value={this.state.student}
+                                onChange={v => this.setState({ student: v })}
+                                onOk={v => this.setState({ student: v })}
                             >
                                 <List.Item arrow="horizontal">学生</List.Item>
                             </Picker>
@@ -136,10 +131,10 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setAuthFrom:bindActionCreators(setAuthFrom, dispatch)
+        gradeTeacher:bindActionCreators(gradeTeacher, dispatch)
     }
 }
 
-const HistoryWrapper = createForm()(History);
+History = connect(mapStateToProps, mapDispatchToProps)(History)
 
-export default HistoryWrapper;
+export default History;

@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {List, InputItem, Button, WingBlank, Toast} from 'antd-mobile';
 import {hashHistory} from 'react-router'
 import Header from '../../components/header'
-import {modifyPwd} from '../../actions/user'
+import {login} from '../../actions/user'
 import {setAuthFrom} from '../../actions/authFrom'
 import {bindActionCreators} from 'redux'
 
@@ -45,14 +45,14 @@ class ModifyPwd extends React.Component {
             return false
         }
         Toast.loading('', 0)
-        this.props.modifyPwd(
+        this.props.login(
             this.state
             , (errorText) => {
                 Toast.hide()
                 if (errorText) {
                     Toast.fail(errorText, 3, null, false)
                 } else {
-                    hashHistory.push('/resultsPage')
+                    hashHistory.push('/')
                 }
             })
     }
@@ -109,8 +109,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        modifyPwd: bindActionCreators(modifyPwd, dispatch),
-        setAuthFrom: bindActionCreators(setAuthFrom, dispatch)
+        login: bindActionCreators(login, dispatch),
     }
 }
 

@@ -5,6 +5,9 @@ import {connect} from 'react-redux'
 import { List,InputItem,Button,WingBlank,Picker,RadioGroup,DatePicker} from 'antd-mobile';
 import Header from '../../components/header'
 import {Toast} from "antd-mobile/lib/index";
+import {bindActionCreators} from "redux";
+import {leave} from "../../actions/user";
+import {hashHistory, Link} from 'react-router';
 
 class ForgetPwd extends React.Component {
     constructor(props) {
@@ -17,26 +20,26 @@ class ForgetPwd extends React.Component {
     submitFn() {
         console.log(this.state.class);
         console.log(this.state.leave);
-        // if (!this.state.message) {
-        //     Toast.fail('请输入推送的消息', 3, null, false)
-        //     return false
-        // }
-            // this.props.login({
-            //     class: this.state.class,
-            //     name: this.state.leave,
-            // }, (errorText) => {
-            //     Toast.hide()
-            //     if (errorText) {
-            //         Toast.fail(errorText, 3, null, false)
-            //     } else {
-            //         if (this.props.authFrom.path) {
-            //             hashHistory.push(this.props.authFrom.path)
-            //         } else {
-            //             hashHistory.push('/')
-            //         }
-            //     }
-            // })
-
+        if (!this.state.class||!this.state.leave) {
+            Toast.fail('请完成信息', 3, null, false)
+            return false
+        }
+        this.props.leave({
+            class: this.state.class[0],
+            leave: this.state.leave,
+            studentId: this.state.studentId
+        }, (errorText) => {
+            Toast.hide()
+            if (errorText) {
+                Toast.fail(errorText, 3, null, false)
+            } else {
+                if (this.props.authFrom.path) {
+                    hashHistory.push(this.props.authFrom.path)
+                } else {
+                    hashHistory.push('/')
+                }
+            }
+        })
     }
 
     render() {
@@ -112,9 +115,11 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {}
+    return {
+        leave: bindActionCreators(leave, dispatch),
+    }
 }
 
 ForgetPwd = connect(mapStateToProps, mapDispatchToProps)(ForgetPwd)
-const ForgetPwdWrapper = createForm()(ForgetPwd);
-export default ForgetPwdWrapper;
+
+export default ForgetPwd;

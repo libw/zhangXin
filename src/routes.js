@@ -4,7 +4,7 @@ import Home from './containers/home/'
 
 
 import ModifyPwd from './containers/modifyPwd/'
-import ResultsPage from './containers/resultsPage/'
+
 import Qcode from './containers/qcode/'
 import SelectClass from './containers/selectClass/'
 import GateCard from './containers/gateCard/'
@@ -26,15 +26,11 @@ import LoginBox from './containers/loginBox/'
 import Auth from './containers/auth/'
 import SingIn from './containers/singIn/'
 
-import BaseUserMsg from './containers/baseUserMsg/'
-
 export default () => {
     return (
         <Router history={hashHistory}>
-            {/*<Route path="/" component={Home}/>*/}
             <Route path="/" component={LoginBox}/>
             <Route path="/modifyPwd" component={ModifyPwd}/>
-            <Route path="/resultsPage" component={ResultsPage}/>
             <Route path="/qcode" component={Qcode}/>
 
             <Route path="/speedAccount" component={SpeedAccount}/>
@@ -55,7 +51,6 @@ export default () => {
             <Route path="/singin2" component={SingIn}/>
             <Route path="/singin3" component={SingIn}/>
             <Route path="/singin4" component={SingIn}/>
-            <Route path="/baseUserMsg" component={BaseUserMsg}/>
             <Route path="/gateCard" component={GateCard}/>
             <Route path="/grade" component={Grade}/>
             <Route path="/pushMessage" component={PushMessage}/>

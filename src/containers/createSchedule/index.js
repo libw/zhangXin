@@ -5,6 +5,9 @@ import {connect} from 'react-redux'
 import { List,InputItem,Button,WingBlank,Picker,RadioGroup,DatePicker} from 'antd-mobile';
 import Header from '../../components/header'
 import {Toast} from "antd-mobile/lib/index";
+import {hashHistory, Link} from 'react-router';
+import {bindActionCreators} from "redux";
+import {pushSchedule} from "../../actions/user";
 
 class ForgetPwd extends React.Component {
     constructor(props) {
@@ -15,29 +18,23 @@ class ForgetPwd extends React.Component {
     }
 
     submitFn() {
-        console.log(this.state.sValue);
-        console.log(this.state.date);
-        // if (!this.state.message) {
-        //     Toast.fail('请输入推送的消息', 3, null, false)
-        //     return false
-        // }
-            // this.props.login({
-            //     class: this.state.class,
-            //     name: this.state.name,
-            //     sValue: this.state.sValue,
-            //     date: this.state.date,
-            // }, (errorText) => {
-            //     Toast.hide()
-            //     if (errorText) {
-            //         Toast.fail(errorText, 3, null, false)
-            //     } else {
-            //         if (this.props.authFrom.path) {
-            //             hashHistory.push(this.props.authFrom.path)
-            //         } else {
-            //             hashHistory.push('/')
-            //         }
-            //     }
-            // })
+        this.props.pushSchedule({
+            class: this.state.class,
+            teacher: this.state.teacher,
+            classroom: this.state.classroom[0]+this.state.classroom[1],
+            date: new Date(this.state.date).getTime()
+        }, (errorText) => {
+            Toast.hide()
+            if (errorText) {
+                Toast.fail(errorText, 3, null, false)
+            } else {
+                if (this.props.authFrom.path) {
+                    hashHistory.push(this.props.authFrom.path)
+                } else {
+                    hashHistory.push('/')
+                }
+            }
+        })
 
     }
 
@@ -98,7 +95,7 @@ class ForgetPwd extends React.Component {
                         </div> <div className={style.selphone}>
                             <div className={style.phone}>
                                 <List>
-                                    <InputItem onChange={(value) => {this.setState({name: value})}} placeholder='请输入' type="text">老师名</InputItem>
+                                    <InputItem onChange={(value) => {this.setState({teacher: value})}} placeholder='请输入' type="text">老师名</InputItem>
                                 </List>
                             </div>
                         </div>
@@ -122,9 +119,9 @@ class ForgetPwd extends React.Component {
                                         title="选择教室"
                                         cascade={false}
                                         extra="请选择"
-                                        value={this.state.sValue}
-                                        onChange={v => this.setState({ sValue: v })}
-                                        onOk={v => this.setState({ sValue: v })}
+                                        value={this.state.classroom}
+                                        onChange={v => this.setState({ classroom: v })}
+                                        onOk={v => this.setState({ classroom: v })}
                                     >
                                         <List.Item arrow="horizontal">教室</List.Item>
                                     </Picker>
@@ -150,7 +147,9 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {}
+    return {
+        pushSchedule: bindActionCreators(pushSchedule, dispatch),
+    }
 }
 
 ForgetPwd = connect(mapStateToProps, mapDispatchToProps)(ForgetPwd)

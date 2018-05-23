@@ -31,16 +31,11 @@ class Auth extends React.Component {
                 Toast.fail('密码格式错误', 3, null, false)
                 return false
             }
-            console.log(this.state.pickerValue);
-            if (!this.state.pickerValue) {
-                Toast.fail('请选择身份', 3, null, false)
-                return false
-            }
+
             Toast.loading('登录中', 3, null, false)
             this.props.login({
-                name: this.state.name,
+                userId: this.state.userId,
                 pwd: this.state.pwd,
-                pickerValue: this.state.pickerValue
             }, (errorText) => {
                 Toast.hide()
                 if (errorText) {
@@ -64,7 +59,10 @@ class Auth extends React.Component {
             }
             Toast.loading('注册中', 3, null, false)
             this.props.register({
-                name: this.state.name,
+
+                userId: this.state.userId,
+                classNumber: this.state.classNumber,
+                userName: this.state.userName,
                 pwd: this.state.pwd,
                 pickerValue: this.state.pickerValue
             }, (errorText) => {
@@ -82,8 +80,6 @@ class Auth extends React.Component {
                             title:'注册成功',
                             path:'/',
                             status:1
-                        },()=>{
-                            hashHistory.push('/resultsPage')
                         })
                     }
                 }
@@ -123,12 +119,30 @@ class Auth extends React.Component {
                     </div>
                 </nav>
                 <section className={style.content}>
+                    <div className={style.selphone} hidden={this.state.login}>
+                        <div className={style.phone}>
+                            <List>
+                                <InputItem onChange={(value) => {
+                                    this.setState({classNumber: value})
+                                }} placeholder="请输入班级" type="text"></InputItem>
+                            </List>
+                        </div>
+                    </div>
+                    <div className={style.selphone}  hidden={this.state.login}>
+                        <div className={style.phone}>
+                            <List>
+                                <InputItem onChange={(value) => {
+                                    this.setState({userName: value})
+                                }} placeholder="请输入姓名" type="text"></InputItem>
+                            </List>
+                        </div>
+                    </div>
                     <div className={style.selphone}>
                         <div className={style.phone}>
                             <List>
                                 <InputItem onChange={(value) => {
-                                    this.setState({name: value})
-                                }} placeholder="请输入用户名" type="text"></InputItem>
+                                    this.setState({userId: value})
+                                }} placeholder="请输入ID" type="text"></InputItem>
                             </List>
                         </div>
                     </div>
@@ -139,7 +153,7 @@ class Auth extends React.Component {
                             </List>
                         </div>
                     </div>
-                    <div className={style.selphone}>
+                    <div className={style.selphone} hidden={this.state.login}>
                         <Picker data={district} cols={1} {...getFieldProps('district3')} className="forss" onChange={v => this.setState({ pickerValue: v })} onOk={v => this.setState({ pickerValue: v })} value={this.state.pickerValue}>
                             <List.Item arrow="horizontal">身份选择</List.Item>
                         </Picker>
@@ -151,7 +165,7 @@ class Auth extends React.Component {
                             }
                         </Button>
                     </div>
-                    <div className={style.fp} hidden={this.state.login?false:true}>
+                    <div className={style.fp} hidden={true}>
                         <Link to='/forgetPwd'>
                             忘记密码?
                         </Link>

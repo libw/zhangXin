@@ -1,18 +1,6 @@
 let initialState = {
-    token: localStorage.token,
-    userName: localStorage.userName,
-    status: localStorage.status,//0:注册了  1:极速开户了  2:已绑定银行卡了（走完传统开户流程）
-    MT4:localStorage.MT4,
-    floating:'',
-    balance:'',
-    netWorth:'',
-    realName:'',
-    id:'',
-    email:'',
-    address:'',
-    bankNo:'',
-    bankName:'',
-    branch:''
+    token: '',
+
 
 
 
@@ -25,29 +13,12 @@ export default function sign(state = initialState, action = {}) {
     switch (action.type) {
 
         case 'LOGIN':
-
             const {phone,mt4_live_id,status,address,email} = action.data
             state.userName = phone
-            localStorage.setItem('token', true)
-            localStorage.setItem('userName', phone)
-            localStorage.setItem('MT4', mt4_live_id)
-            localStorage.setItem('status', status)
-            localStorage.setItem('address', address)
-            localStorage.setItem('email', email)
+
             state.token = true
             state.status = status
             // state.MT4 = mt4_live_id
-            return Object.assign({}, state, {})
-
-        case 'LOGOUT':
-            localStorage.removeItem('token')
-            localStorage.removeItem('userName')
-            localStorage.removeItem('MT4')
-            localStorage.removeItem('status')
-            localStorage.removeItem('address')
-            localStorage.removeItem('email')
-            state.token = false
-            state.userName = false
             return Object.assign({}, state, {})
 
         case 'MODIFYPWD':

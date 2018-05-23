@@ -11,30 +11,28 @@ import {bindActionCreators} from 'redux'
 const data = [
     {
         title: '高等数学',//学科
-        time: '周一',//周几
-        number: '10：00',//几点
+        time: '周一 10：00',//周几
+        number: '张三金',//几点
         way:'A楼320'//哪个教室
     },
     {
         title: '邓小平理论',
-        time: '周一',
-        number: '14：00',
+        time: '周一 14：00',
+        number: '钱家瑞',
         way:'B楼150'
     },
     {
         title: '大学物理',
-        time: '周一',
-        number: '16：00',
+        time: '周一 16：00',
+        number: '罗乙妍',
         way:'C楼190'
     },
     {
         title: '高等数学',
-        time: '周二',
-        number: '14：00',
+        time: '周二 14：00',
+        number: '张鑫',
         way:'A楼320'
     }
-
-
 ];
 let index = data.length - 1;
 
@@ -192,11 +190,11 @@ class History extends React.Component {
                     </span>
                     <div className={style.icontent}>
                         <div className={style.number}>
-                            时间
+                            教师&nbsp;&nbsp;
                             <span>{obj.number}</span>
                         </div>
                         <div className={style.way}>
-                            教室
+                            教室&nbsp;&nbsp;
                             <span>{obj.way}</span>
                         </div>
                     </div>

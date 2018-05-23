@@ -1,10 +1,13 @@
 import React from 'react'
 import style from "./index.css"
+import { List,InputItem,Button,WingBlank,Picker,RadioGroup} from 'antd-mobile';
 import { createForm } from 'rc-form';
 import {connect} from 'react-redux'
-import { List,InputItem,Button,WingBlank,Picker,RadioGroup} from 'antd-mobile';
-import Header from '../../components/header'
+import {bindActionCreators} from 'redux'
+import {hashHistory, Link} from 'react-router';
+import {pushMessage} from '../../actions/user'
 import {Toast} from "antd-mobile/lib/index";
+import Header from '../../components/header'
 
 class ForgetPwd extends React.Component {
     constructor(props) {
@@ -19,20 +22,20 @@ class ForgetPwd extends React.Component {
             Toast.fail('请输入推送的消息', 3, null, false)
             return false
         }
-            // this.props.login({
-            //     message: this.state.message,
-            // }, (errorText) => {
-            //     Toast.hide()
-            //     if (errorText) {
-            //         Toast.fail(errorText, 3, null, false)
-            //     } else {
-            //         if (this.props.authFrom.path) {
-            //             hashHistory.push(this.props.authFrom.path)
-            //         } else {
-            //             hashHistory.push('/')
-            //         }
-            //     }
-            // })
+            this.props.pushMessage({
+                message: this.state.message,
+            }, (errorText) => {
+                Toast.hide()
+                if (errorText) {
+                    Toast.fail(errorText, 3, null, false)
+                } else {
+                    if (this.props.authFrom.path) {
+                        hashHistory.push(this.props.authFrom.path)
+                    } else {
+                        hashHistory.push('/')
+                    }
+                }
+            })
 
     }
 
@@ -73,7 +76,9 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {}
+    return {
+        pushMessage: bindActionCreators(pushMessage, dispatch),
+    }
 }
 
 ForgetPwd = connect(mapStateToProps, mapDispatchToProps)(ForgetPwd)

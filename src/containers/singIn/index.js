@@ -3,8 +3,7 @@ import style from "./index.css"
 import {connect} from 'react-redux'
 import { createForm } from 'rc-form';
 import {List, InputItem, Button, Picker, Toast} from 'antd-mobile';
-import {login, register} from '../../actions/user'
-import {setResultsPage} from '../../actions/resultsPage'
+import {singin} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 import {hashHistory, Link} from 'react-router';
 import Header from '../../components/header'
@@ -22,35 +21,25 @@ class Auth extends React.Component {
 
 
     submitFn() {
-            // if (!/^[a-zA-Z]+$/.test(this.state.name)) {
-            //     Toast.fail('请输入正确的用户名', 3, null, false)
-            //     return false
-            // }
-            if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/.test(this.state.pwd)) {
-                Toast.fail('密码格式错误', 3, null, false)
-                return false
-            }
-            console.log(this.state.pickerValue);
-
-            Toast.loading('登录中', 3, null, false)
-            this.props.login({
-                name: this.state.name,
-                pwd: this.state.pwd,
-                pickerValue: this.state.pickerValue
-            }, (errorText) => {
-                Toast.hide()
-                if (errorText) {
-                    Toast.fail(errorText, 3, null, false)
+        if (!this.state.studentId||!this.state.pwd) {
+            Toast.fail('请完善信息', 3, null, false)
+            return false
+        }
+        this.props.singin({
+            studentId: this.state.studentId,
+            pwd: this.state.pwd,
+        }, (errorText) => {
+            Toast.hide()
+            if (errorText) {
+                Toast.fail(errorText, 3, null, false)
+            } else {
+                if (this.props.authFrom.path) {
+                    hashHistory.push(this.props.authFrom.path)
                 } else {
-                    if (this.props.authFrom.path) {
-                        hashHistory.push(this.props.authFrom.path)
-                    } else {
-                        hashHistory.push('/')
-                    }
+                    hashHistory.push('/')
                 }
-            })
-
-
+            }
+        })
     }
 
     render() {
@@ -67,7 +56,7 @@ class Auth extends React.Component {
                         <div className={style.phone}>
                             <List>
                                 <InputItem onChange={(value) => {
-                                    this.setState({name: value})
+                                    this.setState({studentId: value})
                                 }} placeholder="请输入学号" type="text"></InputItem>
                             </List>
                         </div>
@@ -118,9 +107,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        login: bindActionCreators(login, dispatch),
-        register: bindActionCreators(register, dispatch),
-        setResultsPage:bindActionCreators(setResultsPage, dispatch)
+        singin: bindActionCreators(singin, dispatch),
     }
 }
 

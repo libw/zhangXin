@@ -2,13 +2,14 @@ import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
 import { createForm } from 'rc-form';
-import { RefreshControl, ListView,Picker,List,Radio,Button} from 'antd-mobile';
+import { Toast, ListView,Picker,List,Radio,Button,Modal} from 'antd-mobile';
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
-import {setAuthFrom} from '../../actions/authFrom'
+import {appraise} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 
+const prompt = Modal.prompt;
 const RadioItem = Radio.RadioItem;
 
 const data = [
@@ -47,64 +48,69 @@ class History extends React.Component {
         };
     }
     componentWillMount(){
-        // if(!this.props.user.token){
-            // this.props.setAuthFrom('/history',()=>{
-            //     hashHistory.push('/auth')
-            // })
-        // }
+        if(!this.props.user.token){
+            prompt(
+                '西安建筑科技大学教务处',
+                '完成登录后，方可进行相关操作',
+                (login, password) => console.log(login,password),
+                'login-password',
+                null,
+                ['请输入学号', '请输入密码'],
+            )
+        }
     }
 
     submitFn() {
-        console.log(this.state.sValue);
-        console.log(this.state.date);
-        // if (!this.state.message) {
-        //     Toast.fail('请输入推送的消息', 3, null, false)
-        //     return false
-        // }
-        // this.props.login({
-        //     class: this.state.class,
-        //     name: this.state.name,
-        //     sValue: this.state.sValue,
-        //     date: this.state.date,
-        // }, (errorText) => {
-        //     Toast.hide()
-        //     if (errorText) {
-        //         Toast.fail(errorText, 3, null, false)
-        //     } else {
-        //         if (this.props.authFrom.path) {
-        //             hashHistory.push(this.props.authFrom.path)
-        //         } else {
-        //             hashHistory.push('/')
-        //         }
-        //     }
-        // })
+        if(!this.props.user.token){
+            Toast.offline('请完成登录后进行操作', 3);
+            return false
+        }
+        if (!this.state.teacher||!this.state.appraise) {
+            Toast.fail('请完善信息', 3, null, false)
+            return false
+        }
+        this.props.appraise({
+            teacher: this.state.teacher[0],
+            appraise: this.state.appraise[0],
+        }, (errorText) => {
+            Toast.hide()
+            if (errorText) {
+                Toast.fail(errorText, 3, null, false)
+            } else {
+                if (this.props.authFrom.path) {
+                    hashHistory.push(this.props.authFrom.path)
+                } else {
+                    hashHistory.push('/')
+                }
+            }
+        })
 
     }
 
     render() {
-        const { getFieldProps } = this.props.form;
 
-        const teacher = [
+        const teacher =
             [
-                {
-                    label: '张鑫',
-                    value: '001',
-                },
-                {
-                    label: '钱家瑞',
-                    value: '002',
-                },
-                {
-                    label: '罗乙妍',
-                    value: '003',
-                },
-                {
-                    label: '张三金',
-                    value: '004',
-                },
-            ],
+                [
+                    {
+                        label: '张鑫',
+                        value: '001',
+                    },
+                    {
+                        label: '钱家瑞',
+                        value: '002',
+                    },
+                    {
+                        label: '罗乙妍',
+                        value: '003',
+                    },
+                    {
+                        label: '张三金',
+                        value: '004',
+                    },
+                ],
 
-        ];
+            ];
         const appraise = [
             [
                 {
@@ -137,9 +143,9 @@ class History extends React.Component {
                                     data={teacher}
                                     title="选择教师"
                                     cascade={false}
-                                    extra="请选择" value={this.state.sValue}
-                                    onChange={v => this.setState({ sValue: v })}
-                                    onOk={v => this.setState({ sValue: v })}
+                                    extra="请选择" value={this.state.teacher}
+                                    onChange={v => this.setState({ teacher: v })}
+                                    onOk={v => this.setState({ teacher: v })}
                                 >
                                     <List.Item arrow="horizontal">教师</List.Item>
                                 </Picker>
@@ -149,9 +155,9 @@ class History extends React.Component {
                                     data={appraise}
                                     title="选择评价"
                                     cascade={false}
-                                    extra="请选择" value={this.state.sValue}
-                                    onChange={v => this.setState({ sValue: v })}
-                                    onOk={v => this.setState({ sValue: v })}
+                                    extra="请选择" value={this.state.appraise}
+                                    onChange={v => this.setState({ appraise: v })}
+                                    onOk={v => this.setState({ appraise: v })}
                                 >
                                     <List.Item arrow="horizontal">评价</List.Item>
                                 </Picker>
@@ -182,10 +188,10 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setAuthFrom:bindActionCreators(setAuthFrom, dispatch)
+        appraise:bindActionCreators(appraise, dispatch)
     }
 }
 
-const HistoryWrapper = createForm()(History);
+History = connect(mapStateToProps, mapDispatchToProps)(History)
 
-export default HistoryWrapper;
+export default History;

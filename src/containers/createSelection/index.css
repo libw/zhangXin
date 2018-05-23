@@ -74,3 +74,6 @@
 :local(.phone) .am-list-extra{
     flex-basis:50% !important;
 }
+:local(.phone) input{
+     text-align: right!important;
+}

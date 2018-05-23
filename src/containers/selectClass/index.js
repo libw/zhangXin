@@ -5,8 +5,9 @@ import { Button,RefreshControl, ListView,Accordion, List,Checkbox,NoticeBar } fr
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
-import {setAuthFrom} from '../../actions/authFrom'
+import {selectClass} from '../../actions/user'
 import {bindActionCreators} from 'redux'
+import {Toast} from "antd-mobile/lib/index";
 
 const CheckboxItem = Checkbox.CheckboxItem;
 
@@ -17,31 +18,30 @@ const data = [
         teacher: '张鑫',//老师名
         time: '周三 17：00',//时间
         credit:'1',//所占学分
-        quality:'选修'//课程类型
+        classroom:'教学A栋101'//课程类型
     },{
         subject: '大学物理',
         teacher: '钱家瑞',
         time: '周二 10：00',
         credit:'2',
-        quality:'必修'
+        classroom:'教学C栋202'
     },{
         subject: '体育',
         teacher: '罗乙妍',
         time: '周三 14：00',
         credit:'1',
-        quality:'必修'
+        classroom:'教学A栋101'
     },{
         subject: '大学物理',
         teacher: '钱家瑞',
         time: '周二 10：00',
         credit:'2',
-        quality:'必修'
+        classroom:'教学B栋303'
     },
-
-
 
 ];
 
+let arr=[]
 
 class History extends React.Component {
 
@@ -66,8 +66,37 @@ class History extends React.Component {
 
     }
 
+    dedupe(array){
+        return Array.from(new Set(array));
+    }
+
+    submitFn() {
+        console.log(this.dedupe(arr));
+        if (this.dedupe(arr).length==0) {
+            Toast.fail('请选择', 3, null, false)
+            return false
+        }
+        this.props.selectClass({
+            select: this.dedupe(arr),
+            studentId: this.state.studentId
+        }, (errorText) => {
+            Toast.hide()
+            if (errorText) {
+                Toast.fail(errorText, 3, null, false)
+            } else {
+                if (this.props.authFrom.path) {
+                    hashHistory.push(this.props.authFrom.path)
+                } else {
+                    hashHistory.push('/')
+                }
+            }
+        })
+
+    }
+
     onChange (i) {
         console.log(i);
+        arr.push(i)
     }
 
 
@@ -109,8 +138,8 @@ class History extends React.Component {
                                     <span>{i.credit}</span>
                                 </div>
                                 <div className={style.way}>
-                                    课程性质
-                                    <span>{i.quality}</span>
+                                    教室
+                                    <span>{i.classroom}</span>
                                 </div>
                             </div>
                         </CheckboxItem>
@@ -118,7 +147,7 @@ class History extends React.Component {
 
                 </List>
                 <div className={style.but}>
-                    <Button type="primary">提交</Button>
+                    <Button onClick={this.submitFn.bind(this)}  type="primary">提交</Button>
                 </div>
 
             </div>
@@ -137,7 +166,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setAuthFrom:bindActionCreators(setAuthFrom, dispatch)
+        selectClass:bindActionCreators(selectClass, dispatch)
     }
 }
 
