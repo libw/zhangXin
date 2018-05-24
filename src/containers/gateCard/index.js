@@ -139,9 +139,9 @@ class History extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
-                <div id="main" style={{ marginTop:50,width: '100%', height: 400 }}></div>
-                <span className={style.tip}>
-                    *
+                <div id="main" style={{ marginTop:50,width: '100%', height: 400 }} hidden={!this.props.user.token}></div>
+                <span className={style.tip}  hidden={this.props.user.token}>
+                    请
                     <a onClick={() => prompt(
                         '西安建筑科技大学教务处',
                         <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
@@ -156,7 +156,7 @@ class History extends React.Component {
                         null,
                         ['请输入学号', '请输入密码'],
                     )} > 登录 </a>
-                    后方可进行查看
+                    后查看
                 </span>
             </div>
 
