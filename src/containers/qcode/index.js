@@ -3,8 +3,13 @@ import QRCode from 'qrcode.react';
 import style from "./index.css"
 import {connect} from 'react-redux'
 import { Button } from 'antd-mobile';
-import { Link} from 'react-router';
+import {hashHistory, Link} from 'react-router';
 import Header from '../../components/header'
+import {Modal, Toast} from "antd-mobile/lib/index";
+import {bindActionCreators} from "redux";
+import {login} from "../../actions/user";
+
+const prompt = Modal.prompt;
 
 class ResultsPage extends React.Component {
     constructor(props) {
@@ -18,6 +23,22 @@ class ResultsPage extends React.Component {
 
 
     componentDidMount(){
+        if(!this.props.user.token){
+            prompt(
+                '西安建筑科技大学教务处',
+                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                (login, password) => this.props.login({
+                    userId: login,
+                    pwd: password,
+                }, (errorText) => {
+                    Toast.hide()
+
+                }),
+                'login-password',
+                null,
+                ['请输入学号', '请输入密码'],
+            )
+        }
         let that=this;
         setInterval(function () {
             that.setState({
@@ -44,14 +65,30 @@ class ResultsPage extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
-                <div className={style.qcode}>
+                <div className={style.qcode} hidden={!this.props.user.token}>
                     <QRCode size={200} value={'http://192.168.1.104:3000/#/singin'+this.state.string} />
                 </div>
-                <span className={style.rtitle}>
+                <span className={style.rtitle} hidden={!this.props.user.token}>
                     学生扫描签到
                 </span>
+                <span className={style.tip} hidden={this.props.user.token}>
+                    请<a onClick={() => prompt(
+                    '西安建筑科技大学教务处',
+                    <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                    (login, password) => this.props.login({
+                        userId: login,
+                        pwd: password,
+                    }, (errorText) => {
+                        Toast.hide()
 
-                <div className={style.but}>
+                    }),
+                    'login-password',
+                    null,
+                    ['请输入学号', '请输入密码'],
+                )} > 登录 </a>后查看
+                </span>
+
+                <div className={style.but} hidden={!this.props.user.token}>
                     有效时长 <span>{this.state.num}</span> s
                 </div>
 
@@ -63,12 +100,14 @@ class ResultsPage extends React.Component {
 
 function mapStateToProps(state, props) {
     return {
-        params:state.resultsPage
+        user:state.user
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return {}
+    return {
+        login: bindActionCreators(login, dispatch),
+    }
 }
 
 ResultsPage = connect(mapStateToProps, mapDispatchToProps)(ResultsPage)

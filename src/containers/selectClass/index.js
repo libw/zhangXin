@@ -5,12 +5,12 @@ import { Button,RefreshControl, ListView,Accordion, List,Checkbox,NoticeBar } fr
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
-import {selectClass} from '../../actions/user'
+import {selectClass,login} from '../../actions/user'
 import {bindActionCreators} from 'redux'
-import {Toast} from "antd-mobile/lib/index";
+import {Modal, Toast} from "antd-mobile/lib/index";
 
 const CheckboxItem = Checkbox.CheckboxItem;
-
+const prompt = Modal.prompt;
 
 const data = [
     {
@@ -51,19 +51,25 @@ class History extends React.Component {
 
         };
     }
+
+
     componentWillMount(){
         if(!this.props.user.token){
-            // this.props.setAuthFrom('/history',()=>{
-            //     hashHistory.push('/auth')
-            // })
+            prompt(
+                '西安建筑科技大学教务处',
+                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                (login, password) => this.props.login({
+                    userId: login,
+                    pwd: password,
+                }, (errorText) => {
+                    Toast.hide()
+
+                }),
+                'login-password',
+                null,
+                ['请输入学号', '请输入密码'],
+            )
         }
-    }
-    componentDidMount() {
-
-    }
-
-    componentWillUnmount() {
-
     }
 
     dedupe(array){
@@ -118,37 +124,56 @@ class History extends React.Component {
             <div className={style.wrap}>
                 <Header/>
                 <NoticeBar mode="closable" icon={null}>学校倒闭了，大家散了吧</NoticeBar>
-                <List renderHeader={() => '选修课程列表'}>
-                    {data.map(i => (
-                        <CheckboxItem key={i.value} onChange={() => this.onChange(i.subject)}>
-                            <span className={style.title} >
-                                学科：<b>{i.subject}</b>
-                            </span>
-                            <div className={style.icontent}>
-                                <div className={style.time}>
-                                    老师
-                                    <span>{i.teacher}</span>
-                                </div>
-                                <div className={style.state}>
-                                    时间
-                                    <span>{i.time}</span>
-                                </div>
-                                <div className={style.number}>
-                                    学分
-                                    <span>{i.credit}</span>
-                                </div>
-                                <div className={style.way}>
-                                    教室
-                                    <span>{i.classroom}</span>
-                                </div>
-                            </div>
-                        </CheckboxItem>
-                    ))}
+                <span className={style.tip} hidden={this.props.user.token}>
+                    请<a onClick={() => prompt(
+                    '西安建筑科技大学教务处',
+                    <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                    (login, password) => this.props.login({
+                        userId: login,
+                        pwd: password,
+                    }, (errorText) => {
+                        Toast.hide()
 
-                </List>
-                <div className={style.but}>
-                    <Button onClick={this.submitFn.bind(this)}  type="primary">提交</Button>
+                    }),
+                    'login-password',
+                    null,
+                    ['请输入学号', '请输入密码'],
+                )} > 登录 </a>后查看
+                </span>
+                <div hidden={!this.props.user.token}>
+                    <List renderHeader={() => '选修课程列表'}>
+                        {data.map(i => (
+                            <CheckboxItem key={i.value} onChange={() => this.onChange(i.subject)}>
+                                <span className={style.title} >
+                                    学科：<b>{i.subject}</b>
+                                </span>
+                                <div className={style.icontent}>
+                                    <div className={style.time}>
+                                        老师
+                                        <span>{i.teacher}</span>
+                                    </div>
+                                    <div className={style.state}>
+                                        时间
+                                        <span>{i.time}</span>
+                                    </div>
+                                    <div className={style.number}>
+                                        学分
+                                        <span>{i.credit}</span>
+                                    </div>
+                                    <div className={style.way}>
+                                        教室
+                                        <span>{i.classroom}</span>
+                                    </div>
+                                </div>
+                            </CheckboxItem>
+                        ))}
+
+                    </List>
+                    <div className={style.but}>
+                        <Button onClick={this.submitFn.bind(this)}  type="primary">提交</Button>
+                    </div>
                 </div>
+
 
             </div>
 
@@ -166,7 +191,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        selectClass:bindActionCreators(selectClass, dispatch)
+        selectClass:bindActionCreators(selectClass, dispatch),
+        login:bindActionCreators(login, dispatch),
     }
 }
 

@@ -1,12 +1,13 @@
 import axios from '../common/axiosConf'
 
 export function login(data, callback) {
+    console.log(data);
     return dispatch => {
         axios.get(`http://39.105.97.216:8080/web-api/api/login?userId=${data.userId}&userPassword=${data.pwd}` )
             .then(function (response) {
-                dispatch({type: 'LOGIN', data: response.data.data})
+                dispatch({type: 'LOGIN'})
                 if (response.data.code === 0) {
-                    dispatch({type: 'LOGIN', data: response.data.data})
+
                     callback()
                     // localStorage.userName = response.data.data.phone
                     // localStorage.token = response.data.data.token
@@ -48,8 +49,8 @@ export function pushMessage(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 0) {
-                    dispatch({type: 'GET_BASEUSERMSG',data:response.data.data[0]})
-                    callback()
+
+
                     // localStorage.userName = response.data.data.phone
                     // localStorage.token = response.data.data.token
                     // localStorage.id = response.data.data.id
@@ -73,7 +74,7 @@ export function pushSchedule(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 0) {
-                    dispatch({type: 'GET_DETAILMSG', data:response.data.data})
+
                 } else {
                     callback(response.data.msg)
                 }
@@ -91,7 +92,7 @@ export function pushSelect(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 0) {
-                    dispatch({type: 'GET_DETAILMSG', data:response.data.data})
+
                 } else {
                     callback(response.data.msg)
                 }
@@ -113,7 +114,7 @@ export function gradeTeacher(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 0) {
-                    dispatch({type: 'GET_DETAILMSG', data:response.data.data})
+
                 } else {
                     callback(response.data.msg)
                 }
@@ -131,7 +132,7 @@ export function getStudent(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 0) {
-                    dispatch({type: 'GET_DETAILMSG', data:response.data.data})
+
                 } else {
                     callback(response.data.msg)
                 }
@@ -151,7 +152,7 @@ export function leave(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 0) {
-                    dispatch({type: 'GET_DETAILMSG', data:response.data.data})
+
                 } else {
                     callback(response.data.msg)
                 }
@@ -170,7 +171,7 @@ export function selectClass(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 0) {
-                    dispatch({type: 'GET_DETAILMSG', data:response.data.data})
+
                 } else {
                     callback(response.data.msg)
                 }
@@ -189,7 +190,7 @@ export function appraise(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 0) {
-                    dispatch({type: 'GET_DETAILMSG', data:response.data.data})
+
                 } else {
                     callback(response.data.msg)
                 }
@@ -208,7 +209,7 @@ export function singin(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 0) {
-                    dispatch({type: 'GET_DETAILMSG', data:response.data.data})
+
                 } else {
                     callback(response.data.msg)
                 }
@@ -227,7 +228,7 @@ export function checkLeave(data, callback) {
         })
             .then(function (response) {
                 if (response.data.code === 0) {
-                    dispatch({type: 'GET_DETAILMSG', data:response.data.data})
+
                 } else {
                     callback(response.data.msg)
                 }

@@ -6,11 +6,13 @@ import { Toast, ListView,Picker,List,Radio,InputItem,Button} from 'antd-mobile';
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
-import {gradeTeacher} from '../../actions/user'
+import {login,gradeTeacher} from '../../actions/user'
 import {bindActionCreators} from 'redux'
+import {Modal} from "antd-mobile/lib/index";
 
 const RadioItem = Radio.RadioItem;
 const Item = List.Item;
+const prompt = Modal.prompt;
 
 class History extends React.Component {
 
@@ -21,14 +23,29 @@ class History extends React.Component {
         };
     }
     componentWillMount(){
-        // if(!this.props.user.token){
-            // this.props.setAuthFrom('/history',()=>{
-            //     hashHistory.push('/auth')
-            // })
-        // }
+        if(!this.props.user.token){
+            prompt(
+                '西安建筑科技大学教务处',
+                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                (login, password) => this.props.login({
+                    userId: login,
+                    pwd: password,
+                }, (errorText) => {
+                    Toast.hide()
+
+                }),
+                'login-password',
+                null,
+                ['请输入学号', '请输入密码'],
+            )
+        }
     }
 
     submitFn() {
+        if(!this.props.user.token){
+            Toast.offline('请完成登录后进行操作', 3);
+            return false
+        }
         if (!this.state.student||!this.state.pacGrade||!this.state.endGrade) {
             Toast.fail('请输入推送的消息', 3, null, false)
             return false
@@ -117,6 +134,24 @@ class History extends React.Component {
                         确认
                     </Button>
                 </div>
+                <span className={style.tip}>
+                    *操作前请完成
+                    <a onClick={() => prompt(
+                        '西安建筑科技大学教务处',
+                        <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                        (login, password) => this.props.login({
+                            userId: login,
+                            pwd: password,
+                        }, (errorText) => {
+                            Toast.hide()
+
+                        }),
+                        'login-password',
+                        null,
+                        ['请输入学号', '请输入密码'],
+                    )} > 登录
+                    </a>
+                </span>
             </div>
 
         );
@@ -131,7 +166,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        gradeTeacher:bindActionCreators(gradeTeacher, dispatch)
+        login:bindActionCreators(login, dispatch),
+        gradeTeacher:bindActionCreators(gradeTeacher, dispatch),
     }
 }
 

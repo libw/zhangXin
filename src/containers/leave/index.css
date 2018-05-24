@@ -75,3 +75,33 @@
 :local(.phone) .am-list-extra{
     flex-basis:50% !important;
 }
+:local(.tip){
+    /*padding: 0 16px;*/
+
+
+    display: block;
+
+    width: 100%;
+    margin-top: 10px;
+}
+:local(.tip)>a{
+    color: #ff6060;
+    font-weight: bold;
+}
+:local(.tip)>span{
+    color: #ff6060;
+    font-weight: bold;
+}
+
+:local(.tip1){
+
+
+}
+:local(.tip1)>a{
+    color: #ff6060;
+    font-weight: bold;
+}
+:local(.tip1)>span{
+    color: #ff6060;
+    font-weight: bold;
+}

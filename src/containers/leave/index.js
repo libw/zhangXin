@@ -4,10 +4,12 @@ import { createForm } from 'rc-form';
 import {connect} from 'react-redux'
 import { List,InputItem,Button,WingBlank,Picker,RadioGroup,DatePicker} from 'antd-mobile';
 import Header from '../../components/header'
-import {Toast} from "antd-mobile/lib/index";
+import {Modal, Toast} from "antd-mobile/lib/index";
 import {bindActionCreators} from "redux";
-import {leave} from "../../actions/user";
+import {leave,login} from "../../actions/user";
 import {hashHistory, Link} from 'react-router';
+
+const prompt = Modal.prompt;
 
 class ForgetPwd extends React.Component {
     constructor(props) {
@@ -17,9 +19,30 @@ class ForgetPwd extends React.Component {
         }
     }
 
+    componentWillMount(){
+        if(!this.props.user.token){
+            prompt(
+                '西安建筑科技大学教务处',
+                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                (login, password) => this.props.login({
+                    userId: login,
+                    pwd: password,
+                }, (errorText) => {
+                    Toast.hide()
+
+                }),
+                'login-password',
+                null,
+                ['请输入学号', '请输入密码'],
+            )
+        }
+    }
+
     submitFn() {
-        console.log(this.state.class);
-        console.log(this.state.leave);
+        if(!this.props.user.token){
+            Toast.offline('请完成登录后进行操作', 3);
+            return false
+        }
         if (!this.state.class||!this.state.leave) {
             Toast.fail('请完成信息', 3, null, false)
             return false
@@ -41,6 +64,7 @@ class ForgetPwd extends React.Component {
             }
         })
     }
+
 
     render() {
         const seasons = [
@@ -101,6 +125,24 @@ class ForgetPwd extends React.Component {
                                 申请
                             </Button>
                         </div>
+                        <span className={style.tip}>
+                            *操作前请完成
+                            <a onClick={() => prompt(
+                                '西安建筑科技大学教务处',
+                                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                                (login, password) => this.props.login({
+                                    userId: login,
+                                    pwd: password,
+                                }, (errorText) => {
+                                    Toast.hide()
+
+                                }),
+                                'login-password',
+                                null,
+                                ['请输入学号', '请输入密码'],
+                            )} > 登录
+                            </a>
+                        </span>
                     </section>
             </div>
         )
@@ -111,12 +153,15 @@ class ForgetPwd extends React.Component {
 }
 
 function mapStateToProps(state, props) {
-    return {}
+    return {
+        user:state.user
+    }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         leave: bindActionCreators(leave, dispatch),
+        login: bindActionCreators(login, dispatch),
     }
 }
 

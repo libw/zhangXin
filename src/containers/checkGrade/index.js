@@ -1,14 +1,14 @@
 import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
-import { RefreshControl, ListView } from 'antd-mobile';
+import { RefreshControl, ListView ,Modal,Toast} from 'antd-mobile';
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
-import {setAuthFrom} from '../../actions/authFrom'
+import {login} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 
-//参数名我随便起的，你按你的起，回头我一改就行
+
 const data = [
     {
         title: '高等数学',
@@ -34,11 +34,9 @@ const data = [
         number: '80',
         way:'30'
     }
-
-
 ];
+const prompt = Modal.prompt;
 let index = data.length - 1;
-
 const NUM_ROWS = data.length;
 let pageIndex = 0;
 
@@ -68,15 +66,24 @@ class History extends React.Component {
     }
     componentWillMount(){
         if(!this.props.user.token){
-            // this.props.setAuthFrom('/history',()=>{
-            //     hashHistory.push('/auth')
-            // })
+            prompt(
+                '西安建筑科技大学教务处',
+                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                (login, password) => this.props.login({
+                    userId: login,
+                    pwd: password,
+                }, (errorText) => {
+                    Toast.hide()
+
+                }),
+                'login-password',
+                null,
+                ['请输入学号', '请输入密码'],
+            )
         }
     }
     componentDidMount() {
-        if(!this.props.user.token){
-            return false
-        }
+
         // Set the appropriate height
         setTimeout(() => this.setState({
             height: this.state.height - ReactDOM.findDOMNode(this.lv).offsetTop,
@@ -240,6 +247,24 @@ class History extends React.Component {
                     onEndReached={this.onEndReached}
                     onEndReachedThreshold={10}
                 />
+                <span className={style.tip}>
+                    *操作前请完成
+                    <a onClick={() => prompt(
+                        '西安建筑科技大学教务处',
+                        <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                        (login, password) => this.props.login({
+                            userId: login,
+                            pwd: password,
+                        }, (errorText) => {
+                            Toast.hide()
+
+                        }),
+                        'login-password',
+                        null,
+                        ['请输入学号', '请输入密码'],
+                    )} > 登录
+                    </a>
+                </span>
             </div>
 
         );
@@ -256,7 +281,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setAuthFrom:bindActionCreators(setAuthFrom, dispatch)
+        login:bindActionCreators(login, dispatch)
     }
 }
 

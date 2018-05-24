@@ -43,3 +43,17 @@
     margin: 0 16px;
     margin-top: 20px;
 }
+:local(.tip){
+    display: block;
+    padding: 0 16px;
+    margin-top: 10px;
+    color: #989898;
+}
+:local(.tip)>a{
+    color: #ff6060;
+    font-weight: bold;
+}
+:local(.tip)>span{
+    color: #ff6060;
+    font-weight: bold;
+}

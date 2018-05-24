@@ -7,7 +7,10 @@ import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
 import {setAuthFrom} from '../../actions/authFrom'
 import {bindActionCreators} from 'redux'
+import {Modal, Toast} from "antd-mobile/lib/index";
+import {login} from "../../actions/user";
 
+const prompt = Modal.prompt;
 const data = [
     {
         title: '高等数学',//学科
@@ -64,15 +67,24 @@ class History extends React.Component {
     }
     componentWillMount(){
         if(!this.props.user.token){
-            // this.props.setAuthFrom('/history',()=>{
-            //     hashHistory.push('/auth')
-            // })
+            prompt(
+                '西安建筑科技大学教务处',
+                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                (login, password) => this.props.login({
+                    userId: login,
+                    pwd: password,
+                }, (errorText) => {
+                    Toast.hide()
+
+                }),
+                'login-password',
+                null,
+                ['请输入学号', '请输入密码'],
+            )
         }
     }
     componentDidMount() {
-        if(!this.props.user.token){
-            return false
-        }
+
         // Set the appropriate height
         setTimeout(() => this.setState({
             height: this.state.height - ReactDOM.findDOMNode(this.lv).offsetTop,
@@ -204,33 +216,52 @@ class History extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
-                <ListView
-                    ref={el => this.lv = el}
-                    dataSource={this.state.dataSource}
-                    renderFooter={() => (<div style={{ padding: '0.3rem', textAlign: 'center' }}>
-                        {this.state.isLoading ? 'Loading...' : 'Loaded'}
-                    </div>)}
-                    renderRow={row}
-                    renderSeparator={separator}
-                    initialListSize={5}
-                    pageSize={5}
-                    style={{
-                        height: this.state.height,
-                        border: '1px solid #ddd',
-                        margin: '0.05rem 0',
-                    }}
-                    scrollerOptions={{ scrollbars: true, scrollingComplete: this.scrollingComplete }}
-                    refreshControl={<RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={this.onRefresh}
-                        icon={this.renderCustomIcon()}
-                    />}
-                    onScroll={this.onScroll}
-                    scrollRenderAheadDistance={200}
-                    scrollEventThrottle={20}
-                    onEndReached={this.onEndReached}
-                    onEndReachedThreshold={10}
-                />
+                <span className={style.tip} hidden={this.props.user.token}>
+                    请<a onClick={() => prompt(
+                    '西安建筑科技大学教务处',
+                    <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                    (login, password) => this.props.login({
+                        userId: login,
+                        pwd: password,
+                    }, (errorText) => {
+                        Toast.hide()
+
+                    }),
+                    'login-password',
+                    null,
+                    ['请输入学号', '请输入密码'],
+                )} > 登录 </a>后查看
+                </span>
+                <div hidden={!this.props.user.token}>
+                    <ListView
+                        ref={el => this.lv = el}
+                        dataSource={this.state.dataSource}
+                        renderFooter={() => (<div style={{ padding: '0.3rem', textAlign: 'center' }}>
+                            {this.state.isLoading ? 'Loading...' : 'Loaded'}
+                        </div>)}
+                        renderRow={row}
+                        renderSeparator={separator}
+                        initialListSize={5}
+                        pageSize={5}
+                        style={{
+                            height: this.state.height,
+                            border: '1px solid #ddd',
+                            margin: '0.05rem 0',
+                        }}
+                        scrollerOptions={{ scrollbars: true, scrollingComplete: this.scrollingComplete }}
+                        refreshControl={<RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.onRefresh}
+                            icon={this.renderCustomIcon()}
+                        />}
+                        onScroll={this.onScroll}
+                        scrollRenderAheadDistance={200}
+                        scrollEventThrottle={20}
+                        onEndReached={this.onEndReached}
+                        onEndReachedThreshold={10}
+                    />
+                </div>
+
             </div>
 
         );
@@ -247,7 +278,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setAuthFrom:bindActionCreators(setAuthFrom, dispatch)
+        setAuthFrom:bindActionCreators(setAuthFrom, dispatch),
+        login:bindActionCreators(login, dispatch),
     }
 }
 

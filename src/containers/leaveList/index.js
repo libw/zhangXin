@@ -5,12 +5,12 @@ import { Button,RefreshControl, ListView,Accordion, List,Checkbox,NoticeBar } fr
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
-import {checkLeave} from '../../actions/user'
+import {checkLeave, login} from '../../actions/user'
 import {bindActionCreators} from 'redux'
-import {Toast} from "antd-mobile/lib/index";
+import {Modal, Toast} from "antd-mobile/lib/index";
 
 const CheckboxItem = Checkbox.CheckboxItem;
-
+const prompt = Modal.prompt;
 
 const data = [
     {
@@ -46,7 +46,22 @@ class History extends React.Component {
         }
     }
     componentDidMount() {
+        if(!this.props.user.token){
+            prompt(
+                '西安建筑科技大学教务处',
+                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                (login, password) => this.props.login({
+                    userId: login,
+                    pwd: password,
+                }, (errorText) => {
+                    Toast.hide()
 
+                }),
+                'login-password',
+                null,
+                ['请输入学号', '请输入密码'],
+            )
+        }
     }
 
 
@@ -58,7 +73,10 @@ class History extends React.Component {
         return Array.from(new Set(array));
     }
     refuseFn() {
-        console.log(this.dedupe(arr));
+        if(!this.props.user.token){
+            Toast.offline('请完成登录后进行操作', 3);
+            return false
+        }
         if (this.dedupe(arr).length==0) {
             Toast.fail('请选择', 3, null, false)
             return false
@@ -81,6 +99,10 @@ class History extends React.Component {
 
     }
     submitFn() {
+        if(!this.props.user.token){
+            Toast.offline('请完成登录后进行操作', 3);
+            return false
+        }
         console.log(this.dedupe(arr));
         if (this.dedupe(arr).length==0) {
             Toast.fail('请选择', 3, null, false)
@@ -152,7 +174,24 @@ class History extends React.Component {
                 <div className={style.but}>
                     <Button onClick={this.refuseFn.bind(this)} type="warning">不批准</Button>
                 </div>
+                <span className={style.tip}>
+                    *操作前请完成
+                    <a onClick={() => prompt(
+                        '西安建筑科技大学教务处',
+                        <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                        (login, password) => this.props.login({
+                            userId: login,
+                            pwd: password,
+                        }, (errorText) => {
+                            Toast.hide()
 
+                        }),
+                        'login-password',
+                        null,
+                        ['请输入学号', '请输入密码'],
+                    )} > 登录
+                    </a>
+                </span>
             </div>
 
         );
@@ -169,7 +208,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        checkLeave:bindActionCreators(checkLeave, dispatch)
+        checkLeave:bindActionCreators(checkLeave, dispatch),
+        login: bindActionCreators(login, dispatch),
     }
 }
 

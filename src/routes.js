@@ -15,7 +15,6 @@ import CreateSelect from './containers/createSelection/'
 import Leave from './containers/leave/'
 import LeaveList from './containers/leaveList/'
 
-import SpeedAccount from './containers/speedAccount/'
 import CheckGrade from './containers/checkGrade/'
 import Schedule from './containers/schedule/'
 import TeacherSchedule from './containers/teacherSchedule/'
@@ -33,7 +32,7 @@ export default () => {
             <Route path="/modifyPwd" component={ModifyPwd}/>
             <Route path="/qcode" component={Qcode}/>
 
-            <Route path="/speedAccount" component={SpeedAccount}/>
+
 
             <Route path="/checkGrade" component={CheckGrade}/>
             <Route path="/schedule" component={Schedule}/>

@@ -44,3 +44,36 @@
 :local(.title){
     font-size: 16px;
 }
+:local(.tip){
+    position: fixed;
+    background-color: #fff;
+    line-height: 30px;
+    bottom: 0;
+
+
+    display: block;
+
+    width: 100%;
+    margin-top: 10px;
+}
+:local(.tip)>a{
+    color: #ff6060;
+    font-weight: bold;
+}
+:local(.tip)>span{
+    color: #ff6060;
+    font-weight: bold;
+}
+
+:local(.tip1){
+
+
+}
+:local(.tip1)>a{
+    color: #ff6060;
+    font-weight: bold;
+}
+:local(.tip1)>span{
+    color: #ff6060;
+    font-weight: bold;
+}

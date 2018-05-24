@@ -34,3 +34,28 @@
     padding: 0 20px;
     margin-top: 20px;
 }
+:local(.tip){
+    font-size: 18px;
+    color: #3b3d40;
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    display: block;
+
+}
+:local(.tip)>a{
+    color: #ff6060;
+    font-weight: bold;
+}
+
+
+:local(.tip1)>a{
+    color: #ff6060;
+    font-weight: bold;
+}
+:local(.tip1)>span{
+    color: #ff6060;
+    font-weight: bold;
+}
+

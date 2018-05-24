@@ -5,7 +5,7 @@ import { RefreshControl, ListView } from 'antd-mobile';
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
-import {setAuthFrom} from '../../actions/authFrom'
+import {login} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 import echarts from 'echarts/lib/echarts';
 
@@ -13,6 +13,7 @@ import  'echarts/lib/chart/pie';
 
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
+import {Modal, Toast} from "antd-mobile/lib/index";
 
 const data = [
     {
@@ -42,7 +43,7 @@ const data = [
 
 ];
 let index = data.length - 1;
-
+const prompt = Modal.prompt;
 const NUM_ROWS = data.length;
 let pageIndex = 0;
 
@@ -71,6 +72,23 @@ class History extends React.Component {
     }
 
     componentDidMount() {
+        if(!this.props.user.token){
+            prompt(
+                '西安建筑科技大学教务处',
+                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                (login, password) => this.props.login({
+                    userId: login,
+                    pwd: password,
+                }, (errorText) => {
+                    Toast.hide()
+
+                }),
+                'login-password',
+                null,
+                ['请输入学号', '请输入密码'],
+            )
+            return false
+        }
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
         // 绘制图表
@@ -95,9 +113,9 @@ class History extends React.Component {
                     radius : '55%',
                     center: ['50%', '60%'],
                     data:[
-                        {value:335, name:'正常出勤'},
-                        {value:310, name:'迟到'},
-                        {value:234, name:'请假'},
+                        {value:4, name:'正常出勤'},
+                        {value:2, name:'迟到'},
+                        {value:2, name:'请假'},
 
                     ],
                     itemStyle: {
@@ -122,6 +140,24 @@ class History extends React.Component {
             <div className={style.wrap}>
                 <Header/>
                 <div id="main" style={{ marginTop:50,width: '100%', height: 400 }}></div>
+                <span className={style.tip}>
+                    *
+                    <a onClick={() => prompt(
+                        '西安建筑科技大学教务处',
+                        <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                        (login, password) => this.props.login({
+                            userId: login,
+                            pwd: password,
+                        }, (errorText) => {
+                            Toast.hide()
+
+                        }),
+                        'login-password',
+                        null,
+                        ['请输入学号', '请输入密码'],
+                    )} > 登录 </a>
+                    后方可进行查看
+                </span>
             </div>
 
         );
@@ -138,7 +174,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setAuthFrom:bindActionCreators(setAuthFrom, dispatch)
+        login:bindActionCreators(login, dispatch)
     }
 }
 

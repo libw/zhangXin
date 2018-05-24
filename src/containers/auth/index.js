@@ -13,7 +13,7 @@ class Auth extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            login: true,
+            login: false,
             name: '',
             pwd: '',
             code: ''
@@ -49,14 +49,11 @@ class Auth extends React.Component {
                 }
             })
         } else {
-            if (!/^[a-zA-Z]+$/.test(this.state.name)) {
-                Toast.fail('请输入正确的用户名', 3, null, false)
+            if (!this.state.userId||!this.state.classNumber||!this.state.userName||!this.state.pwd||!this.state.pickerValue) {
+                Toast.fail('请完善信息', 3, null, false)
                 return false
             }
-            if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/.test(this.state.pwd)) {
-                Toast.fail('密码格式错误', 3, null, false)
-                return false
-            }
+
             Toast.loading('注册中', 3, null, false)
             this.props.register({
 
@@ -99,9 +96,6 @@ class Auth extends React.Component {
             },{
                 value:'teacher',
                 label:"老师"
-            },{
-                value:'admin',
-                label:"管理员"
             },
 
         ]
@@ -110,15 +104,15 @@ class Auth extends React.Component {
             <div className={style.wrap}>
                 <Header/>
                 <div className={style.logo}></div>
-                <nav className={style.nav}>
-                    <div>
-                        <span id={this.state.login ? style.active : ""} onClick={this.toreg.bind(this)}>登录</span>
-                    </div>
-                    <div>
-                        <span id={this.state.login ? "" : style.active} onClick={this.tolog.bind(this)}>注册</span>
-                    </div>
-                </nav>
-                <section className={style.content}>
+                {/*<nav className={style.nav}>*/}
+                    {/*<div>*/}
+                        {/*<span id={this.state.login ? style.active : ""} onClick={this.toreg.bind(this)}>登录</span>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<span id={this.state.login ? "" : style.active} onClick={this.tolog.bind(this)}>注册</span>*/}
+                    {/*</div>*/}
+                {/*</nav>*/}
+                <section className={style.content} style={{marginTop:'40px'}}>
                     <div className={style.selphone} hidden={this.state.login}>
                         <div className={style.phone}>
                             <List>

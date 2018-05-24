@@ -5,9 +5,11 @@ import { createForm } from 'rc-form';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {hashHistory, Link} from 'react-router';
-import {pushMessage} from '../../actions/user'
-import {Toast} from "antd-mobile/lib/index";
+import {pushMessage,login} from '../../actions/user'
+import {Modal, Toast} from "antd-mobile/lib/index";
 import Header from '../../components/header'
+
+const prompt = Modal.prompt;
 
 class ForgetPwd extends React.Component {
     constructor(props) {
@@ -17,7 +19,29 @@ class ForgetPwd extends React.Component {
         }
     }
 
+    componentWillMount(){
+        if(!this.props.user.token){
+            prompt(
+                '西安建筑科技大学教务处',
+                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                (login, password) => this.props.login({
+                    userId: login,
+                    pwd: password,
+                }, (errorText) => {
+                    Toast.hide()
+
+                }),
+                'login-password',
+                null,
+                ['请输入学号', '请输入密码'],
+            )
+        }
+    }
     submitFn() {
+        if(!this.props.user.token){
+            Toast.offline('请完成登录后进行操作', 3);
+            return false
+        }
         if (!this.state.message) {
             Toast.fail('请输入推送的消息', 3, null, false)
             return false
@@ -62,6 +86,24 @@ class ForgetPwd extends React.Component {
                                 推送
                             </Button>
                         </div>
+                        <span className={style.tip}>
+                            *操作前请完成
+                            <a onClick={() => prompt(
+                                '西安建筑科技大学教务处',
+                                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                                (login, password) => this.props.login({
+                                    userId: login,
+                                    pwd: password,
+                                }, (errorText) => {
+                                    Toast.hide()
+
+                                }),
+                                'login-password',
+                                null,
+                                ['请输入学号', '请输入密码'],
+                            )} > 登录
+                            </a>
+                        </span>
                     </section>
             </div>
         )
@@ -72,12 +114,15 @@ class ForgetPwd extends React.Component {
 }
 
 function mapStateToProps(state, props) {
-    return {}
+    return {
+        user:state.user
+    }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         pushMessage: bindActionCreators(pushMessage, dispatch),
+        login: bindActionCreators(login, dispatch),
     }
 }
 

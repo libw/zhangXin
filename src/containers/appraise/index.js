@@ -5,8 +5,8 @@ import { createForm } from 'rc-form';
 import { Toast, ListView,Picker,List,Radio,Button,Modal} from 'antd-mobile';
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
-import {hashHistory} from 'react-router'
-import {appraise} from '../../actions/user'
+import {hashHistory,Link} from 'react-router'
+import {appraise,login} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 
 const prompt = Modal.prompt;
@@ -51,14 +51,22 @@ class History extends React.Component {
         if(!this.props.user.token){
             prompt(
                 '西安建筑科技大学教务处',
-                '完成登录后，方可进行相关操作',
-                (login, password) => console.log(login,password),
+                <span className={style.tip}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                (login, password) => this.props.login({
+                    userId: login,
+                    pwd: password,
+                }, (errorText) => {
+                    Toast.hide()
+
+                }),
                 'login-password',
                 null,
                 ['请输入学号', '请输入密码'],
             )
         }
     }
+
+
 
     submitFn() {
         if(!this.props.user.token){
@@ -172,6 +180,26 @@ class History extends React.Component {
                         提交
                     </Button>
                 </div>
+                <span className={style.tip}>
+                    *操作前请完成
+                    <a onClick={() => prompt(
+                        '西安建筑科技大学教务处',
+                        <span className={style.tip}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                        (login, password) => this.props.login({
+                            userId: login,
+                            pwd: password,
+                        }, (errorText) => {
+                            Toast.hide()
+
+                        }),
+                        'login-password',
+                        null,
+                        ['请输入学号', '请输入密码'],
+                    )} > 登录
+                    </a>
+                </span>
+
+
             </div>
 
         );
@@ -188,7 +216,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        appraise:bindActionCreators(appraise, dispatch)
+        appraise:bindActionCreators(appraise, dispatch),
+        login:bindActionCreators(login, dispatch)
     }
 }
 

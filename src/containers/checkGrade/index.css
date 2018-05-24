@@ -33,3 +33,33 @@
 :local(.way),:local(.number){
     text-align: right;
 }
+:local(.tip){
+    padding: 0 16px;
+    position: fixed;
+    bottom: 0;
+    display: block;
+    background-color: #fff;
+    line-height: 30px;
+    width: 100%;
+}
+:local(.tip)>a{
+    color: #ff6060;
+    font-weight: bold;
+}
+:local(.tip)>span{
+    color: #ff6060;
+    font-weight: bold;
+}
+
+:local(.tip1){
+
+
+}
+:local(.tip1)>a{
+    color: #ff6060;
+    font-weight: bold;
+}
+:local(.tip1)>span{
+    color: #ff6060;
+    font-weight: bold;
+}
