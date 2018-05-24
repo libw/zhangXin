@@ -34,13 +34,13 @@
     text-align: right;
 }
 :local(.tip){
-    padding: 0 16px;
-    position: fixed;
-    bottom: 0;
+    font-size: 18px;
+    color: #3b3d40;
+    text-align: center;
     display: block;
-    background-color: #fff;
-    line-height: 30px;
-    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    display: block;
 }
 :local(.tip)>a{
     color: #ff6060;
