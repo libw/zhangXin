@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 
 class Header extends React.Component {
     constructor(props) {
-        console.log(hashHistory)
+        // console.log(hashHistory)
         super(props);
         this.state = {
             open: false,
@@ -73,7 +73,7 @@ class Header extends React.Component {
     }
 
     onOpenChange = (...args) => {
-        console.log(args);
+        // console.log(args);
         this.setState({open: !this.state.open});
     }
 

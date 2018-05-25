@@ -11,7 +11,7 @@ import {login} from "../../actions/user";
 
 const prompt = Modal.prompt;
 
-class ResultsPage extends React.Component {
+class Qcode extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -40,25 +40,29 @@ class ResultsPage extends React.Component {
             )
         }
         let that=this;
-        setInterval(function () {
-            that.setState({
-                num:that.state.num-1
-            },()=>{
-                // console.log(111,this.state.string);
-                if(that.state.num<0){
-                    that.setState({
-                        num:20,
-                        string:that.state.string+1,
-                    })
-                }
-                if(that.state.string>4){
-                    that.setState({
-                        string:0
-                    })
-                }
-            })
-        },1000)
+        setInterval(that.time.bind(this),1000)
     }
+    time(){
+        let that=this;
+        that.setState({
+            num:that.state.num-1
+        },()=>{
+            // console.log(111,this.state.string);
+            if(that.state.num<0){
+                that.setState({
+                    num:20,
+                    string:that.state.string+1,
+                })
+            }
+            if(that.state.string>4){
+                that.setState({
+                    string:0
+                })
+            }
+        })
+    }
+
+
 
     render() {
 
@@ -110,7 +114,7 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-ResultsPage = connect(mapStateToProps, mapDispatchToProps)(ResultsPage)
+Qcode = connect(mapStateToProps, mapDispatchToProps)(Qcode)
 
 
-export default ResultsPage;
+export default Qcode;

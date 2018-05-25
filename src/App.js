@@ -6,7 +6,7 @@ import 'antd-mobile/dist/antd-mobile.css';
 import './common.css';
 
 const store = configureStore(window.__initState__)
-console.log(store.getState())
+// console.log(store.getState())
 
 
 class App extends Component {

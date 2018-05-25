@@ -52,7 +52,7 @@ function genData(pIndex = 0) {
     for (let i = 0; i < NUM_ROWS; i++) {
         dataArr.push(`row - ${(pIndex * NUM_ROWS) + i}`);
     }
-    console.log(dataArr);
+    // console.log(dataArr);
     return dataArr;
 }
 

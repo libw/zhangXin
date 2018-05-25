@@ -50,7 +50,7 @@ function genData(pIndex = 0) {
     for (let i = 0; i < NUM_ROWS; i++) {
         dataArr.push(`row - ${(pIndex * NUM_ROWS) + i}`);
     }
-    console.log(dataArr);
+    // console.log(dataArr);
     return dataArr;
 }
 
@@ -104,7 +104,7 @@ class History extends React.Component {
         this.lv.getInnerViewNode().addEventListener('touchmove', this.tm = (e) => {
             this.tmPageY = e.touches[0].pageY;
             if (this.tmPageY > this.tsPageY && this.scrollerTop <= 0 && scrollNode.scrollTop > 0) {
-                console.log('start pull to refresh');
+                // console.log('start pull to refresh');
                 this.domScroller.options.preventDefaultOnTouchMove = false;
             } else {
                 this.domScroller.options.preventDefaultOnTouchMove = undefined;
@@ -150,7 +150,7 @@ class History extends React.Component {
         if (this.state.isLoading && !this.state.hasMore) {
             return;
         }
-        console.log('reach end', event);
+        // console.log('reach end', event);
         this.setState({ isLoading: true });
         setTimeout(() => {
             this.setState({

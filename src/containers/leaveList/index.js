@@ -66,7 +66,7 @@ class History extends React.Component {
 
 
     onChange = (val) => {
-        console.log(val);
+        // console.log(val);
         arr.push(val)
     }
     dedupe(array){
@@ -103,7 +103,7 @@ class History extends React.Component {
             Toast.offline('请完成登录后进行操作', 3);
             return false
         }
-        console.log(this.dedupe(arr));
+        // console.log(this.dedupe(arr));
         if (this.dedupe(arr).length==0) {
             Toast.fail('请选择', 3, null, false)
             return false
@@ -144,7 +144,7 @@ class History extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
-                <span className={style.tip}>
+                <span className={style.tip} hidden={this.props.user.token}>
                     *操作前请完成
                     <a onClick={() => prompt(
                         '西安建筑科技大学教务处',
