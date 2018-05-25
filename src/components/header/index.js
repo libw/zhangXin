@@ -99,11 +99,7 @@ class Header extends React.Component {
             <div className={style.wlop}>
                 <div
                     className={ style.wrap + ' ' + style[this.state.position] + ' ' + style.otherStyle}>
-                    <div className={style.logo}>
-                        {
-                            <Link to="/"><img src={require("./logoO.png")}/></Link>
-                        }
-                    </div>
+                        西安建筑科技大学教务处
                     <div onClick={this.onOpenChange} className={style.sider}>
                     </div>
                 </div>

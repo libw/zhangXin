@@ -1,6 +1,10 @@
 :local(.wrap) {
     height: 44px;
     z-index: 2;
+    line-height: 44px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
 }
 :local(wlop):after{
     clear: both;

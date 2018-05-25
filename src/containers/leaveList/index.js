@@ -144,36 +144,6 @@ class History extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
-                <List renderHeader={() => '请假列表'}>
-                    {data.map(i => (
-                        <CheckboxItem key={i.id} onChange={() => this.onChange(i.id)}>
-                            <span className={style.title} >
-                                班级：<b>{i.subject}</b>
-                            </span>
-                            <div className={style.icontent}>
-                                <div className={style.time}>
-                                    学生
-                                    <span>{i.teacher}</span>
-                                </div>
-                                <div className={style.state}>
-                                    时间
-                                    <span>{i.time}</span>
-                                </div>
-                                <div className={style.number}>
-                                    理由
-                                    <span>{i.credit}</span>
-                                </div>
-                            </div>
-                        </CheckboxItem>
-                    ))}
-
-                </List>
-                <div className={style.but}>
-                    <Button onClick={this.submitFn.bind(this)} type="primary">批准</Button>
-                </div>
-                <div className={style.but}>
-                    <Button onClick={this.refuseFn.bind(this)} type="warning">不批准</Button>
-                </div>
                 <span className={style.tip}>
                     *操作前请完成
                     <a onClick={() => prompt(
@@ -192,6 +162,40 @@ class History extends React.Component {
                     )} > 登录
                     </a>
                 </span>
+                <div hidden={!this.props.user.token}>
+                    <List renderHeader={() => '请假列表'}>
+                        {data.map(i => (
+                            <CheckboxItem key={i.id} onChange={() => this.onChange(i.id)}>
+                            <span className={style.title} >
+                                班级：<b>{i.subject}</b>
+                            </span>
+                                <div className={style.icontent}>
+                                    <div className={style.time}>
+                                        学生
+                                        <span>{i.teacher}</span>
+                                    </div>
+                                    <div className={style.state}>
+                                        时间
+                                        <span>{i.time}</span>
+                                    </div>
+                                    <div className={style.number}>
+                                        理由
+                                        <span>{i.credit}</span>
+                                    </div>
+                                </div>
+                            </CheckboxItem>
+                        ))}
+
+                    </List>
+                    <div className={style.but}>
+                        <Button onClick={this.submitFn.bind(this)} type="primary">批准</Button>
+                    </div>
+                    <div className={style.but}>
+                        <Button onClick={this.refuseFn.bind(this)} type="warning">不批准</Button>
+                    </div>
+                </div>
+
+
             </div>
 
         );

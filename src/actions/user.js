@@ -1,9 +1,14 @@
 import axios from '../common/axiosConf'
+import {Toast} from "antd-mobile/lib/index";
 
 export function login(data, callback) {
     console.log(data);
+    if(!data.userId||!data.pwd){
+        Toast.fail('登录信息不得为空', 1.5, null, false)
+        // return false
+    }
     return dispatch => {
-        axios.get(`http://39.105.97.216:8080/web-api/api/login?userId=${data.userId}&userPassword=${data.pwd}` )
+        axios.get(`http://39.105.97.216:80/web-api/api/login?userId=${data.userId}&userPassword=${data.pwd}` )
             .then(function (response) {
                 dispatch({type: 'LOGIN'})
                 if (response.data.code === 0) {
@@ -24,9 +29,11 @@ export function login(data, callback) {
 
 export function register(data, callback) {
     return dispatch => {
-        axios.post(`http://39.105.97.216:8080/web-api/api/register?userId=${data.userId}&classNumber=${data.classNumber}&userName=${data.userName}qianlll&userPassword=${data.pwd}&userRole=${data.pickerValue}`)
+        axios.post(`http://39.105.97.216:80/web-api/api/register?userId=${data.userId}&classNumber=${data.classNumber}&userName=${data.userName}qianlll&userPassword=${data.pwd}&userRole=${data.pickerValue}`)
             .then(function (response) {
-                if (response.data.code === 0) {
+                console.log(response);
+                if (response.resultCode == 1) {
+                    alert(2)
                     dispatch({type: 'REGISTER'})
                     callback()
                     // localStorage.userName = response.data.data.phone

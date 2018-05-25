@@ -1,5 +1,5 @@
 let initialState = {
-    token: '',
+    token: true,
 
 
 

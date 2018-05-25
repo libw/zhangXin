@@ -35,13 +35,12 @@
     margin-top: 20px;
 }
 :local(.tip){
-    padding: 0 16px;
-
-
+    font-size: 18px;
+    color: #3b3d40;
+    text-align: center;
     display: block;
-
-    width: 100%;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 12px;
 }
 :local(.tip)>a{
     color: #ff6060;
