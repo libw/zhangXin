@@ -14,10 +14,7 @@
     justify-content: space-between;
     color: #3b3d40;
 }
-:local(.icontent)>div{
-    width: 50%;
-    font-size: 14px;
-}
+
 :local(.icontent) span{
     color: #aaaaaa;
     line-height: 24px;
@@ -27,11 +24,17 @@
     float: right;
 }
 :local(.icontent) :local(.time){
-    line-height: 48px;
+    line-height: 30px;
+    font-size: 18px;
+}
+:local(.time)>span{
     font-size: 24px;
+    font-weight: bold;
 }
 :local(.way),:local(.number){
     text-align: right;
+    line-height: 30px;
+    font-size: 18px;
 }
 :local(.tip){
     font-size: 18px;
@@ -40,7 +43,6 @@
     display: block;
     margin-top: 20px;
     margin-bottom: 12px;
-    display: block;
 }
 :local(.tip)>a{
     color: #ff6060;

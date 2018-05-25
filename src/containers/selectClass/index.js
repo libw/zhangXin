@@ -145,11 +145,11 @@ class History extends React.Component {
                         {data.map(i => (
                             <CheckboxItem key={i.value} onChange={() => this.onChange(i.subject)}>
                                 <span className={style.title} >
-                                    学科：<b>{i.subject}</b>
+                                    <b>{i.subject}</b>
                                 </span>
                                 <div className={style.icontent}>
                                     <div className={style.time}>
-                                        老师
+                                        教师
                                         <span>{i.teacher}</span>
                                     </div>
                                     <div className={style.state}>

@@ -200,18 +200,14 @@ class History extends React.Component {
                             总成绩
                             <span>{obj.time}</span>
                         </div>
-                        <div className={style.state}>
-                            <div className={style.number}>
-                                期末成绩
-                                <span>{obj.number}</span>
-                            </div>
-                            <div className={style.way}>
-                                平时成绩
-                                <span>{obj.way}</span>
-                            </div>
+                        <div className={style.number}>
+                            期末成绩
+                            <span><b>{obj.number}</b></span>
                         </div>
-
-
+                        <div className={style.way}>
+                            平时成绩
+                            <span><b>{obj.way}</b></span>
+                        </div>
                     </div>
                 </div>
             );

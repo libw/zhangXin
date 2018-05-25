@@ -10,6 +10,7 @@ export function login(data, callback) {
     return dispatch => {
         axios.get(`http://39.105.97.216:80/web-api/api/login?userId=${data.userId}&userPassword=${data.pwd}` )
             .then(function (response) {
+                console.log('测试',response);
                 dispatch({type: 'LOGIN'})
                 if (response.data.code === 0) {
 

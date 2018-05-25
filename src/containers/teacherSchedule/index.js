@@ -200,7 +200,7 @@ class History extends React.Component {
             return (
                 <div className={style.item} key={rowID}>
                     <span className={style.time} >
-                        班级 &nbsp;<span>{obj.title}</span>
+                       <span>{obj.title}</span>
                     </span>
                     <span className={style.timeR} >
                         {obj.time}
