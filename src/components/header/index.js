@@ -79,9 +79,9 @@ class Header extends React.Component {
 
     render() {
         const Array = [{
-            label: this.props.user.userName ? this.props.user.userName : '登录与注册',
+            label: this.props.user.userName ? this.props.user.userName : '注册',
             link:  this.props.user.userName ? '/baseUserMsg' : '/auth'
-        },{label: '查看成绩', link: '/checkGrade'},{label: '请假', link: '/leave'}, {label: '查看课表', link: '/schedule'},  {label: '选课', link: '/selectClass'}, {label: '评教', link: '/appraise'}, {label: '签到', link: '/singin0'},{label: '推送消息', link: '/pushMessage'},{label: '生成课表', link: '/createSchedule'},{label: '生成选课信息', link: '/createSelect'},{label: '打分', link: '/grade'},{label: '学生出勤', link: '/gateCard'},{label: '课表', link: '/teacherSchedule'},{label: '生成二维码', link: '/qcode'},{label: '请假审核', link: '/leaveList'},]
+        },{label: '查看成绩', link: '/checkGrade'},{label: '请假', link: '/leave'}, {label: '查看课表', link: '/schedule'},  {label: '选课', link: '/selectClass'}, {label: '评教', link: '/appraise'}, {label: '推送消息', link: '/pushMessage'},{label: '生成课表', link: '/createSchedule'},{label: '打分', link: '/grade'},{label: '学生出勤', link: '/gateCard'},{label: '课表', link: '/teacherSchedule'},{label: '生成二维码', link: '/qcode'},]
 
         const sidebar = (<ul style={{paddingTop: 20}}>
             {Array.map((i, index) => {

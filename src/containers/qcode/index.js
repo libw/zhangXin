@@ -8,6 +8,7 @@ import Header from '../../components/header'
 import {Modal, Toast} from "antd-mobile/lib/index";
 import {bindActionCreators} from "redux";
 import {login} from "../../actions/user";
+import axios from '../../common/axiosConf'
 
 const prompt = Modal.prompt;
 
@@ -39,6 +40,17 @@ class Qcode extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
+
+        axios.get('http://118.24.128.250:8080/web-api/api/signInfo?courseId=001',) .then(function (response) {
+            console.log('添加课表'+response);
+            that.setState({
+                data:response.result
+            })
+
+        })
+            .catch(function (error) {
+                alert(error);
+            });
         let that=this;
         setInterval(that.time.bind(this),1000)
     }
@@ -70,7 +82,7 @@ class Qcode extends React.Component {
             <div className={style.wrap}>
                 <Header/>
                 <div className={style.qcode} hidden={!this.props.user.token}>
-                    <QRCode size={200} value={'http://192.168.1.104:3000/#/singin'+this.state.string} />
+                    <QRCode size={200} value={'http://118.24.128.250:8080/build/index.html#/singin'+this.state.string} />
                 </div>
                 <span className={style.rtitle} hidden={!this.props.user.token}>
                     学生扫描签到

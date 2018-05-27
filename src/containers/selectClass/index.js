@@ -8,6 +8,7 @@ import {hashHistory} from 'react-router'
 import {selectClass,login} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 import {Modal, Toast} from "antd-mobile/lib/index";
+import axios from '../../common/axiosConf'
 
 const CheckboxItem = Checkbox.CheckboxItem;
 const prompt = Modal.prompt;
@@ -26,12 +27,19 @@ const data = [
         credit:'2',
         classroom:'教学C栋202'
     },{
+        courseId
+            :
+            "101",
         subject: '体育',
         teacher: '罗乙妍',
         time: '周三 14：00',
         credit:'1',
         classroom:'教学A栋101'
     },{
+        courseId
+            :
+            "101",
+
         subject: '大学物理',
         teacher: '钱家瑞',
         time: '周二 10：00',
@@ -54,6 +62,7 @@ class History extends React.Component {
 
 
     componentWillMount(){
+        let that=this
         if(!this.props.user.token){
             prompt(
                 '西安建筑科技大学教务处',
@@ -69,11 +78,22 @@ class History extends React.Component {
                 null,
                 ['请输入学号', '请输入密码'],
             )
+            return false
         }
+        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${13043075}`,) .then(function (response) {
+            console.log('添加课表'+response);
+            that.setState({
+                data:response.result
+            })
+
+        })
+            .catch(function (error) {
+                alert(error);
+            });
     }
 
     dedupe(array){
-        return Array.from(new Set(array));
+        return Array.from(new Set(array)).join(',');
     }
 
     submitFn() {
@@ -141,34 +161,34 @@ class History extends React.Component {
                 )} > 登录 </a>后查看
                 </span>
                 <div hidden={!this.props.user.token}>
-                    <List renderHeader={() => '选修课程列表'}>
-                        {data.map(i => (
-                            <CheckboxItem key={i.value} onChange={() => this.onChange(i.subject)}>
-                                <span className={style.title} >
-                                    <b>{i.subject}</b>
-                                </span>
-                                <div className={style.icontent}>
-                                    <div className={style.time}>
-                                        教师
-                                        <span>{i.teacher}</span>
-                                    </div>
-                                    <div className={style.state}>
-                                        时间
-                                        <span>{i.time}</span>
-                                    </div>
-                                    <div className={style.number}>
-                                        学分
-                                        <span>{i.credit}</span>
-                                    </div>
-                                    <div className={style.way}>
-                                        教室
-                                        <span>{i.classroom}</span>
-                                    </div>
-                                </div>
-                            </CheckboxItem>
-                        ))}
+                    {/*<List renderHeader={() => '选修课程列表'}>*/}
+                        {/*{this.state.data.map(i => (*/}
+                            {/*<CheckboxItem key={i.value} onChange={() => this.onChange(i.courseId)}>*/}
+                                {/*<span className={style.title} >*/}
+                                    {/*<b>{i.subject}</b>*/}
+                                {/*</span>*/}
+                                {/*<div className={style.icontent}>*/}
+                                    {/*<div className={style.time}>*/}
+                                        {/*教师*/}
+                                        {/*<span>{i.teacher}</span>*/}
+                                    {/*</div>*/}
+                                    {/*<div className={style.state}>*/}
+                                        {/*时间*/}
+                                        {/*<span>{i.time}</span>*/}
+                                    {/*</div>*/}
+                                    {/*<div className={style.number}>*/}
+                                        {/*学分*/}
+                                        {/*<span>{i.credit}</span>*/}
+                                    {/*</div>*/}
+                                    {/*<div className={style.way}>*/}
+                                        {/*教室*/}
+                                        {/*<span>{i.classroom}</span>*/}
+                                    {/*</div>*/}
+                                {/*</div>*/}
+                            {/*</CheckboxItem>*/}
+                        {/*))}*/}
 
-                    </List>
+                    {/*</List>*/}
                     <div className={style.but}>
                         <Button onClick={this.submitFn.bind(this)}  type="primary">提交</Button>
                     </div>

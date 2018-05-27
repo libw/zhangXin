@@ -9,6 +9,7 @@ import {setAuthFrom} from '../../actions/authFrom'
 import {bindActionCreators} from 'redux'
 import {Modal, Toast} from "antd-mobile/lib/index";
 import {login} from "../../actions/user";
+import axios from '../../common/axiosConf'
 
 const prompt = Modal.prompt;
 const data = [
@@ -66,6 +67,7 @@ class History extends React.Component {
         };
     }
     componentWillMount(){
+        let that=this
         if(!this.props.user.token){
             prompt(
                 '西安建筑科技大学教务处',
@@ -82,6 +84,16 @@ class History extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
+        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo??userId=${13043075}`,) .then(function (response) {
+            console.log('添加课表'+response);
+            that.setState({
+                data:response.result
+            })
+
+        })
+            .catch(function (error) {
+                alert(error);
+            });
     }
     componentDidMount() {
 

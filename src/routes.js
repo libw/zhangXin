@@ -1,10 +1,6 @@
 import React from 'react'
 import {Route, Router, IndexRoute, hashHistory} from 'react-router'
-import Home from './containers/home/'
-
-
 import ModifyPwd from './containers/modifyPwd/'
-
 import Qcode from './containers/qcode/'
 import SelectClass from './containers/selectClass/'
 import GateCard from './containers/gateCard/'
@@ -14,7 +10,6 @@ import CreateSchedule from './containers/createSchedule/'
 import CreateSelect from './containers/createSelection/'
 import Leave from './containers/leave/'
 import LeaveList from './containers/leaveList/'
-
 import CheckGrade from './containers/checkGrade/'
 import Schedule from './containers/schedule/'
 import TeacherSchedule from './containers/teacherSchedule/'
@@ -31,9 +26,6 @@ export default () => {
             <Route path="/" component={LoginBox}/>
             <Route path="/modifyPwd" component={ModifyPwd}/>
             <Route path="/qcode" component={Qcode}/>
-
-
-
             <Route path="/checkGrade" component={CheckGrade}/>
             <Route path="/schedule" component={Schedule}/>
             <Route path="/teacherSchedule" component={TeacherSchedule}/>
@@ -41,9 +33,7 @@ export default () => {
             <Route path="/appraise" component={Appraise}/>
             <Route path="/selectClass" component={SelectClass}/>
             <Route path="/forgetPwd" component={ForgetPwd}/>
-
             <Route path="/registerBox" component={RegisterBox}/>
-
             <Route path="/auth" component={Auth}/>
             <Route path="/singin0" component={SingIn}/>
             <Route path="/singin1" component={SingIn}/>

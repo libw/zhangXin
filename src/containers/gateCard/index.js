@@ -14,6 +14,7 @@ import  'echarts/lib/chart/pie';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import {Modal, Toast} from "antd-mobile/lib/index";
+import axios from '../../common/axiosConf'
 
 const data = [
     {
@@ -72,6 +73,7 @@ class History extends React.Component {
     }
 
     componentDidMount() {
+        let that=this
         if(!this.props.user.token){
             prompt(
                 '西安建筑科技大学教务处',
@@ -89,6 +91,17 @@ class History extends React.Component {
             )
             return false
         }
+        axios.get('http://118.24.128.250:8080/web-api/api/signInfo?courseId=001',) .then(function (response) {
+            console.log('添加课表'+response);
+            that.setState({
+                data:response.result
+                // 处理数据
+            })
+
+        })
+            .catch(function (error) {
+                alert(error);
+            });
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
         // 绘制图表
@@ -116,7 +129,6 @@ class History extends React.Component {
                         {value:4, name:'正常出勤'},
                         {value:2, name:'迟到'},
                         {value:2, name:'请假'},
-
                     ],
                     itemStyle: {
                         emphasis: {

@@ -48,9 +48,9 @@ class ForgetPwd extends React.Component {
             return false
         }
         this.props.leave({
-            class: this.state.class[0],
-            leave: this.state.leave,
-            studentId: this.state.studentId
+            class: this.state.class[1],
+            // leave: this.state.leave,
+            // studentId: this.state.studentId
         }, (errorText) => {
             Toast.hide()
             if (errorText) {
@@ -70,20 +70,39 @@ class ForgetPwd extends React.Component {
         const seasons = [
             [
                 {
-                    label: '周二17：00 高等数学',
-                    value: '001',
+                    label: '高等数学',
+                    value: '高等数学',
                 },
                 {
-                    label: '周一10：00 体育',
-                    value: '002',
+                    label: '大学物理',
+                    value: '大学物理',
                 },
                 {
-                    label: '周一8：00 大学物理',
-                    value: '003',
+                    label: '线性代数',
+                    value: '线性代数',
                 },
                 {
-                    label: '周二14：00 线性代数',
-                    value: '004',
+                    label: '体育',
+                    value: '体育',
+                },
+            ]
+            ,
+            [
+                {
+                    label: '101',
+                    value: '101',
+                },
+                {
+                    label: '202',
+                    value: '202',
+                },
+                {
+                    label: '303',
+                    value: '303',
+                },
+                {
+                    label: '404',
+                    value: '404',
                 },
             ],
         ];

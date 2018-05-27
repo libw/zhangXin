@@ -48,10 +48,12 @@ class ForgetPwd extends React.Component {
             return false
         }
         this.props.pushSchedule({
-            class: this.state.class,
+            courseName: this.state.class[0],
+            courseId: this.state.class[1],
             teacher: this.state.teacher,
-            classroom: this.state.classroom[0]+this.state.classroom[1],
-            date: new Date(this.state.date).getTime()
+            address: this.state.classroom[0]+this.state.classroom[1],
+            courseTime: new Date(this.state.date).getTime(),
+            classNumber:this.state.classNumber
         }, (errorText) => {
             Toast.hide()
             if (errorText) {
@@ -106,6 +108,45 @@ class ForgetPwd extends React.Component {
                 },
             ],
         ];
+        const teacher = [
+            [
+                {
+                    label: '高等数学',
+                    value: '高等数学',
+                },
+                {
+                    label: '大学物理',
+                    value: '大学物理',
+                },
+                {
+                    label: '线性代数',
+                    value: '线性代数',
+                },
+                {
+                    label: '体育',
+                    value: '体育',
+                },
+            ]
+            ,
+            [
+                {
+                    label: '101',
+                    value: '101',
+                },
+                {
+                    label: '202',
+                    value: '202',
+                },
+                {
+                    label: '303',
+                    value: '303',
+                },
+                {
+                    label: '404',
+                    value: '404',
+                },
+            ],
+        ];
 
         return (
             <div className={style.wrap}>
@@ -113,18 +154,36 @@ class ForgetPwd extends React.Component {
                 <Header/>
                     <section className={style.content}>
                         <span className={style.title}>
-                        添加课程
+                            添加课程
                         </span>
                         <div className={style.selphone}>
                             <div className={style.phone}>
                                 <List>
-                                    <InputItem onChange={(value) => {this.setState({class: value})}} placeholder='请输入' type="text">课程名称</InputItem>
+                                    <Picker
+                                        data={teacher}
+                                        title="选择课程"
+                                        cascade={false}
+                                        extra="请选择"
+                                        value={this.state.class}
+                                        onChange={v => this.setState({ class: v })}
+                                        onOk={v => this.setState({ class: v })}
+                                    >
+                                        <List.Item arrow="horizontal">课程</List.Item>
+                                    </Picker>
                                 </List>
                             </div>
-                        </div> <div className={style.selphone}>
+                        </div>
+                        <div className={style.selphone}>
                             <div className={style.phone}>
                                 <List>
                                     <InputItem onChange={(value) => {this.setState({teacher: value})}} placeholder='请输入' type="text">老师名</InputItem>
+                                </List>
+                            </div>
+                        </div>
+                        <div className={style.selphone}>
+                            <div className={style.phone}>
+                                <List>
+                                    <InputItem onChange={(value) => {this.setState({classNumber: value})}} placeholder='请输入' type="text">班级</InputItem>
                                 </List>
                             </div>
                         </div>
