@@ -9,6 +9,7 @@ import {setAuthFrom} from '../../actions/authFrom'
 import {bindActionCreators} from 'redux'
 import {Modal, Toast} from "antd-mobile/lib/index";
 import {login,pushSelect} from "../../actions/user";
+import axios from "../../common/axiosConf";
 
 const prompt = Modal.prompt;
 
@@ -40,19 +41,11 @@ const data = [
 
 
 ];
-let index = data.length - 1;
 
-const NUM_ROWS = data.length;
-let pageIndex = 0;
 
-function genData(pIndex = 0) {
-    const dataArr = [];
-    for (let i = 0; i < NUM_ROWS; i++) {
-        dataArr.push(`row - ${(pIndex * NUM_ROWS) + i}`);
-    }
-    // console.log(dataArr);
-    return dataArr;
-}
+
+
+
 
 class History extends React.Component {
 
@@ -67,8 +60,21 @@ class History extends React.Component {
             refreshing: true,
             height: document.documentElement.clientHeight,
         };
+        let pageIndex = 0;
     }
+
+    genData(pIndex = 0) {
+        const NUM_ROWS = this.state.data.length;
+        const dataArr = [];
+        for (let i = 0; i < NUM_ROWS; i++) {
+            dataArr.push(`row - ${(pIndex * NUM_ROWS) + i}`);
+        }
+        // console.log(dataArr);
+        return dataArr;
+    }
+
     componentWillMount(){
+        let that=this
         if(!this.props.user.token){
             prompt(
                 '西安建筑科技大学教务处',
@@ -85,6 +91,20 @@ class History extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
+        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${13043075}`,) .then(function (response) {
+            console.log(response);
+            console.log(response.data.result);
+            console.log(data);
+            that.setState({
+                data:response.data.result
+            },()=>{
+                console.log(that.state.data);
+            })
+
+        })
+            .catch(function (error) {
+                alert(error);
+            });
     }
     componentDidMount() {
         if(!this.props.user.token){
@@ -132,7 +152,7 @@ class History extends React.Component {
 
         // simulate initial Ajax
         setTimeout(() => {
-            this.rData = genData();
+            this.rData = this.genData();
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
                 refreshing: false,
@@ -193,26 +213,29 @@ class History extends React.Component {
             />
         );
         const row = (rowData, sectionID, rowID) => {
+            let index = this.state.data.length - 1;
             if (index < 0) {
-                index = data.length - 1;
+                index = this.state.data.length - 1;
             }
-            const obj = data[index--];
+            const obj = this.state.data[index--];
             return (
                 <div className={style.item} key={rowID}>
                     <span className={style.time} >
-                       <span>{obj.title}</span>
+                       <span>{obj.classNumber}</span>
                     </span>
                     <span className={style.timeR} >
-                        {obj.time}
+                        {
+                            '周'+new Date().getDay(obj.courseTime)
+                        }
                     </span>
                     <div className={style.icontent}>
                         <div className={style.number}>
                             时间
-                            <span>{obj.number}</span>
+                            <span>{new Date().getHours(obj.courseTime) + ':'+new Date().getMinutes(obj.courseTime)}</span>
                         </div>
                         <div className={style.way}>
                             教室
-                            <span>{obj.way}</span>
+                            <span>{obj.address}</span>
                         </div>
                     </div>
                 </div>

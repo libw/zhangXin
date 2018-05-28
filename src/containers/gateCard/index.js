@@ -69,6 +69,10 @@ class History extends React.Component {
             dataSource,
             refreshing: true,
             height: document.documentElement.clientHeight,
+            data1:1,
+            data2:1,
+            data3:3,
+
         };
     }
 
@@ -89,57 +93,61 @@ class History extends React.Component {
                 null,
                 ['请输入学号', '请输入密码'],
             )
-            return false
         }
-        axios.get('http://118.24.128.250:8080/web-api/api/signInfo?courseId=001',) .then(function (response) {
-            console.log('添加课表'+response);
+        axios.get(`http://118.24.128.250:8080/web-api/api/signInfo?courseId=${101}`,) .then(function (response) {
+            console.log(response);
             that.setState({
-                data:response.result
+                data1:response.data.result.leaveNum,
+                data2:response.data.result.signNum,
+                data3:response.data.result.totalNum==0?20:response.data.totalNum,
+
                 // 处理数据
+            },()=>{
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('main'));
+                // 绘制图表
+                myChart.setOption({
+                    title : {
+                        text: '学生出勤' ,
+                        x:'center'
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: ['正常出勤','迟到','请假']
+                    },
+                    series : [
+                        {
+                            name: '访问来源',
+                            type: 'pie',
+                            radius : '55%',
+                            center: ['50%', '60%'],
+                            data:[
+                                {value:that.state.data2, name:'正常出勤'},
+                                {value:that.state.data1, name:'迟到'},
+                                {value:that.state.data3-that.state.data2-that.state.data1, name:'请假'},
+                            ],
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                });
             })
 
         })
             .catch(function (error) {
                 alert(error);
             });
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
-        // 绘制图表
-        myChart.setOption({
-            title : {
-                text: '学生出勤' ,
-                x:'center'
-            },
-            tooltip : {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
-            },
-            legend: {
-                orient: 'vertical',
-                left: 'left',
-                data: ['正常出勤','迟到','请假']
-            },
-            series : [
-                {
-                    name: '访问来源',
-                    type: 'pie',
-                    radius : '55%',
-                    center: ['50%', '60%'],
-                    data:[
-                        {value:4, name:'正常出勤'},
-                        {value:2, name:'迟到'},
-                        {value:2, name:'请假'},
-                    ],
-                    itemStyle: {
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
-                }
-            ]
-        });
+
     }
 
 
@@ -151,8 +159,9 @@ class History extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
-                <div id="main" style={{ marginTop:50,width: '100%', height: 400 }} hidden={!this.props.user.token}></div>
-                <span className={style.tip}  hidden={this.props.user.token}>
+                <div id="main" style={{ marginTop:50,width: 370, height: 400 }} hidden={!this.props.user.token}></div>
+                <div>
+                    <span className={style.tip}  hidden={this.props.user.token}>
                     请
                     <a onClick={() => prompt(
                         '西安建筑科技大学教务处',
@@ -169,7 +178,9 @@ class History extends React.Component {
                         ['请输入学号', '请输入密码'],
                     )} > 登录 </a>
                     后查看
-                </span>
+                    </span>
+                </div>
+
             </div>
 
         );

@@ -12,8 +12,13 @@ export function login(data, callback) {
     return dispatch => {
         axios.get(`http://118.24.128.250:8080/web-api/api/login?userId=${data.userId}&userPassword=${data.pwd}` )
             .then(function (response) {
-                console.log('测试',response);
-                dispatch({type: 'LOGIN'})
+
+                console.log('登陆1',response.data.resultCode);
+                console.log('登陆2',response);
+                if(response.data.resultCode==1){
+                    alert('登陆成功')
+                    dispatch({type: 'LOGIN'})
+                }
                 callback(response)
             })
             .catch(function (error) {
@@ -27,9 +32,11 @@ export function register(data, callback) {
         axios.post(`http://118.24.128.250:8080/web-api/api/register?userId=${data.userId}&classNumber=${data.classNumber}&userName=${data.userName}&userPassword=${data.pwd}&userRole=${data.pickerValue}`)
             .then(function (response) {
                 alert('注册成功')
-                console.log('注册'+response)
-                if (response.resultCode) {
-                    alert('注册成功')
+                console.log(response.data.resultCode)
+                console.log('注册'+response.resultCode)
+                console.log('注册1'+response)
+                if (response.data.resultCode==1) {
+                    alert('注册成功！')
                     dispatch({type: 'REGISTER'})
                     callback()
                     // localStorage.userName = response.data.data.phone
@@ -71,17 +78,10 @@ export function pushMessage(data, callback) {
 export function pushSchedule(data, callback) {
     return dispatch => {
         axios.post(`http://118.24.128.250:8080/web-api/api/editCourse?courseId=${data.courseId}&courseName=${data.courseName}&teacher=${data.teacher}&address=${data.address}&classNumber=${data.classNumber}&courseTime=${data.courseTime}`,
-        //     {
-        //     courseId:data.courseId,
-        //     courseName: data.courseName,
-        //     teacher: data.teacher,
-        //     address: data.address,
-        //     courseTime: data.courseTime,
-        //     classNumber:data.classNumber
-        // }
         )
             .then(function (response) {
-                console.log('添加课表'+response);
+                alert('添加课程成功')
+                console.log(response);
                 callback(response)
 
             })
@@ -155,7 +155,8 @@ export function leave(data, callback) {
         axios.post(`http://118.24.128.250:8080/web-api/api/sign?userId=13043075&userPassword=w123456&courseId=${data.class}&signStatus=2`, )
             .then(function (response) {
                 alert('请等待审核')
-                console.log('请假'+response)
+                console.log('请假1'+response.resultCode)
+                console.log('请假2'+response)
             })
             .catch(function (error) {
                 alert(error);
@@ -165,9 +166,8 @@ export function leave(data, callback) {
 
 export function selectClass(data, callback) {
     return dispatch => {
-        axios.post(`http://118.24.128.250:8080/web-api/api/chooseCourse?userId=${data.select}&courseIdStr=&{data.studentId}`, )
+        axios.post(`http://118.24.128.250:8080/web-api/api/chooseCourse?userId=${13043075}&courseIdStr=${data.select}`, )
             .then(function (response) {
-                console.log('选课'+response);
                 alert('选课成功')
             })
             .catch(function (error) {

@@ -56,7 +56,7 @@ class History extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            data:[]
         };
     }
 
@@ -78,15 +78,17 @@ class History extends React.Component {
                 null,
                 ['请输入学号', '请输入密码'],
             )
-            return false
         }
-        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${13043075}`,) .then(function (response) {
-            console.log('添加课表'+response);
-            that.setState({
-                data:response.result
-            })
+        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${13043075}`,)
+            .then(function (response) {
+                console.log(response);
+                that.setState({
+                    data:response.data.result
+                },()=>{
+                    console.log(this.state.data);
+                })
 
-        })
+         })
             .catch(function (error) {
                 alert(error);
             });
@@ -120,6 +122,11 @@ class History extends React.Component {
 
     }
 
+    time(i){
+        console.log(new Date().getDay(i));
+        return '周'+new Date().getDay(i)+' '+new Date().getHours(i) + ':'+new Date().getMinutes(i)
+    }
+
     onChange (i) {
         console.log(i);
         arr.push(i)
@@ -143,7 +150,7 @@ class History extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
-                <NoticeBar mode="closable" icon={null}>学校倒闭了，大家散了吧</NoticeBar>
+                <NoticeBar mode="closable" icon={null}>我校将于本周五举办夏季运动会~</NoticeBar>
                 <span className={style.tip} hidden={this.props.user.token}>
                     请<a onClick={() => prompt(
                     '西安建筑科技大学教务处',
@@ -161,34 +168,36 @@ class History extends React.Component {
                 )} > 登录 </a>后查看
                 </span>
                 <div hidden={!this.props.user.token}>
-                    {/*<List renderHeader={() => '选修课程列表'}>*/}
-                        {/*{this.state.data.map(i => (*/}
-                            {/*<CheckboxItem key={i.value} onChange={() => this.onChange(i.courseId)}>*/}
-                                {/*<span className={style.title} >*/}
-                                    {/*<b>{i.subject}</b>*/}
-                                {/*</span>*/}
-                                {/*<div className={style.icontent}>*/}
-                                    {/*<div className={style.time}>*/}
-                                        {/*教师*/}
-                                        {/*<span>{i.teacher}</span>*/}
-                                    {/*</div>*/}
-                                    {/*<div className={style.state}>*/}
-                                        {/*时间*/}
-                                        {/*<span>{i.time}</span>*/}
-                                    {/*</div>*/}
-                                    {/*<div className={style.number}>*/}
-                                        {/*学分*/}
-                                        {/*<span>{i.credit}</span>*/}
-                                    {/*</div>*/}
-                                    {/*<div className={style.way}>*/}
-                                        {/*教室*/}
-                                        {/*<span>{i.classroom}</span>*/}
-                                    {/*</div>*/}
-                                {/*</div>*/}
-                            {/*</CheckboxItem>*/}
-                        {/*))}*/}
+                    <List renderHeader={() => '选修课程列表'}>
+                        {this.state.data.map(i => (
+                            <CheckboxItem key={i.value} onChange={() => this.onChange(i.courseId)}>
+                                <span className={style.title} >
+                                    <b>{i.courseName}</b>
+                                </span>
+                                <div className={style.icontent}>
+                                    <div className={style.time}>
+                                        教师
+                                        <span>{i.teacher}</span>
+                                    </div>
+                                    <div className={style.state}>
+                                        时间
+                                        <span> {
+this.time(i.courseTime)
+                                        }</span>
+                                    </div>
+                                    <div className={style.number}>
+                                        课程ID
+                                        <span>{i.courseId}</span>
+                                    </div>
+                                    <div className={style.way}>
+                                        教室
+                                        <span>{i.address}</span>
+                                    </div>
+                                </div>
+                            </CheckboxItem>
+                        ))}
 
-                    {/*</List>*/}
+                    </List>
                     <div className={style.but}>
                         <Button onClick={this.submitFn.bind(this)}  type="primary">提交</Button>
                     </div>
