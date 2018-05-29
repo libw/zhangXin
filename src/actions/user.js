@@ -4,7 +4,6 @@ import {Toast} from "antd-mobile/lib/index";
 const api='http://118.24.128.250:8080'
 
 export function login(data, callback) {
-    console.log(data);
     if(!data.userId||!data.pwd){
         Toast.fail('登录信息不得为空', 1.5, null, false)
         // return false
@@ -15,6 +14,8 @@ export function login(data, callback) {
 
                 console.log('登陆1',response.data.resultCode);
                 console.log('登陆2',response);
+                localStorage.setItem('userID',response.data.result.userId)
+                localStorage.setItem('userPassword',response.data.result.userPassword)
                 if(response.data.resultCode==1){
                     alert('登陆成功')
                     dispatch({type: 'LOGIN'})
@@ -150,9 +151,9 @@ export function getStudent(data, callback) {
 }
 
 export function leave(data, callback) {
-    console.log(data);
+
     return dispatch => {
-        axios.post(`http://118.24.128.250:8080/web-api/api/sign?userId=13043075&userPassword=w123456&courseId=${data.class}&signStatus=2`, )
+        axios.post(`http://118.24.128.250:8080/web-api/api/sign?userId=${localStorage.getItem('userID')}&userPassword=${localStorage.getItem('userPassword')}&courseId=${data.class}&signStatus=2`, )
             .then(function (response) {
                 alert('请等待审核')
                 console.log('请假1'+response.resultCode)
@@ -166,7 +167,7 @@ export function leave(data, callback) {
 
 export function selectClass(data, callback) {
     return dispatch => {
-        axios.post(`http://118.24.128.250:8080/web-api/api/chooseCourse?userId=${13043075}&courseIdStr=${data.select}`, )
+        axios.post(`http://118.24.128.250:8080/web-api/api/chooseCourse?userId=${localStorage.getItem('userID')}&courseIdStr=${data.select}`, )
             .then(function (response) {
                 alert('选课成功')
             })

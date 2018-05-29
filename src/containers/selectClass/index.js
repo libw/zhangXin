@@ -79,7 +79,7 @@ class History extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
-        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${13043075}`,)
+        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${localStorage.getItem('userID')}`,)
             .then(function (response) {
                 console.log(response);
                 that.setState({

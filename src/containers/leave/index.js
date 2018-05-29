@@ -8,8 +8,10 @@ import {Modal, Toast} from "antd-mobile/lib/index";
 import {bindActionCreators} from "redux";
 import {leave,login} from "../../actions/user";
 import {hashHistory, Link} from 'react-router';
+import axios from "../../common/axiosConf";
 
 const prompt = Modal.prompt;
+const arr=[[]]
 
 class ForgetPwd extends React.Component {
     constructor(props) {
@@ -20,6 +22,7 @@ class ForgetPwd extends React.Component {
     }
 
     componentWillMount(){
+        let that=this
         if(!this.props.user.token){
             prompt(
                 '西安建筑科技大学教务处',
@@ -36,6 +39,28 @@ class ForgetPwd extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
+        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${localStorage.getItem('userID')}`,) .then(function (response) {
+            console.log(response);
+            console.log(response.data.result);
+            that.setState({
+                data:response.data.result
+            },()=>{
+                console.log(that.state.data);
+                that.state.data.map(function (v,i) {
+                    let obj={}
+                    obj.label=v.courseName;
+                    obj.value=v.courseId;
+                    arr[0].push(obj)
+
+
+                })
+            })
+
+        })
+            .catch(function (error) {
+                alert(error);
+            });
+        
     }
 
     submitFn() {
@@ -48,7 +73,7 @@ class ForgetPwd extends React.Component {
             return false
         }
         this.props.leave({
-            class: this.state.class[1],
+            class: this.state.class[0],
             // leave: this.state.leave,
             // studentId: this.state.studentId
         }, (errorText) => {
@@ -67,44 +92,27 @@ class ForgetPwd extends React.Component {
 
 
     render() {
+        console.log(arr);
         const seasons = [
             [
                 {
                     label: '高等数学',
-                    value: '高等数学',
-                },
-                {
-                    label: '大学物理',
-                    value: '大学物理',
-                },
-                {
-                    label: '线性代数',
-                    value: '线性代数',
-                },
-                {
-                    label: '体育',
-                    value: '体育',
-                },
-            ]
-            ,
-            [
-                {
-                    label: '101',
                     value: '101',
                 },
                 {
-                    label: '202',
+                    label: '大学物理',
                     value: '202',
                 },
                 {
-                    label: '303',
+                    label: '线性代数',
                     value: '303',
                 },
                 {
-                    label: '404',
+                    label: '体育',
                     value: '404',
                 },
-            ],
+            ]
+
         ];
 
         return (
@@ -119,7 +127,7 @@ class ForgetPwd extends React.Component {
                             <div className={style.phone}>
                                 <List>
                                     <Picker
-                                        data={seasons}
+                                        data={arr}
                                         title="选择课程"
                                         cascade={false}
                                         extra="请选择"
