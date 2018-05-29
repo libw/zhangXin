@@ -53,6 +53,11 @@ class History extends React.Component {
 
     }
 
+    time(i){
+        console.log(new Date().getDay(i));
+        return '周'+new Date().getDay(i)+' '+new Date().getHours(i) + ':'+new Date().getMinutes(i)
+    }
+
     componentWillMount(){
         let that=this
         if(!this.props.user.token){
@@ -99,12 +104,10 @@ class History extends React.Component {
     }
 
     render() {
-
-
-
         return (
             <div className={style.wrap}>
                 <Header/>
+
                 <span className={style.tip} hidden={this.props.user.token}>
                     请<a onClick={() => prompt(
                     '西安建筑科技大学教务处',
@@ -124,24 +127,21 @@ class History extends React.Component {
                 <div hidden={!this.props.user.token}>
                     <List renderHeader={() => '选修课程列表'}>
                         {this.state.data.map(i => (
-                            <div key={i.value} >
-                                <span className={style.title} >
-                                    <b>{i.courseName}</b>
-                                </span>
+                            <div style={{padding:'0 16px',marginBottom:10}} key={i.value} >
+
                                 <div className={style.icontent}>
                                     <div className={style.time}>
-                                        教师
-                                        <span>{i.teacher}</span>
+                                        <span>{i.courseName}</span>
                                     </div>
-                                    <div className={style.state}>
+                                    <div className={style.timeR}>
                                         时间
                                         <span> {
                                             this.time(i.courseTime)
                                         }</span>
                                     </div>
                                     <div className={style.number}>
-                                        课程ID
-                                        <span>{i.courseId}</span>
+                                        教师
+                                        <span>{i.teacher}</span>
                                     </div>
                                     <div className={style.way}>
                                         教室

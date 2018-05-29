@@ -1,7 +1,7 @@
 import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
-import { RefreshControl, ListView } from 'antd-mobile';
+import { RefreshControl, ListView,List } from 'antd-mobile';
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
@@ -59,6 +59,7 @@ class History extends React.Component {
             dataSource,
             refreshing: true,
             height: document.documentElement.clientHeight,
+            data:[]
         };
         let pageIndex = 0;
     }
@@ -71,6 +72,11 @@ class History extends React.Component {
         }
         // console.log(dataArr);
         return dataArr;
+    }
+
+    time(i){
+        console.log(new Date().getDay(i));
+        return '周'+new Date().getDay(i)+' '+new Date().getHours(i) + ':'+new Date().getMinutes(i)
     }
 
     componentWillMount(){
@@ -261,33 +267,60 @@ class History extends React.Component {
                 )} > 登录 </a>后查看
                 </span>
                 <div hidden={!this.props.user.token}>
-                    <ListView
-                        ref={el => this.lv = el}
-                        dataSource={this.state.dataSource}
-                        renderFooter={() => (<div style={{ padding: '0.3rem', textAlign: 'center' }}>
-                            {this.state.isLoading ? 'Loading...' : 'Loaded'}
-                        </div>)}
-                        renderRow={row}
-                        renderSeparator={separator}
-                        initialListSize={5}
-                        pageSize={5}
-                        style={{
-                            height: this.state.height,
-                            border: '1px solid #ddd',
-                            margin: '0.05rem 0',
-                        }}
-                        scrollerOptions={{ scrollbars: true, scrollingComplete: this.scrollingComplete }}
-                        refreshControl={<RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={this.onRefresh}
-                            icon={this.renderCustomIcon()}
-                        />}
-                        onScroll={this.onScroll}
-                        scrollRenderAheadDistance={200}
-                        scrollEventThrottle={20}
-                        onEndReached={this.onEndReached}
-                        onEndReachedThreshold={10}
-                    />
+                    <List renderHeader={() => '选修课程列表'}>
+                        {this.state.data.map(i => (
+                            <div style={{padding:'0 16px',marginBottom:10}} key={i.value} >
+
+                                <div className={style.icontent}>
+                                    <div className={style.time}>
+                                        <span>{i.courseName}</span>
+                                    </div>
+                                    <div className={style.timeR}>
+                                        时间
+                                        <span> {
+                                            this.time(i.courseTime)
+                                        }</span>
+                                    </div>
+                                    <div className={style.number}>
+                                        教师
+                                        <span>{i.teacher}</span>
+                                    </div>
+                                    <div className={style.way}>
+                                        教室
+                                        <span>{i.address}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+
+                    </List>
+                    {/*<ListView*/}
+                        {/*ref={el => this.lv = el}*/}
+                        {/*dataSource={this.state.dataSource}*/}
+                        {/*renderFooter={() => (<div style={{ padding: '0.3rem', textAlign: 'center' }}>*/}
+                            {/*{this.state.isLoading ? 'Loading...' : 'Loaded'}*/}
+                        {/*</div>)}*/}
+                        {/*renderRow={row}*/}
+                        {/*renderSeparator={separator}*/}
+                        {/*initialListSize={5}*/}
+                        {/*pageSize={5}*/}
+                        {/*style={{*/}
+                            {/*height: this.state.height,*/}
+                            {/*border: '1px solid #ddd',*/}
+                            {/*margin: '0.05rem 0',*/}
+                        {/*}}*/}
+                        {/*scrollerOptions={{ scrollbars: true, scrollingComplete: this.scrollingComplete }}*/}
+                        {/*refreshControl={<RefreshControl*/}
+                            {/*refreshing={this.state.refreshing}*/}
+                            {/*onRefresh={this.onRefresh}*/}
+                            {/*icon={this.renderCustomIcon()}*/}
+                        {/*/>}*/}
+                        {/*onScroll={this.onScroll}*/}
+                        {/*scrollRenderAheadDistance={200}*/}
+                        {/*scrollEventThrottle={20}*/}
+                        {/*onEndReached={this.onEndReached}*/}
+                        {/*onEndReachedThreshold={10}*/}
+                    {/*/>*/}
                 </div>
 
             </div>
