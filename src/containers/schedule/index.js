@@ -54,8 +54,8 @@ class History extends React.Component {
     }
 
     time(i){
-        console.log(new Date().getDay(i));
-        return '周'+new Date().getDay(i)+' '+new Date().getHours(i) + ':'+new Date().getMinutes(i)
+        console.log(new Date(i).getDay());
+        return '周'+new Date(i).getDay()+' '+new Date(i).getHours() + ':'+new Date(i).getMinutes()
     }
 
     componentWillMount(){
@@ -88,7 +88,7 @@ class History extends React.Component {
 
         })
             .catch(function (error) {
-                alert(error);
+                console.log(error);
             });
     }
 
@@ -127,25 +127,24 @@ class History extends React.Component {
                 <div hidden={!this.props.user.token}>
                     <List renderHeader={() => '选修课程列表'}>
                         {this.state.data.map(i => (
-                            <div style={{padding:'0 16px',marginBottom:10}} key={i.value} >
+                            <div style={{padding:'0 16px',marginBottom:10,paddingBottom:10}} key={i.value} >
 
                                 <div className={style.icontent}>
                                     <div className={style.time}>
                                         <span>{i.courseName}</span>
                                     </div>
                                     <div className={style.timeR}>
-                                        时间
                                         <span> {
                                             this.time(i.courseTime)
                                         }</span>
                                     </div>
                                     <div className={style.number}>
-                                        教师
-                                        <span>{i.teacher}</span>
+                                        教师&nbsp;
+                                        <span> {i.teacher}</span>
                                     </div>
                                     <div className={style.way}>
-                                        教室
-                                        <span>{i.address}</span>
+                                        教室&nbsp;
+                                        <span> {i.address}</span>
                                     </div>
                                 </div>
                             </div>

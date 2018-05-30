@@ -22,13 +22,17 @@
 :local(.time){
     line-height: 48px;
     font-size: 20px;
+    float: left;
+    width: 50%;
 }
 
 
 :local(.timeR){
+    width: 50%;
     line-height: 48px;
     font-size: 20px;
     float: right;
+    text-align: right;
 }
 :local(.way){
     width: 50%;

@@ -3,10 +3,15 @@ import style from "./index.css"
 import {connect} from 'react-redux'
 import { createForm } from 'rc-form';
 import {List, InputItem, Button, Picker, Toast} from 'antd-mobile';
-import {singin} from '../../actions/user'
+import {singin,login} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 import {hashHistory, Link} from 'react-router';
 import Header from '../../components/header'
+import axios from "../../common/axiosConf";
+import {Modal} from "antd-mobile/lib/index";
+
+const prompt = Modal.prompt;
+const arr=[[]]
 
 class Auth extends React.Component {
     constructor(props) {
@@ -19,16 +24,57 @@ class Auth extends React.Component {
         }
     }
 
+    componentWillMount(){
+        let that=this
+        if(!this.props.user.token){
+            prompt(
+                '西安建筑科技大学教务处',
+                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                (login, password) => this.props.login({
+                    userId: login,
+                    pwd: password,
+                }, (errorText) => {
+                    Toast.hide()
+
+                }),
+                'login-password',
+                null,
+                ['请输入学号', '请输入密码'],
+            )
+        }
+        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${localStorage.getItem('userID')}`,) .then(function (response) {
+            console.log(response);
+            console.log(response.data.result);
+            that.setState({
+                data:response.data.result
+            },()=>{
+                console.log(that.state.data);
+                that.state.data.map(function (v,i) {
+                    let obj={}
+                    obj.label=v.courseName;
+                    obj.value=v.courseId;
+                    arr[0].push(obj)
+
+
+                })
+            })
+
+        })
+            .catch(function (error) {
+                // alert(error);
+                console.log(error);
+            });
+
+
+    }
 
     submitFn() {
-        if (!this.state.studentId||!this.state.pwd) {
-            Toast.fail('请完善信息', 3, null, false)
+        if (!this.state.class) {
+            Toast.fail('请选择课程', 3, null, false)
             return false
         }
         this.props.singin({
-            studentId: this.state.studentId,
-            pwd: this.state.pwd,
-            courseId: this.state.class[1],
+            courseId: this.state.class[0],
         }, (errorText) => {
             Toast.hide()
             if (errorText) {
@@ -44,47 +90,6 @@ class Auth extends React.Component {
     }
 
     render() {
-        const { getFieldProps } = this.props.form;
-
-        const teacher = [
-            [
-                {
-                    label: '高等数学',
-                    value: '高等数学',
-                },
-                {
-                    label: '大学物理',
-                    value: '大学物理',
-                },
-                {
-                    label: '线性代数',
-                    value: '线性代数',
-                },
-                {
-                    label: '体育',
-                    value: '体育',
-                },
-            ]
-            ,
-            [
-                {
-                    label: '101',
-                    value: '101',
-                },
-                {
-                    label: '202',
-                    value: '202',
-                },
-                {
-                    label: '303',
-                    value: '303',
-                },
-                {
-                    label: '404',
-                    value: '404',
-                },
-            ],
-        ];
 
         return (
             <div className={style.wrap}>
@@ -95,7 +100,7 @@ class Auth extends React.Component {
                         <div className={style.phone1}>
                             <List>
                                 <Picker
-                                    data={teacher}
+                                    data={arr}
                                     title="选择课程"
                                     cascade={false}
                                     extra="请选择"
@@ -108,23 +113,7 @@ class Auth extends React.Component {
                             </List>
                         </div>
                     </div>
-                    <div className={style.selphone}>
-                        <div className={style.phone}>
-                            <List>
-                                <InputItem onChange={(value) => {
-                                    this.setState({studentId: value})
-                                }} placeholder="请输入学号" type="text"></InputItem>
-                            </List>
-                        </div>
-                    </div>
-                    <div className={style.selphone}>
-                        <div className={style.tu}>
-                            <List>
-                                <InputItem type="password" onChange={(value) => {this.setState({pwd: value})}} placeholder={'请输入密码'}></InputItem>
-                            </List>
-                        </div>
-                    </div>
-                    <p className={style.tip}>
+                    <p className={style.tip2}>
                         *禁止为他人签到，一经发现，签到双方将处以开除学籍处分
                     </p>
                     <div className={style.button}>
@@ -134,40 +123,44 @@ class Auth extends React.Component {
                             }
                         </Button>
                     </div>
+                    <span className={style.tip}>
+                            *操作前请完成
+                            <a onClick={() => prompt(
+                                '西安建筑科技大学教务处',
+                                <span className={style.tip1}>没有账号？去 <span onClick={()=>hashHistory.push('/auth')}>注册</span></span>,
+                                (login, password) => this.props.login({
+                                    userId: login,
+                                    pwd: password,
+                                }, (errorText) => {
+                                    Toast.hide()
 
+                                }),
+                                'login-password',
+                                null,
+                                ['请输入学号', '请输入密码'],
+                            )} > 登录
+                            </a>
+                        </span>
                 </section>
             </div>
         )
     }
 
-    toreg() {
-        this.setState({
-            login: true
-        })
-    }
-
-    tolog() {
-        this.setState({
-            login: false
-        })
-    }
-
-
 }
 
 function mapStateToProps(state, props) {
     return {
-        authFrom: state.authFrom
+        user:state.user
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         singin: bindActionCreators(singin, dispatch),
+        login: bindActionCreators(login, dispatch),
     }
 }
 
 Auth = connect(mapStateToProps, mapDispatchToProps)(Auth)
 
-const AuthWrapper = createForm()(Auth);
-export default AuthWrapper;
+export default Auth;

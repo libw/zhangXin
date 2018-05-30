@@ -109,8 +109,37 @@
     line-height: 30px;
     color: #5262ff;
 }
-:local(.tip){
+:local(.tip2){
     color: #ff5500;
     padding-left: 6px;
 }
+:local(.tip){
+    /*padding: 0 16px;*/
 
+
+    display: block;
+
+    width: 100%;
+    margin-top: 10px;
+}
+:local(.tip)>a{
+    color: #ff6060;
+    font-weight: bold;
+}
+:local(.tip)>span{
+    color: #ff6060;
+    font-weight: bold;
+}
+
+:local(.tip1){
+
+
+}
+:local(.tip1)>a{
+    color: #ff6060;
+    font-weight: bold;
+}
+:local(.tip1)>span{
+    color: #ff6060;
+    font-weight: bold;
+}

@@ -99,7 +99,9 @@ class History extends React.Component {
             that.setState({
                 data1:response.data.result.leaveNum,
                 data2:response.data.result.signNum,
-                data3:response.data.result.totalNum==0?20:response.data.totalNum,
+                data3:response.data.result.totalNum,
+                data4:response.data.result.leaveNum+response.data.result.signNum,
+                data5:response.data.result.totalNum-response.data.result.leaveNum-response.data.result.signNum
 
                 // 处理数据
             },()=>{
@@ -118,7 +120,7 @@ class History extends React.Component {
                     legend: {
                         orient: 'vertical',
                         left: 'left',
-                        data: ['正常出勤','迟到','请假']
+                        data: ['正常出勤','请假','缺勤']
                     },
                     series : [
                         {
@@ -128,8 +130,8 @@ class History extends React.Component {
                             center: ['50%', '60%'],
                             data:[
                                 {value:that.state.data2, name:'正常出勤'},
-                                {value:that.state.data1, name:'迟到'},
-                                {value:that.state.data3-that.state.data2-that.state.data1, name:'请假'},
+                                {value:that.state.data1, name:'请假'},
+                                {value:that.state.data5, name:'缺勤'},
                             ],
                             itemStyle: {
                                 emphasis: {
@@ -154,7 +156,7 @@ class History extends React.Component {
 
     render() {
 
-
+        console.log(this.state.data1,this.state.data2,this.state.data3,this.state.data4,this.state.data5);
 
         return (
             <div className={style.wrap}>
