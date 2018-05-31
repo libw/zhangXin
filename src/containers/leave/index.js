@@ -2,7 +2,7 @@ import React from 'react'
 import style from "./index.css"
 import { createForm } from 'rc-form';
 import {connect} from 'react-redux'
-import { List,InputItem,Button,WingBlank,Picker,RadioGroup,DatePicker} from 'antd-mobile';
+import { List,InputItem,Button,WingBlank,Picker,RadioGroup,DatePicker,NoticeBar} from 'antd-mobile';
 import Header from '../../components/header'
 import {Modal, Toast} from "antd-mobile/lib/index";
 import {bindActionCreators} from "redux";
@@ -17,7 +17,7 @@ class ForgetPwd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            messageShow:true
         }
     }
 
@@ -39,7 +39,23 @@ class ForgetPwd extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
-        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${localStorage.getItem('userID')}`,) .then(function (response) {
+        axios.get(`http://118.24.128.250:8080/web-api/api/getMessage`,)
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.result);
+                that.setState({
+                    message:response.data.result,
+                    messageShow:false
+                },()=>{
+                    console.log(this.state.message);
+                })
+
+            })
+            .catch(function (error) {
+                console.log(error);
+                // alert(error);
+            });
+        axios.get(`http://118.24.128.250:8080/web-api/api/selectedCourseInfo?userId=${localStorage.getItem('userID')}`,) .then(function (response) {
             console.log(response);
             console.log(response.data.result);
             that.setState({
@@ -121,6 +137,9 @@ class ForgetPwd extends React.Component {
             <div className={style.wrap}>
 
                 <Header/>
+                <div hidden={this.state.messageShow}>
+                    <NoticeBar mode="closable" icon={null}>{this.state.message}</NoticeBar>
+                </div>
                     <section className={style.content}>
                         <span className={style.title}>
                             请假申请

@@ -1,7 +1,7 @@
 import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
-import { RefreshControl, ListView,List } from 'antd-mobile';
+import { RefreshControl, ListView,List,NoticeBar } from 'antd-mobile';
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
@@ -52,7 +52,7 @@ class History extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            messageShow:true,
             data:[]
         };
 
@@ -83,6 +83,22 @@ class History extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
+        axios.get(`http://118.24.128.250:8080/web-api/api/getMessage`,)
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.result);
+                that.setState({
+                    message:response.data.result,
+                    messageShow:false
+                },()=>{
+                    console.log(this.state.message);
+                })
+
+            })
+            .catch(function (error) {
+                console.log(error);
+                // alert(error);
+            });
         axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${localStorage.getItem('userID')}`,) .then(function (response) {
             console.log(response);
             console.log(response.data.result);
@@ -105,6 +121,9 @@ class History extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
+                <div hidden={this.state.messageShow}>
+                    <NoticeBar mode="closable" icon={null}>{this.state.message}</NoticeBar>
+                </div>
                 <span className={style.tip} hidden={this.props.user.token}>
                     请<a onClick={() => prompt(
                     '西安建筑科技大学教务处',

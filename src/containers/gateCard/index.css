@@ -75,3 +75,7 @@
     color: #ff6060;
     font-weight: bold;
 }
+:local(.button){
+    margin-top: 20px;
+    padding: 0 16px;
+}

@@ -2,7 +2,7 @@ import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
 import { createForm } from 'rc-form';
-import {List, InputItem, Button, Picker, Toast} from 'antd-mobile';
+import {List, InputItem, Button, Picker, Toast,NoticeBar} from 'antd-mobile';
 import {singin,login} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 import {hashHistory, Link} from 'react-router';
@@ -20,7 +20,8 @@ class Auth extends React.Component {
             login: true,
             name: '',
             pwd: '',
-            code: ''
+            code: '',
+            messageShow:true
         }
     }
 
@@ -42,7 +43,23 @@ class Auth extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
-        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${localStorage.getItem('userID')}`,) .then(function (response) {
+        axios.get(`http://118.24.128.250:8080/web-api/api/getMessage`,)
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.result);
+                that.setState({
+                    message:response.data.result,
+                    messageShow:false
+                },()=>{
+                    console.log(this.state.message);
+                })
+
+            })
+            .catch(function (error) {
+                console.log(error);
+                // alert(error);
+            });
+        axios.get(`http://118.24.128.250:8080/web-api/api/selectedCourseInfo?userId=${localStorage.getItem('userID')}`,) .then(function (response) {
             console.log(response);
             console.log(response.data.result);
             that.setState({
@@ -94,6 +111,9 @@ class Auth extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
+                <div hidden={this.state.messageShow}>
+                    <NoticeBar mode="closable" icon={null}>{this.state.message}</NoticeBar>
+                </div>
                 <span className={style.header}>学生签到页</span>
                 <section className={style.content}>
                     <div className={style.selphone}>

@@ -1,7 +1,7 @@
 import React from 'react'
 import style from "./index.css"
 import {connect} from 'react-redux'
-import { RefreshControl, ListView } from 'antd-mobile';
+import { RefreshControl, ListView,NoticeBar,List ,Picker,Button} from 'antd-mobile';
 import Header from '../../components/header'
 import ReactDOM from 'react-dom'
 import {hashHistory} from 'react-router'
@@ -48,14 +48,7 @@ const prompt = Modal.prompt;
 const NUM_ROWS = data.length;
 let pageIndex = 0;
 
-function genData(pIndex = 0) {
-    const dataArr = [];
-    for (let i = 0; i < NUM_ROWS; i++) {
-        dataArr.push(`row - ${(pIndex * NUM_ROWS) + i}`);
-    }
-    // console.log(dataArr);
-    return dataArr;
-}
+const arr=[[]]
 
 class History extends React.Component {
 
@@ -72,7 +65,7 @@ class History extends React.Component {
             data1:1,
             data2:1,
             data3:3,
-
+            messageShow:true
         };
     }
 
@@ -94,7 +87,55 @@ class History extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
-        axios.get(`http://118.24.128.250:8080/web-api/api/signInfo?courseId=${101}`,) .then(function (response) {
+        axios.get(`http://118.24.128.250:8080/web-api/api/getMessage`,)
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.result);
+                that.setState({
+                    message:response.data.result,
+                    messageShow:false
+                },()=>{
+                    console.log(this.state.message);
+                })
+
+            })
+            .catch(function (error) {
+                console.log(error);
+                // alert(error);
+            });
+        axios.get(`http://118.24.128.250:8080/web-api/api/courseInfo?userId=${localStorage.getItem('userID')}`,) .then(function (response) {
+            console.log(response);
+            console.log(response.data.result);
+            that.setState({
+                data:response.data.result
+            },()=>{
+                console.log(that.state.data);
+                that.state.data.map(function (v,i) {
+                    let obj={}
+                    obj.label=v.courseName;
+                    obj.value=v.courseId;
+                    arr[0].push(obj)
+
+
+                })
+            })
+
+        })
+            .catch(function (error) {
+                // alert(error);
+                console.log(error);
+            });
+
+
+    }
+
+    submitFn() {
+        let that=this
+        if (!this.state.class) {
+            Toast.fail('请选择课程', 3, null, false)
+            return false
+        }
+        axios.get(`http://118.24.128.250:8080/web-api/api/signInfo?courseId=${this.state.class}`,) .then(function (response) {
             console.log(response);
             that.setState({
                 data1:response.data.result.leaveNum,
@@ -149,10 +190,7 @@ class History extends React.Component {
             .catch(function (error) {
                 alert(error);
             });
-
     }
-
-
 
     render() {
 
@@ -161,7 +199,34 @@ class History extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
+                <div hidden={this.state.messageShow}>
+                    <NoticeBar mode="closable" icon={null}>{this.state.message}</NoticeBar>
+                </div>
                 <div id="main" style={{ marginTop:50,width: 370, height: 400 }} hidden={!this.props.user.token}></div>
+                <div className={style.selphone}>
+                    <div className={style.phone1}>
+                        <List>
+                            <Picker
+                                data={arr}
+                                title="选择课程"
+                                cascade={false}
+                                extra="请选择"
+                                value={this.state.class}
+                                onChange={v => this.setState({ class: v })}
+                                onOk={v => this.setState({ class: v })}
+                            >
+                                <List.Item arrow="horizontal">课程</List.Item>
+                            </Picker>
+                        </List>
+                    </div>
+                </div>
+                <div className={style.button}>
+                    <Button onClick={this.submitFn.bind(this)} type="primary">
+                        {
+                            '查询'
+                        }
+                    </Button>
+                </div>
                 <div>
                     <span className={style.tip}  hidden={this.props.user.token}>
                     请

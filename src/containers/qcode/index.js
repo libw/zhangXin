@@ -2,7 +2,7 @@ import React from 'react'
 import QRCode from 'qrcode.react';
 import style from "./index.css"
 import {connect} from 'react-redux'
-import { Button } from 'antd-mobile';
+import { Button,NoticeBar } from 'antd-mobile';
 import {hashHistory, Link} from 'react-router';
 import Header from '../../components/header'
 import {Modal, Toast} from "antd-mobile/lib/index";
@@ -17,7 +17,8 @@ class Qcode extends React.Component {
         super(props);
         this.state = {
             string:0,
-            num:20
+            num:20,
+            messageShow:true
         }
     }
 
@@ -40,7 +41,22 @@ class Qcode extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
+        axios.get(`http://118.24.128.250:8080/web-api/api/getMessage`,)
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.result);
+                that.setState({
+                    message:response.data.result,
+                    messageShow:false
+                },()=>{
+                    console.log(this.state.message);
+                })
 
+            })
+            .catch(function (error) {
+                console.log(error);
+                // alert(error);
+            });
         axios.get('http://118.24.128.250:8080/web-api/api/signInfo?courseId=001',) .then(function (response) {
             console.log('添加课表'+response);
             that.setState({
@@ -81,6 +97,9 @@ class Qcode extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
+                <div hidden={this.state.messageShow}>
+                    <NoticeBar mode="closable" icon={null}>{this.state.message}</NoticeBar>
+                </div>
                 <div className={style.qcode} hidden={!this.props.user.token}>
                     <QRCode size={200} value={'http://118.24.128.250:8080/build/index.html#/singin'+this.state.string} />
                 </div>

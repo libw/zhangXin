@@ -56,7 +56,9 @@ class History extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data:[]
+            data:[],
+            message:'',
+            messageShow:true
         };
     }
 
@@ -86,6 +88,22 @@ class History extends React.Component {
                     data:response.data.result
                 },()=>{
                     console.log(this.state.data);
+                })
+
+         })
+            .catch(function (error) {
+                console.log(error);
+                // alert(error);
+            });
+        axios.get(`http://118.24.128.250:8080/web-api/api/getMessage`,)
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.result);
+                that.setState({
+                    message:response.data.result,
+                    messageShow:false
+                },()=>{
+                    console.log(this.state.message);
                 })
 
          })
@@ -151,7 +169,9 @@ class History extends React.Component {
         return (
             <div className={style.wrap}>
                 <Header/>
-                <NoticeBar mode="closable" icon={null}>我校将于本周五举办夏季运动会~</NoticeBar>
+                <div hidden={this.state.messageShow}>
+                    <NoticeBar mode="closable" icon={null}>{this.state.message}</NoticeBar>
+                </div>
                 <span className={style.tip} hidden={this.props.user.token}>
                     请<a onClick={() => prompt(
                     '西安建筑科技大学教务处',
