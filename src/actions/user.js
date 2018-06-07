@@ -206,7 +206,7 @@ export function selectClass(data, callback) {
         return false
     }
     return dispatch => {
-        axios.post(`http://118.24.128.250:8080/web-api/api/chooseCourse?userId=${localStorage.getItem('userID')}&courseIdStr=${data.select}`, )
+        axios.post(`http://118.24.128.250:8080/web-api/api/chooseCourse?userId=${localStorage.getItem('userID')}&courseName=${data.courseName}&courseIdStr=${data.select}`, )
             .then(function (response) {
                 // alert('选课成功!');
                 Toast.success('选课成功!', 1);

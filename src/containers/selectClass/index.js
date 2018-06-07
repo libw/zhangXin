@@ -50,6 +50,7 @@ const data = [
 ];
 
 let arr=[]
+let arr1=[]
 
 class History extends React.Component {
 
@@ -116,6 +117,9 @@ class History extends React.Component {
     dedupe(array){
         return Array.from(new Set(array)).join(',');
     }
+    dedupe1(array){
+        return Array.from(new Set(array)).join(',');
+    }
 
     submitFn() {
         console.log(this.dedupe(arr));
@@ -123,8 +127,13 @@ class History extends React.Component {
             Toast.fail('请选择', 3, null, false)
             return false
         }
+        if (this.dedupe1(arr1).length==0) {
+            Toast.fail('请选择', 3, null, false)
+            return false
+        }
         this.props.selectClass({
             select: this.dedupe(arr),
+            courseName:this.dedupe1(arr1),
             studentId: this.state.studentId
         }, (errorText) => {
             Toast.hide()
@@ -146,9 +155,10 @@ class History extends React.Component {
         return '周'+new Date().getDay(i)+' '+new Date().getHours(i) + ':'+new Date().getMinutes(i)
     }
 
-    onChange (i) {
+    onChange (i,v) {
         console.log(i);
-        arr.push(i)
+        arr.push(i);
+        arr1.push(v);
     }
 
 
@@ -191,7 +201,7 @@ class History extends React.Component {
                 <div hidden={!this.props.user.token}>
                     <List renderHeader={() => '选修课程列表'}>
                         {this.state.data.map(i => (
-                            <CheckboxItem key={i.value} onChange={() => this.onChange(i.courseId)}>
+                            <CheckboxItem key={i.value} onChange={() => this.onChange(i.courseId,i.courseName)}>
                                 <span className={style.title} >
                                     <b>{i.courseName}</b>
                                 </span>
