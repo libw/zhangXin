@@ -8,6 +8,7 @@ import {hashHistory} from 'react-router'
 import {checkLeave, login} from '../../actions/user'
 import {bindActionCreators} from 'redux'
 import {Modal, Toast} from "antd-mobile/lib/index";
+import axios from "../../common/axiosConf";
 
 const CheckboxItem = Checkbox.CheckboxItem;
 const prompt = Modal.prompt;
@@ -46,6 +47,7 @@ class History extends React.Component {
         }
     }
     componentDidMount() {
+        let that=this
         if(!this.props.user.token){
             prompt(
                 '西安建筑科技大学教务处',
@@ -62,6 +64,22 @@ class History extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
+        axios.get(`http://118.24.128.250:8080/web-api/api/approvalInfo`,)
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.result);
+                that.setState({
+                    message:response.data.result,
+                    messageShow:false
+                },()=>{
+                    console.log(this.state.message);
+                })
+
+            })
+            .catch(function (error) {
+                console.log(error);
+                // alert(error);
+            });
     }
 
 

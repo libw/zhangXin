@@ -41,7 +41,7 @@ class History extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
-        axios.get(`http://118.24.128.250:8080/web-api/api/getMessage`,)
+        axios.get(`http://118.24.128.250:8080/web-api/api/scoreInfo`,)
             .then(function (response) {
                 console.log(response);
                 console.log(response.data.result);
@@ -49,7 +49,7 @@ class History extends React.Component {
                     message:response.data.result,
                     messageShow:false
                 },()=>{
-                    console.log(this.state.message);
+
                 })
 
             })
