@@ -86,9 +86,9 @@ class History extends React.Component {
                 console.log(response.data.result);
                 that.setState({
                     data:response.data.result,
-                    messageShow:false
                 },()=>{
-                    console.log(this.state.message);
+                    console.log(that);
+                    console.log(that.state.data);
                 })
 
             })
