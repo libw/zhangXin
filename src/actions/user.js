@@ -133,7 +133,7 @@ export function pushSelect(data, callback) {
 
 export function gradeTeacher(data, callback) {
     return dispatch => {
-        axios.post(`http://118.24.128.250:8080/web-api/api/setStudentScore?courseId=123&userId=${data.student}&score=${data.grade}`)
+        axios.post(`http://118.24.128.250:8080/web-api/api/setStudentScore?courseId=${data.subject}&userId=${data.student}&score=${data.grade}`)
             .then(function (response) {
                 if (response.data.code === 0) {
 
@@ -253,7 +253,7 @@ export function singin(data, callback) {
 
 export function checkLeave(data, callback) {
     return dispatch => {
-        axios.post(`http://118.24.128.250:8080/web-api/api/approvalInfo?id=${data.select}`)
+        axios.get(`http://118.24.128.250:8080/web-api/api/approvalInfo?id=${data.select}`)
             .then(function (response) {
                 if (response.data.code === 0) {
 

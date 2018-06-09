@@ -15,6 +15,8 @@ const RadioItem = Radio.RadioItem;
 const Item = List.Item;
 const prompt = Modal.prompt;
 
+let arr=[[],[]]
+
 class History extends React.Component {
 
     constructor(props) {
@@ -46,10 +48,20 @@ class History extends React.Component {
                 console.log(response);
                 console.log(response.data.result);
                 that.setState({
-                    message:response.data.result,
-                    messageShow:false
+                    data1:response.data.result,
                 },()=>{
-
+                    let obj={}
+                    let obj1={}
+                    that.state.data1.map(function (v) {
+                        console.log(11);
+                        console.log(v);
+                        obj.value=v.userId;
+                        obj.label=v.userId;
+                        obj1.label=v.courseName;
+                        obj1.value=v.courseId;
+                        arr[0].push(obj)
+                        arr[1].push(obj1)
+                    })
                 })
 
             })
@@ -91,6 +103,8 @@ class History extends React.Component {
 
 
     render() {
+        console.log('222');
+        console.log(arr);
         const seasons = [
             [
                 {
@@ -110,6 +124,20 @@ class History extends React.Component {
                     value: '004',
                 },
             ],
+            [
+                {
+                    label: '课程1',
+                    value: '101',
+                },
+                {
+                    label: '课程2',
+                    value: '202',
+                },
+                {
+                    label: '课程3',
+                    value: '303',
+                },
+            ],
 
         ];
         return (
@@ -122,11 +150,12 @@ class History extends React.Component {
                     <div className={style.item} >
                         <div className={style.icontent}>
                             <Picker
-                                data={seasons}
+                                data={arr}
                                 title="选择学生"
                                 cascade={false}
                                 extra="请选择" value={this.state.student}
                                 onChange={v => this.setState({ student: v })}
+                                {/*发送接口参数处理*/}
                                 onOk={v => this.setState({ student: v })}
                             >
                                 <List.Item arrow="horizontal">学生</List.Item>

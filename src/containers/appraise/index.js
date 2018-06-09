@@ -39,6 +39,7 @@ const data = [
     // }
 ];
 
+let arr=[[]]
 
 class History extends React.Component {
 
@@ -66,7 +67,7 @@ class History extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
-        axios.get(`http://118.24.128.250:8080/web-api/api/teacherScore`,)
+        axios.get(`http://118.24.128.250:8080/web-api/api/getMessage`,)
             .then(function (response) {
                 console.log(response);
                 console.log(response.data.result);
@@ -75,6 +76,28 @@ class History extends React.Component {
                     messageShow:false
                 },()=>{
                     console.log(this.state.message);
+                })
+
+            })
+            .catch(function (error) {
+                console.log(error);
+                // alert(error);
+            });
+        axios.get(`http://118.24.128.250:8080/web-api/api/teacherScore`,)
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.result);
+                that.setState({
+                    data1:response.data.result,
+                },()=>{
+                    let obj={}
+                    that.state.data1.map(function (v) {
+                        console.log(11);
+                        console.log(v);
+                        obj.value=v.userId;
+                        obj.label=v.userName;
+                        arr[0].push(obj)
+                    })
                 })
 
             })
@@ -114,7 +137,8 @@ class History extends React.Component {
     }
 
     render() {
-
+        console.log('xiangxaing');
+        console.log(arr);
         const teacher =
             [
                 [
@@ -141,19 +165,19 @@ class History extends React.Component {
             [
                 {
                     label: '优秀',
-                    value: 'good',
+                    value: '90',
                 },
                 {
                     label: '良好',
-                    value: 'well',
+                    value: '75',
                 },
                 {
                     label: '合格',
-                    value: 'qualified',
+                    value: '60',
                 },
                 {
                     label: '差',
-                    value: 'bad',
+                    value: '45',
                 },
             ],
 
@@ -169,7 +193,7 @@ class History extends React.Component {
                         <div className={style.icontent}>
                             <div className={style.number}>
                                 <Picker
-                                    data={teacher}
+                                    data={arr}
                                     title="选择教师"
                                     cascade={false}
                                     extra="请选择" value={this.state.teacher}
