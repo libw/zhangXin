@@ -172,14 +172,14 @@ export function leave(data, callback) {
         return false
     }
     return dispatch => {
-        axios.post(`http://118.24.128.250:8080/web-api/api/sign?userId=${localStorage.getItem('userID')}&userPassword=${localStorage.getItem('userPassword')}&courseId=${data.class}&signStatus=2`, )
+        axios.post(`http://118.24.128.250:8080/web-api/api/sign?userId=${localStorage.getItem('userID')}&userPassword=${localStorage.getItem('userPassword')}&courseId=${data.class}&signStatus=2&comment=${data.leave}`, )
             .then(function (response) {
                 if (response.data.resultCode==1) {
                     // alert('请假成功!')
-                    Toast.success('添加课程成功!', 1);
+                    Toast.success('请假成功!', 1);
                 }else {
                     // alert('请假失败!')
-                    Toast.fail('添加课程失败!', 1);
+                    Toast.fail('请假失败!', 1);
                 }
                 alert('请假成功!')
                 // Toast.success('请假成功!', 1);
@@ -253,7 +253,7 @@ export function singin(data, callback) {
 
 export function checkLeave(data, callback) {
     return dispatch => {
-        axios.get(`http://118.24.128.250:8080/web-api/api/approvalInfo?id=${data.select}`)
+        axios.post(`http://118.24.128.250:8080/web-api/api/setApproval?id=${data.select}`)
             .then(function (response) {
                 if (response.data.code === 0) {
 

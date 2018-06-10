@@ -43,6 +43,22 @@ class History extends React.Component {
                 ['请输入学号', '请输入密码'],
             )
         }
+        axios.get(`http://118.24.128.250:8080/web-api/api/getMessage`,)
+            .then(function (response) {
+                console.log(response);
+                console.log(response.data.result);
+                that.setState({
+                    message:response.data.result,
+                    messageShow:false
+                },()=>{
+                    console.log(this.state.message);
+                })
+
+            })
+            .catch(function (error) {
+                console.log(error);
+                // alert(error);
+            });
         axios.get(`http://118.24.128.250:8080/web-api/api/scoreInfo`,)
             .then(function (response) {
                 console.log(response);
@@ -85,7 +101,7 @@ class History extends React.Component {
             pacGrade: this.state.pacGrade,
             endGrade: this.state.endGrade,
             grade:0.3*this.state.pacGrade+0.7*this.state.endGrade,
-            subject:this.state.subject
+            subject:this.state.student[1]
         }, (errorText) => {
             Toast.hide()
             if (errorText) {
@@ -154,8 +170,9 @@ class History extends React.Component {
                                 title="选择学生"
                                 cascade={false}
                                 extra="请选择" value={this.state.student}
-                                onChange={v => this.setState({ student: v })}
-                                {/*发送接口参数处理*/}
+                                onChange={v => this.setState({ student: v },()=>{
+                                    console.log('555');
+                                    console.log(this.state.student);})}
                                 onOk={v => this.setState({ student: v })}
                             >
                                 <List.Item arrow="horizontal">学生</List.Item>

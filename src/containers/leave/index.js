@@ -92,7 +92,7 @@ class ForgetPwd extends React.Component {
         }
         this.props.leave({
             class: this.state.class[0],
-            // leave: this.state.leave,
+            leave: this.state.leave,
             // studentId: this.state.studentId
         }, (errorText) => {
             Toast.hide()
