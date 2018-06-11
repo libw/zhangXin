@@ -18,7 +18,8 @@ class Qcode extends React.Component {
         this.state = {
             string:0,
             num:20,
-            messageShow:true
+            messageShow:true,
+            show:false
         }
     }
 
@@ -84,7 +85,7 @@ class Qcode extends React.Component {
             }
             if(that.state.string>4){
                 that.setState({
-                    string:0
+                    show:true
                 })
             }
         })
@@ -101,10 +102,17 @@ class Qcode extends React.Component {
                     <NoticeBar mode="closable" icon={null}>{this.state.message}</NoticeBar>
                 </div>
                 <div className={style.qcode} hidden={!this.props.user.token}>
-                    <QRCode size={200} value={'http://118.24.128.250:8080/build/index.html#/singin'+this.state.string} />
+                    <div className={style.qcode1}>
+                        <QRCode size={200} value={'http://118.24.128.250:8080/build/index.html#/singin'+this.state.string} />
+                    </div>
+                    <div className={this.state.show?style.qcode3:style.qcode2}  alt="">
+
+                    </div>
+
+
                 </div>
                 <span className={style.rtitle} hidden={!this.props.user.token}>
-                    学生扫描签到
+                    {this.state.show?<span style={{color:'red'}}>签到结束</span>:'学生扫描签到'}
                 </span>
                 <span className={style.tip} hidden={this.props.user.token}>
                     请<a onClick={() => prompt(

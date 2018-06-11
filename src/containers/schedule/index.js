@@ -115,7 +115,7 @@ class History extends React.Component {
 
     timestampToTime(timestamp) {
         var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-        let W='周'+data.getDay()
+        let W='周'+data.getDay()+1
         let D = date.getDate() + ' ';
         let h = date.getHours() + ':';
         let m = date.getMinutes() + ':';

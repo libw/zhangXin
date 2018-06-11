@@ -40,6 +40,7 @@ export default () => {
             <Route path="/singin2" component={SingIn}/>
             <Route path="/singin3" component={SingIn}/>
             <Route path="/singin4" component={SingIn}/>
+            <Route path="/singin5" component={SingIn}/>
             <Route path="/gateCard" component={GateCard}/>
             <Route path="/grade" component={Grade}/>
             <Route path="/pushMessage" component={PushMessage}/>
